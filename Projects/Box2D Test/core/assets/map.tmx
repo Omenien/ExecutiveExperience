@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="10" tilewidth="70" tileheight="70">
+ <tileset firstgid="1" name="tiles" tilewidth="70" tileheight="70" spacing="2" margin="2">
+  <image source="tiles_spritesheet.png" trans="ffffff" width="914" height="936"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBg6oBGIM5Bw5sA6Z9ABRQbU8MkgUp8kDrNEgXgmGibXXdjMmonFvZwUmIUNz8BiBzImZBYAUfQZVw==
+  </data>
+ </layer>
+ <objectgroup name="Collision" width="20" height="10">
+  <object type="body" x="0" y="560">
+   <properties>
+    <property name="bodyType" value="StaticBody"/>
+   </properties>
+   <polyline points="0,0 280,0 350,70 840,70 1120,-210 1400,-210 1400,140 0,140 0,0 280,0"/>
+  </object>
+  <object type="object" x="630" y="420" width="70" height="70">
+   <properties>
+    <property name="bodyType" value="DynamicBody"/>
+    <property name="density" value="1"/>
+    <property name="restitution" value="1"/>
+   </properties>
+  </object>
+  <object type="body" x="210" y="140">
+   <polygon points="0,0 70,70 280,70 350,0"/>
+  </object>
+ </objectgroup>
+</map>
