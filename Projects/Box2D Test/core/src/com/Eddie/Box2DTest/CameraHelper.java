@@ -1,5 +1,6 @@
 package com.Eddie.Box2DTest;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import net.dermetfan.utils.libgdx.graphics.Box2DSprite;
@@ -17,7 +18,7 @@ public class CameraHelper
 
 	public CameraHelper()
 	{
-		position = new Vector2();
+		position = new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 	}
 
 	public void update(float deltaTime)

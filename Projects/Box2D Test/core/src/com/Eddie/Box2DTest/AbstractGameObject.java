@@ -1,38 +1,37 @@
 package com.Eddie.Box2DTest;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import net.dermetfan.utils.libgdx.graphics.Box2DSprite;
 
-public abstract class AbstractGameObject
+public class AbstractGameObject
 {
 	Vector2 position;
+	Rectangle bounds;
 
-	BodyDef bodyDef;
-	Body body;
-
-	FixtureDef fixtureDef;
-	Fixture fixture;
-
-	Box2DSprite sprite;
-
-	public AbstractGameObject(Vector2 pos)
+	public AbstractGameObject(Vector2 position, Rectangle bounds)
 	{
-		position = pos;
+		this.position = position;
 
-		bodyDef = new BodyDef();
+		this.bounds = bounds;
+	}
 
-		fixtureDef = new FixtureDef();
+	public void setPosition(Vector2 position)
+	{
+		this.position = position;
+	}
 
-		body = Game.getInstance().getWorldController().getWorld().createBody(bodyDef);
+	public void setBounds(Rectangle bounds)
+	{
+		this.bounds = bounds;
+	}
 
-		fixture = body.createFixture(fixtureDef);
+	public Vector2 getPosition()
+	{
+		return position;
+	}
 
-		body.setUserData(sprite);
-
-		fixture.setUserData(sprite);
+	public Rectangle getBounds()
+	{
+		return bounds;
 	}
 }

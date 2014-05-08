@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Disposable;
+import net.dermetfan.utils.libgdx.graphics.Box2DSprite;
 
 public class WorldRenderer implements Disposable
 {
@@ -16,7 +17,7 @@ public class WorldRenderer implements Disposable
 
 	private SpriteBatch spriteBatch;
 
-	private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
 	private Box2DDebugRenderer debugRenderer;
 
 	private WorldController worldController;
@@ -32,27 +33,30 @@ public class WorldRenderer implements Disposable
 
 	private void init()
 	{
+		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+		camera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
+
 		spriteBatch = new SpriteBatch();
 
 		debugRenderer = new Box2DDebugRenderer();
 
 		mapRenderer = new OrthogonalTiledMapRenderer(worldController.getMap());
 
-		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-		camera.position.set(0, 0 ,0);
-		camera.position.add(-Gdx.graphics.getWidth() / 2, -Gdx.graphics.getHeight() / 2, 0);
-
 		mapRenderer.setView(camera);
 	}
 
-	public  void render()
+	public void render()
 	{
+		handleInput();
+
+		camera.update();
+
 		mapRenderer.setView(camera);
 
 		mapRenderer.render();
 
-		if (DEBUG_DRAW_BOX2D_WORLD)
+		if(DEBUG_DRAW_BOX2D_WORLD)
 		{
 			debugRenderer.render(worldController.getWorld(), camera.combined);
 		}
@@ -60,6 +64,8 @@ public class WorldRenderer implements Disposable
 		spriteBatch.setProjectionMatrix(camera.combined);
 
 		spriteBatch.begin();
+
+		Box2DSprite.draw(spriteBatch, worldController.getWorld());
 
 		spriteBatch.end();
 	}
@@ -73,7 +79,43 @@ public class WorldRenderer implements Disposable
 
 		if(Gdx.input.isKeyPressed(Input.Keys.A))
 		{
+			camera.zoom += 0.02;
+		}
 
+		if(Gdx.input.isKeyPressed(Input.Keys.Q))
+		{
+			camera.zoom -= 0.02;
+		}
+
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+		{
+			if(camera.position.x > Gdx.graphics.getWidth() / 2)
+			{
+				camera.translate(-3, 0, 0);
+			}
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+		{
+			if(camera.position.x < 1024 - Gdx.graphics.getWidth()/ 2)
+			{
+				camera.translate(3, 0, 0);
+			}
+		}
+
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+		{
+			if(camera.position.y > Gdx.graphics.getHeight() / 2)
+			{
+				camera.translate(0, -3, 0);
+			}
+		}
+
+		if(Gdx.input.isKeyPressed(Input.Keys.UP))
+		{
+			if(camera.position.y < 1024 - Gdx.graphics.getHeight() / 2)
+			{
+				camera.translate(0, 3, 0);
+			}
 		}
 	}
 
@@ -86,6 +128,6 @@ public class WorldRenderer implements Disposable
 	@Override
 	public void dispose()
 	{
-		 spriteBatch.dispose();
+		spriteBatch.dispose();
 	}
 }
