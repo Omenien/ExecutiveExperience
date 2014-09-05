@@ -8,6 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.eddie.executiveexperience.Entity.Enemy;
 import com.eddie.executiveexperience.Entity.Player;
+import com.eddie.executiveexperience.World.Level;
+import com.eddie.executiveexperience.World.WorldUtils;
+
+import java.io.FileNotFoundException;
 
 public class GameStage extends Stage implements ContactListener
 {
@@ -28,6 +32,15 @@ public class GameStage extends Stage implements ContactListener
         setupWorld();
         renderer = new Box2DDebugRenderer();
         setupCamera();
+
+        try
+        {
+            Level level = new Level("Level 1.json");
+        }
+        catch(FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void setupWorld()

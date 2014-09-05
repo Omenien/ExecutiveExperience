@@ -7,7 +7,10 @@ public class Constants
     public static final int GAME_WIDTH = 700;
     public static final int GAME_HEIGHT = 700;
 
-    public static final double METERS_PER_PIXEL = 0.5;
+    public static final int TILE_WIDTH = 32;
+    public static final int TILE_HEIGHT = 32;
+
+    public static final float PIXELS_PER_METER = 32f;
 
     public static final Vector2 WORLD_GRAVITY = new Vector2(0.0f, -10.0f);
 
