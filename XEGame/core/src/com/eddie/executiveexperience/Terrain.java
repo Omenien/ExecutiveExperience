@@ -1,7 +1,7 @@
 package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.eddie.executiveexperience.Entity.UserData.GroundUserData;
+import com.eddie.executiveexperience.Entity.UserData.TerrainUserData;
 
 public class Terrain extends GameActor
 {
@@ -11,8 +11,8 @@ public class Terrain extends GameActor
     }
 
     @Override
-    public GroundUserData getUserData()
+    public TerrainUserData getUserData()
     {
-        return (GroundUserData) userData;
+        return (TerrainUserData) userData;
     }
 }

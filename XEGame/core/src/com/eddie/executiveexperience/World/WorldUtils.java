@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.EnemyType;
 import com.eddie.executiveexperience.Entity.UserData.EnemyUserData;
-import com.eddie.executiveexperience.Entity.UserData.GroundUserData;
+import com.eddie.executiveexperience.Entity.UserData.TerrainUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Env;
 
@@ -34,7 +34,7 @@ public class WorldUtils
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(Constants.GROUND_WIDTH / 2, Constants.GROUND_HEIGHT / 2);
         body.createFixture(shape, Constants.GROUND_DENSITY);
-        body.setUserData(new GroundUserData());
+        body.setUserData(new TerrainUserData());
         shape.dispose();
         return body;
     }

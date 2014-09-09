@@ -9,10 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.JsonValue.JsonIterator;
-import com.eddie.executiveexperience.Entity.UserData.GroundUserData;
-import com.eddie.executiveexperience.Entity.UserData.UserData;
+import com.eddie.executiveexperience.Entity.UserData.TerrainUserData;
 import com.eddie.executiveexperience.GameStage;
-import com.eddie.executiveexperience.XEGame;
 
 import java.util.Iterator;
 
@@ -128,7 +126,7 @@ public class MapBodyManager
 
             MapProperties properties = object.getProperties();
             String material = properties.get("material", "default", String.class);
-            String userDataType = properties.get("userDataType", "GroundUserData", String.class);
+            String userDataType = properties.get("userDataType", "com.eddie.executiveexperience.Entity.UserData.TerrainUserData", String.class);
             FixtureDef fixtureDef = materials.get(material);
 
             if(fixtureDef == null)
@@ -150,7 +148,7 @@ public class MapBodyManager
             {
                 e.printStackTrace();
 
-                body.setUserData(new GroundUserData());
+                body.setUserData(new TerrainUserData());
             }
 
             bodies.add(body);

@@ -1,11 +1,8 @@
 package com.eddie.executiveexperience.Entity.UserData;
 
-/**
- * Created by scitech on 9/3/2014.
- */
-public class GroundUserData extends UserData
+public class TerrainUserData extends UserData
 {
-    public GroundUserData()
+    public TerrainUserData()
     {
         super();
         userDataType = UserDataType.TERRAIN;
