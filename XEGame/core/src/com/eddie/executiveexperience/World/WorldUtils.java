@@ -10,6 +10,7 @@ import com.eddie.executiveexperience.Entity.EnemyType;
 import com.eddie.executiveexperience.Entity.UserData.EnemyUserData;
 import com.eddie.executiveexperience.Entity.UserData.GroundUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
+import com.eddie.executiveexperience.Env;
 
 public class WorldUtils
 {
@@ -17,7 +18,7 @@ public class WorldUtils
 
     public static void createWorld()
     {
-        world = new World(Constants.WORLD_GRAVITY, true);
+        world = new World(Env.gravity, true);
     }
 
     public static Body createGround()

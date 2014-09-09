@@ -28,7 +28,7 @@ public class BodyUtils
         return userData != null && userData.getUserDataType() == UserDataType.GROUND;
     }
 
-    public static boolean bodyInBounds(Body body)
+    public static boolean bodyInBounds(Body  body)
     {
         UserData userData = (UserData) body.getUserData();
 

@@ -4,18 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.eddie.executiveexperience.GameStage;
-import com.eddie.executiveexperience.XEGame;
 
 public class GameScreen extends ScreenAdapter
 {
-    XEGame game;
-
     private GameStage stage;
 
-    public GameScreen(XEGame game)
+    public GameScreen()
     {
-        this.game = game;
-
         stage = new GameStage();
 
         Gdx.input.setInputProcessor(stage);
@@ -46,5 +41,10 @@ public class GameScreen extends ScreenAdapter
     @Override
     public void pause()
     {
+    }
+
+    public GameStage getGameStage()
+    {
+        return stage;
     }
 }

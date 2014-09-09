@@ -36,7 +36,5 @@ public class LevelFile implements Json.Serializable
         mapFile = jsonData.get("mapFile").asString();
         playerStartX = jsonData.get("playerStartX").asInt();
         playerStartY = jsonData.get("playerStartY").asInt();
-
-        System.out.println();
     }
 }

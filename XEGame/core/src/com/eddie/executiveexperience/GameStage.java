@@ -3,13 +3,20 @@ package com.eddie.executiveexperience;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.eddie.executiveexperience.Entity.Enemy;
 import com.eddie.executiveexperience.Entity.Player;
 import com.eddie.executiveexperience.World.Level;
 import com.eddie.executiveexperience.World.WorldUtils;
+import com.siondream.core.physics.CategoryBitsManager;
+import com.siondream.core.physics.CollisionHandler;
 
 import java.io.FileNotFoundException;
 
@@ -18,17 +25,34 @@ public class GameStage extends Stage implements ContactListener
     private static final int VIEWPORT_WIDTH = 20;
     private static final int VIEWPORT_HEIGHT = 13;
 
+    private World world;
     private Ground ground;
     private Player player;
 
     private final float TIME_STEP = 1 / 300f;
     private float accumulator = 0f;
 
-    private OrthographicCamera camera;
-    private Box2DDebugRenderer renderer;
+    protected SpriteBatch batch;
+    protected Viewport viewport;
+    protected OrthographicCamera camera;
+    protected ShapeRenderer shapeRenderer;
+    protected Box2DDebugRenderer renderer;
+    protected TiledMap map;
+    protected OrthogonalTiledMapRenderer mapRenderer;
+
+    protected CategoryBitsManager categoryBitsManager;
+    protected CollisionHandler collisionHandler;
+
+    protected Assets assets;
 
     public GameStage()
     {
+        categoryBitsManager = new CategoryBitsManager();
+
+        assets = new Assets("config/assets.json");
+        assets.loadGroup("base");
+        assets.finishLoading();
+
         setupWorld();
         renderer = new Box2DDebugRenderer();
         setupCamera();
@@ -46,7 +70,7 @@ public class GameStage extends Stage implements ContactListener
     private void setupWorld()
     {
         WorldUtils.createWorld();
-        WorldUtils.getWorld().setContactListener(this);
+        WorldUtils.getWorld().setContactListener(collisionHandler);
         setupGround();
         setupPlayer();
         createEnemy();
@@ -135,6 +159,16 @@ public class GameStage extends Stage implements ContactListener
         renderer.render(WorldUtils.getWorld(), camera.combined);
     }
 
+    public short getCategoryBits(String level)
+    {
+        return categoryBitsManager.getCategoryBits(level);
+    }
+
+    public World getWorld()
+    {
+        return world;
+    }
+
     @Override
     public void beginContact(Contact contact)
     {
@@ -165,5 +199,10 @@ public class GameStage extends Stage implements ContactListener
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse)
     {
+    }
+
+    public CategoryBitsManager getCategoryBitsManager()
+    {
+        return categoryBitsManager;
     }
 }

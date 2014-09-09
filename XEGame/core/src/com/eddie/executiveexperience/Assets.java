@@ -113,7 +113,7 @@ public class Assets implements Disposable, AssetErrorListener
 
     public void loadGroups(String assetFile)
     {
-        groups = new ObjectMap<String, Array<Asset>>();
+        groups = new ObjectMap<>();
 
         Json json = new Json();
         JsonReader jsonReader = new JsonReader();
@@ -131,6 +131,19 @@ public class Assets implements Disposable, AssetErrorListener
                 continue;
             }
 
+            Array<Asset> assets = new Array<>();
+
+            JsonValue.JsonIterator assetIterator = groupValue.iterator();
+
+            while(assetIterator.hasNext())
+            {
+                JsonValue assetValue = assetIterator.next();
+
+                Asset asset = json.fromJson(Asset.class, assetValue.toString());
+                assets.add(asset);
+            }
+
+            groups.put(groupValue.name, assets);
         }
     }
 }

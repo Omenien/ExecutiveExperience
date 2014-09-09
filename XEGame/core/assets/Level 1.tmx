@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="22" height="22" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="intbuilding7a_0" tilewidth="32" tileheight="32" spacing="4" margin="2">
-  <image source="intbuilding7a_0.png" trans="ffffff" width="432" height="396"/>
+<map version="1.0" orientation="orthogonal" width="10" height="30" tilewidth="70" tileheight="70">
+ <tileset firstgid="1" name="tiles_spritesheet" tilewidth="70" tileheight="70" spacing="2">
+  <image source="tiles_spritesheet.png" width="914" height="936"/>
  </tileset>
- <layer name="Tiles" width="22" height="22">
+ <layer name="Background" width="10" height="30">
   <data encoding="base64" compression="zlib">
-   eJyTZmBgkKIylgRifiBWxYEFgFgQBxbCo4+XxuayImE2Kpori4TlhkA40MtcFmhYU9tcGWhYD5VwQHc3NixHgbnkYmqYmznE3EvIXFCaZaPArCwgzsFirgyBOCaEm4C4hQrhoEZh+BoBsTEQmwyyeKO2ucw0MJcRiAHKEDu8
+   eJybzcDAMHsUj+JRPIqHAAYAQV21pQ==
   </data>
  </layer>
- <objectgroup name="Collision" width="22" height="22">
-  <object x="32" y="97">
-   <polyline points="0,0 127,0 128,61 1,62 1,-1"/>
+ <layer name="Primary" width="10" height="30">
+  <data encoding="base64" compression="zlib">
+   eJybzcDAMHsUj2I6YD0i1VkRoaYeiMuAuIIO7m6lsdm0Nn+g3Ues/kYgzsCBM6FqABQosls=
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="10" height="30">
+  <object x="628" y="2033">
+   <polyline points="0,0 0,21 -53,64 -505,64 -556,23 -557,0 0,-1"/>
   </object>
-  <object x="224" y="32">
-   <polyline points="0,0 1,192 -63,192 -63,254 0,254 1,319 255,319 255,1 0,1"/>
+  <object x="71" y="1961">
+   <polyline points="0,0 0,67 68,67 69,1 1,0"/>
   </object>
-  <object x="65" y="480">
-   <polyline points="0,0 0,62 61,62 61,1 0,0"/>
+  <object x="281" y="1821">
+   <polyline points="0,0 -1,67 137,67 138,0 0,0"/>
   </object>
-  <object x="257" y="577">
-   <polyline points="0,0 0,30 93,29 93,0 1,0"/>
+  <object x="559" y="1682">
+   <polyline points="0,0 1,65 70,65 70,0 0,0"/>
   </object>
-  <object x="449" y="545">
-   <polyline points="0,0 0,30 29,30 29,0 2,0"/>
+  <object x="280" y="1541">
+   <polyline points="0,0 1,66 137,67 138,1 0,0"/>
   </object>
-  <object x="32" y="32">
-   <polyline points="0,0 -1,671 -32,671 -31,-31 672,-31 670,670 641,670 639,0 1,0"/>
-  </object>
-  <object x="577" y="481">
-   <polyline points="0,0 0,61 61,61 61,0 1,0"/>
-  </object>
-  <object x="513" y="384">
-   <polyline points="0,0 0,30 29,30 29,0 1,0"/>
-  </object>
+  <object x="70" y="1401" width="68" height="68"/>
+  <object x="280" y="1191" width="208" height="38"/>
  </objectgroup>
 </map>
