@@ -22,12 +22,11 @@ import java.io.FileNotFoundException;
 
 public class GameStage extends Stage implements ContactListener
 {
-    private static final int VIEWPORT_WIDTH = 20;
-    private static final int VIEWPORT_HEIGHT = 13;
-
     private World world;
     private Ground ground;
     private Player player;
+
+    private Level curLevel;
 
     private final float TIME_STEP = 1 / 300f;
     private float accumulator = 0f;
@@ -36,12 +35,12 @@ public class GameStage extends Stage implements ContactListener
     protected Viewport viewport;
     protected OrthographicCamera camera;
     protected ShapeRenderer shapeRenderer;
-    protected Box2DDebugRenderer renderer;
+    protected Box2DDebugRenderer box2DDebugRenderer;
+    protected OrthographicCamera debugCamera;
     protected TiledMap map;
     protected OrthogonalTiledMapRenderer mapRenderer;
 
     protected CategoryBitsManager categoryBitsManager;
-    protected CollisionHandler collisionHandler;
 
     protected Assets assets;
 
@@ -54,23 +53,38 @@ public class GameStage extends Stage implements ContactListener
         assets.finishLoading();
 
         setupWorld();
-        renderer = new Box2DDebugRenderer();
+        world = WorldUtils.getWorld();
+
+        box2DDebugRenderer = new Box2DDebugRenderer();
+        box2DDebugRenderer.setDrawAABBs(Env.drawABBs);
+        box2DDebugRenderer.setDrawBodies(Env.drawBodies);
+        box2DDebugRenderer.setDrawContacts(Env.drawContacts);
+        box2DDebugRenderer.setDrawInactiveBodies(Env.drawInactiveBodies);
+        box2DDebugRenderer.setDrawJoints(Env.drawJoints);
+        box2DDebugRenderer.setDrawVelocities(Env.drawVelocities);
+        debugCamera = new OrthographicCamera(Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
+        debugCamera.position.set(debugCamera.viewportWidth / 2, debugCamera.viewportHeight / 2, 0.0f);
+
         setupCamera();
 
         try
         {
-            Level level = new Level("Level 1.json");
+            curLevel = new Level("Level 1.json");
         }
         catch(FileNotFoundException e)
         {
             e.printStackTrace();
         }
+
+        map = assets.get(curLevel.getMapPath());
+
+        mapRenderer = new OrthogonalTiledMapRenderer(map);
     }
 
     private void setupWorld()
     {
         WorldUtils.createWorld();
-        WorldUtils.getWorld().setContactListener(collisionHandler);
+        WorldUtils.getWorld().setContactListener(this);
         setupGround();
         setupPlayer();
         createEnemy();
@@ -90,8 +104,9 @@ public class GameStage extends Stage implements ContactListener
 
     private void setupCamera()
     {
-        camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+        camera = new OrthographicCamera(Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0.0f);
+        camera.setToOrtho(false);
         camera.update();
     }
 
@@ -156,17 +171,18 @@ public class GameStage extends Stage implements ContactListener
     {
         super.draw();
 
-        renderer.render(WorldUtils.getWorld(), camera.combined);
+        debugCamera.update();
+        camera.update();
+
+        mapRenderer.setView(camera);
+        mapRenderer.render();
+
+        box2DDebugRenderer.render(WorldUtils.getWorld(), debugCamera.combined);
     }
 
     public short getCategoryBits(String level)
     {
         return categoryBitsManager.getCategoryBits(level);
-    }
-
-    public World getWorld()
-    {
-        return world;
     }
 
     @Override
@@ -204,5 +220,10 @@ public class GameStage extends Stage implements ContactListener
     public CategoryBitsManager getCategoryBitsManager()
     {
         return categoryBitsManager;
+    }
+
+    public World getWorld()
+    {
+        return world;
     }
 }

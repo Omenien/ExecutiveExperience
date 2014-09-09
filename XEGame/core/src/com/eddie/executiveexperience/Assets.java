@@ -18,8 +18,12 @@ public class Assets implements Disposable, AssetErrorListener
 
     private ObjectMap<String, Array<Asset>> groups;
 
+    private static String TAG = "AssetManager";
+
     public Assets(String assetFile)
     {
+        logger = new Logger(TAG, Env.debugLevel);
+
         assetManager = new AssetManager();
 
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
@@ -40,6 +44,8 @@ public class Assets implements Disposable, AssetErrorListener
         {
             for(Asset asset : assets)
             {
+                logger.debug("Loading Asset " + asset.path);
+
                 assetManager.load(asset.path, asset.type, asset.parameters);
             }
         }

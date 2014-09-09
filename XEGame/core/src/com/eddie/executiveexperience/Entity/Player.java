@@ -22,6 +22,10 @@ public class Player extends GameActor
 
             jumping = true;
         }
+        else
+        {
+            System.out.println("jump fail");
+        }
     }
 
     public void hit()
@@ -32,7 +36,10 @@ public class Player extends GameActor
 
     public void landed()
     {
-        jumping = false;
+        if(jumping)
+        {
+            jumping = false;
+        }
     }
 
     public boolean isHit()

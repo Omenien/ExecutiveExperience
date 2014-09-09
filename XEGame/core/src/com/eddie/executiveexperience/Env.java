@@ -14,8 +14,8 @@ public abstract class Env
     public static float virtualWidth;
     public static float virtualHeight;
     public static float aspectRatio;
-    public static float metresToPixels;
-    public static float pixelsToMetres;
+    public static float metersToPixels;
+    public static float pixelsToMeters;
 
     // Physics
     public static Vector2 gravity;
@@ -41,11 +41,11 @@ public abstract class Env
 
         settings = new Settings("config/globals.xml");
 
-        virtualWidth = settings.getInt("virtualWidth", 1280);
-        virtualHeight = settings.getInt("virtualHeight", 720);
+        virtualWidth = settings.getInt("virtualWidth", 700);
+        virtualHeight = settings.getInt("virtualHeight", 700);
         aspectRatio = virtualWidth / virtualHeight;
-        metresToPixels = settings.getFloat("metersToPixels", 64);
-        pixelsToMetres = 1.0f / metresToPixels;
+        metersToPixels = settings.getFloat("metersToPixels", 70);
+        pixelsToMeters = 1.0f / metersToPixels;
 
         Vector3 gravity3 = settings.getVector("gravity", Vector3.Zero);
         gravity = new Vector2(gravity3.x, gravity3.y);

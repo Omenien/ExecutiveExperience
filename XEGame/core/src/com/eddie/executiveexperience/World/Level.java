@@ -43,4 +43,9 @@ public class Level
 
 
     }
+
+    public String getMapPath()
+    {
+        return levelFile.mapFile;
+    }
 }

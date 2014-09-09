@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
+	<int key="debugLevel" value="3" />
 	<int key="virtualWidth" value="700" />
 	<int key="virtualHeight" value="700" />
-	<float key="ppm" value="70.0" />
+	<float key="metersToPixels" value="70.0" />
  	<vector key="gravity" x="0.0" y="-10.0" z="0.0" />
 	
 	<bool key="drawBodies" value="true" />

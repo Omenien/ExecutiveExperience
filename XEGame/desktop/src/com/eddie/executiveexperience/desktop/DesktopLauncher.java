@@ -15,8 +15,7 @@ public class DesktopLauncher
         XEGame game = new XEGame();
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = Constants.GAME_WIDTH;
-        config.height = Constants.GAME_HEIGHT;
+        config.width = 700;
         config.height = 700;
         config.y = 0;
         config.resizable = false;
