@@ -10,7 +10,7 @@ public class Constants
     public static final float GROUND_HEIGHT = 1f;
     public static final float GROUND_DENSITY = 0f;
 
-    public static final float PLAYER_X = 1;
+    public static final float PLAYER_X = 2;
     public static final float PLAYER_Y = GROUND_Y + GROUND_HEIGHT;
     public static final float PLAYER_WIDTH = 1f;
     public static final float PLAYER_HEIGHT = 1.5f;

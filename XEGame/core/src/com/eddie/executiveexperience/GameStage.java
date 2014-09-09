@@ -14,9 +14,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.eddie.executiveexperience.Entity.Enemy;
 import com.eddie.executiveexperience.Entity.Player;
 import com.eddie.executiveexperience.World.Level;
+import com.eddie.executiveexperience.World.MapBodyManager;
 import com.eddie.executiveexperience.World.WorldUtils;
 import com.siondream.core.physics.CategoryBitsManager;
-import com.siondream.core.physics.CollisionHandler;
 
 import java.io.FileNotFoundException;
 
@@ -34,11 +34,13 @@ public class GameStage extends Stage implements ContactListener
     protected SpriteBatch batch;
     protected Viewport viewport;
     protected OrthographicCamera camera;
-    protected ShapeRenderer shapeRenderer;
+
     protected Box2DDebugRenderer box2DDebugRenderer;
     protected OrthographicCamera debugCamera;
+
     protected TiledMap map;
     protected OrthogonalTiledMapRenderer mapRenderer;
+    protected MapBodyManager mapBodyManager;
 
     protected CategoryBitsManager categoryBitsManager;
 
@@ -75,8 +77,14 @@ public class GameStage extends Stage implements ContactListener
         {
             e.printStackTrace();
         }
+    }
 
+    public void loadMap()
+    {
         map = assets.get(curLevel.getMapPath());
+
+        mapBodyManager = new MapBodyManager(world, Env.metersToPixels, null, Env.debugLevel);
+        mapBodyManager.createPhysics(this, map);
 
         mapRenderer = new OrthogonalTiledMapRenderer(map);
     }

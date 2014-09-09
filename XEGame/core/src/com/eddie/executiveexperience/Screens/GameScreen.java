@@ -12,6 +12,7 @@ public class GameScreen extends ScreenAdapter
     public GameScreen()
     {
         stage = new GameStage();
+        stage.loadMap();
 
         Gdx.input.setInputProcessor(stage);
     }

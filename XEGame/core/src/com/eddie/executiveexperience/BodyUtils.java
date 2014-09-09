@@ -32,11 +32,14 @@ public class BodyUtils
     {
         UserData userData = (UserData) body.getUserData();
 
-        switch(userData.getUserDataType())
+        if(userData != null)
         {
-            case PLAYER:
-            case ENEMY:
-                return body.getPosition().x + userData.getWidth() / 2 > 0;
+            switch(userData.getUserDataType())
+            {
+                case PLAYER:
+                case ENEMY:
+                    return body.getPosition().x + userData.getWidth() / 2 > 0;
+            }
         }
 
         return true;

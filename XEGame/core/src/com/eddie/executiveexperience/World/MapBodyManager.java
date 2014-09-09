@@ -1,4 +1,4 @@
-package com.siondream.core.physics;
+package com.eddie.executiveexperience.World;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.maps.*;
@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.JsonValue.JsonIterator;
+import com.eddie.executiveexperience.Entity.UserData.UserData;
+import com.eddie.executiveexperience.GameStage;
 import com.eddie.executiveexperience.XEGame;
 
 import java.util.Iterator;
@@ -44,7 +46,7 @@ public class MapBodyManager
     public MapBodyManager(World world, float unitsPerPixel, FileHandle materialsFile, int loggingLevel)
     {
         logger = new Logger("MapBodyManager", loggingLevel);
-        logger.info("initialising");
+        logger.info("Initializing MapBodyManager");
 
         this.world = world;
         this.units = unitsPerPixel;
@@ -56,7 +58,6 @@ public class MapBodyManager
 
         materials.put("default", defaultFixture);
 
-
         if(materialsFile != null)
         {
             loadMaterialsFile(materialsFile);
@@ -64,24 +65,24 @@ public class MapBodyManager
     }
 
     /**
-     * @param map will use the "physics" layer of this map to look for shapes in order to create the static bodies.
+     * @param map will use the "Physics" layer of this map to look for shapes in order to create the static bodies.
      */
-    public void createPhysics(Map map)
+    public void createPhysics(GameStage gameStage, Map map)
     {
-        createPhysics(map, "physics");
+        createPhysics(gameStage, map, "Physics");
     }
 
     /**
      * @param map       map to be used to create the static bodies.
      * @param layerName name of the layer that contains the shapes.
      */
-    public void createPhysics(Map map, String layerName)
+    public void createPhysics(GameStage gameStage, Map map, String layerName)
     {
         MapLayer layer = map.getLayers().get(layerName);
 
         if(layer == null)
         {
-            logger.error("layer " + layerName + " does not exist");
+            logger.error("Unable to find object layer \"" + layerName + "\" in map. Bodies will not be loaded.");
             return;
         }
 
@@ -120,22 +121,23 @@ public class MapBodyManager
             }
             else
             {
-                logger.error("non suported shape " + object);
+                logger.error("Unsupported shape " + object);
                 continue;
             }
 
             MapProperties properties = object.getProperties();
             String material = properties.get("material", "default", String.class);
+            String userDataType = properties.get("userDataType", "GroundUserData", String.class);
             FixtureDef fixtureDef = materials.get(material);
 
             if(fixtureDef == null)
             {
-                logger.error("material does not exist " + material + " using default");
+                logger.error("Material " + material + " does not exist, using default material");
                 fixtureDef = materials.get("default");
             }
 
             fixtureDef.shape = shape;
-            fixtureDef.filter.categoryBits = XEGame.getGameScreen().getGameStage().getCategoryBits("level");
+            fixtureDef.filter.categoryBits = gameStage.getCategoryBits("level");
 
             Body body = world.createBody(bodyDef);
             body.createFixture(fixtureDef);

@@ -13,23 +13,15 @@
    eJybzcDAMHsUj2I6YD0i1VkRoaYeiMuAuIIO7m6lsdm0Nn+g3Ues/kYgzsCBM6FqABQosls=
   </data>
  </layer>
- <objectgroup name="Object Layer 1" width="10" height="30">
-  <object x="628" y="2033">
-   <polyline points="0,0 0,21 -53,64 -505,64 -556,23 -557,0 0,-1"/>
-  </object>
-  <object x="71" y="1961">
-   <polyline points="0,0 0,67 68,67 69,1 1,0"/>
-  </object>
-  <object x="281" y="1821">
-   <polyline points="0,0 -1,67 137,67 138,0 0,0"/>
-  </object>
-  <object x="559" y="1682">
-   <polyline points="0,0 1,65 70,65 70,0 0,0"/>
-  </object>
-  <object x="280" y="1541">
-   <polyline points="0,0 1,66 137,67 138,1 0,0"/>
-  </object>
+ <objectgroup name="Physics" width="10" height="30">
   <object x="70" y="1401" width="68" height="68"/>
   <object x="280" y="1191" width="208" height="38"/>
+  <object x="281" y="1820" width="138" height="69"/>
+  <object x="561" y="1682" width="67" height="66"/>
+  <object x="281" y="1541" width="138" height="67"/>
+  <object x="69" y="1961" width="69" height="69"/>
+  <object x="69" y="2031">
+   <polyline points="0,0 0,30 58,66 493,67 558,30 559,1 0,-1"/>
+  </object>
  </objectgroup>
 </map>
