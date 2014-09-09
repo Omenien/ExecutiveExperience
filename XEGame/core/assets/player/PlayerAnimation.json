@@ -1,0 +1,31 @@
+{
+	"rows": 3,
+	"columns": 7,
+	"frameDuration": 0.1,
+	"animations": [
+		{
+			"name": "duck",
+			"frames": 1
+		},
+		{
+			"name": "front",
+			"frames": 1
+		},
+		{
+			"name": "hurt",
+			"frames": 1
+		},
+		{
+			"name": "jump",
+			"frames": 1
+		},		
+		{
+			"name": "stand",
+			"frames": 1
+		},	
+		{
+			"name": "walk",
+			"frames": 11
+		},		
+	]
+}

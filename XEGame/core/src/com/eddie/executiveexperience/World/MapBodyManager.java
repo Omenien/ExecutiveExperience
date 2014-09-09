@@ -146,8 +146,6 @@ public class MapBodyManager
             }
             catch(Exception e)
             {
-                e.printStackTrace();
-
                 body.setUserData(new TerrainUserData());
             }
 

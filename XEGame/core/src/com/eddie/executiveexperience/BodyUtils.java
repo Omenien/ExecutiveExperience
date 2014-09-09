@@ -28,7 +28,7 @@ public class BodyUtils
         return userData != null && userData.getUserDataType() == UserDataType.TERRAIN;
     }
 
-    public static boolean bodyInBounds(Body  body)
+    public static boolean bodyInBounds(Body body)
     {
         UserData userData = (UserData) body.getUserData();
 

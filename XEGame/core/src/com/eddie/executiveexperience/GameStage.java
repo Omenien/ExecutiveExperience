@@ -97,7 +97,7 @@ public class GameStage extends Stage implements ContactListener
 
     private void setupPlayer()
     {
-        player = new Player(WorldUtils.createPlayer());
+        player = new Player(this, WorldUtils.createPlayer());
         addActor(player);
     }
 
@@ -153,8 +153,6 @@ public class GameStage extends Stage implements ContactListener
     @Override
     public boolean keyDown(int keyCode)
     {
-        Gdx.app.log("GameStage", "[Input Listener] Key Down - " + keyCode);
-
         switch(keyCode)
         {
             case Input.Keys.SPACE:
@@ -224,5 +222,10 @@ public class GameStage extends Stage implements ContactListener
     public World getWorld()
     {
         return world;
+    }
+
+    public Assets getAssetManager()
+    {
+        return assets;
     }
 }

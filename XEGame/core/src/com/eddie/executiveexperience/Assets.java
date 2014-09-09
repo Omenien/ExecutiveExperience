@@ -9,6 +9,8 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.*;
+import com.eddie.executiveexperience.Animation.SpriteAnimationData;
+import com.eddie.executiveexperience.Animation.SpriteAnimationLoader;
 
 public class Assets implements Disposable, AssetErrorListener
 {
@@ -27,6 +29,7 @@ public class Assets implements Disposable, AssetErrorListener
         assetManager = new AssetManager();
 
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        assetManager.setLoader(SpriteAnimationData.class, new SpriteAnimationLoader(new InternalFileHandleResolver()));
 
         loadGroups(assetFile);
     }
