@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.JsonValue.JsonIterator;
+import com.eddie.executiveexperience.Entity.UserData.GroundUserData;
 import com.eddie.executiveexperience.Entity.UserData.UserData;
 import com.eddie.executiveexperience.GameStage;
 import com.eddie.executiveexperience.XEGame;
@@ -141,6 +142,16 @@ public class MapBodyManager
 
             Body body = world.createBody(bodyDef);
             body.createFixture(fixtureDef);
+            try
+            {
+                body.setUserData(Class.forName(userDataType).newInstance());
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+
+                body.setUserData(new GroundUserData());
+            }
 
             bodies.add(body);
 

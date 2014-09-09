@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.*;
@@ -23,7 +22,6 @@ import java.io.FileNotFoundException;
 public class GameStage extends Stage implements ContactListener
 {
     private World world;
-    private Ground ground;
     private Player player;
 
     private Level curLevel;
@@ -93,15 +91,8 @@ public class GameStage extends Stage implements ContactListener
     {
         WorldUtils.createWorld();
         WorldUtils.getWorld().setContactListener(this);
-        setupGround();
         setupPlayer();
         createEnemy();
-    }
-
-    private void setupGround()
-    {
-        ground = new Ground(WorldUtils.createGround());
-        addActor(ground);
     }
 
     private void setupPlayer()
@@ -204,7 +195,7 @@ public class GameStage extends Stage implements ContactListener
             player.hit();
         }
 
-        if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsGround(b)) || (BodyUtils.bodyIsGround(a) && BodyUtils.bodyIsPlayer(b)))
+        if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsTerrain(b)) || (BodyUtils.bodyIsTerrain(a) && BodyUtils.bodyIsPlayer(b)))
         {
             player.landed();
         }

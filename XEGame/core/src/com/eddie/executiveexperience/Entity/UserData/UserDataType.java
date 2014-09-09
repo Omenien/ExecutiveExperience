@@ -5,7 +5,7 @@ package com.eddie.executiveexperience.Entity.UserData;
  */
 public enum UserDataType
 {
-    GROUND,
+    TERRAIN,
     PLAYER,
     ENEMY
 }

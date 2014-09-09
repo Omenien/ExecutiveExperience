@@ -21,11 +21,11 @@ public class BodyUtils
     }
 
 
-    public static boolean bodyIsGround(Body body)
+    public static boolean bodyIsTerrain(Body body)
     {
         UserData userData = (UserData) body.getUserData();
 
-        return userData != null && userData.getUserDataType() == UserDataType.GROUND;
+        return userData != null && userData.getUserDataType() == UserDataType.TERRAIN;
     }
 
     public static boolean bodyInBounds(Body  body)
