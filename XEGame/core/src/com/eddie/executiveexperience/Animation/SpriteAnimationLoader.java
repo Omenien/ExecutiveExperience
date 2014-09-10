@@ -67,7 +67,7 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
     @Override
     public void loadAsync(AssetManager manager, String fileName, FileHandle file, AnimationParameter parameter)
     {
-        logger.info("loading " + fileName);
+        logger.info("Loading " + fileName);
 
         animationData = new SpriteAnimationData();
 
@@ -99,7 +99,7 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
                         getPlayMode(animationValue.getString("mode", "normal")));
                 animationData.animations.put(name, animation);
 
-                logger.info("" + fileName + " loaded Animation " + name);
+                logger.info("Loaded Animation " + name + " from " + fileName);
 
                 if(first)
                 {
@@ -110,7 +110,7 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
         }
         catch(Exception e)
         {
-            logger.error("error loading file " + fileName + " " + e.getMessage());
+            logger.error("Error loading file " + fileName + " " + e.getMessage());
         }
     }
 

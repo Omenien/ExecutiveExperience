@@ -8,9 +8,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.EnemyType;
 import com.eddie.executiveexperience.Entity.UserData.EnemyUserData;
-import com.eddie.executiveexperience.Entity.UserData.TerrainUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Env;
+import com.eddie.executiveexperience.GameStage;
 
 public class WorldUtils
 {
@@ -21,25 +21,7 @@ public class WorldUtils
         world = new World(Env.gravity, true);
     }
 
-    public static Body createGround()
-    {
-        if(world == null)
-        {
-            createWorld();
-        }
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(new Vector2(Constants.GROUND_X, Constants.GROUND_Y));
-        Body body = world.createBody(bodyDef);
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(Constants.GROUND_WIDTH / 2, Constants.GROUND_HEIGHT / 2);
-        body.createFixture(shape, Constants.GROUND_DENSITY);
-        body.setUserData(new TerrainUserData());
-        shape.dispose();
-        return body;
-    }
-
-    public static Body createPlayer()
+    public static Body createPlayer(GameStage gameStage)
     {
         if(world == null)
         {
@@ -55,7 +37,7 @@ public class WorldUtils
         body.createFixture(shape, Constants.PLAYER_DENSITY);
         body.resetMassData();
         body.setGravityScale(Constants.PLAYER_GRAVITY_SCALE);
-        body.setUserData(new PlayerUserData(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT));
+        body.setUserData(new PlayerUserData(gameStage, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT));
         shape.dispose();
         return body;
     }

@@ -1,6 +1,5 @@
 package com.eddie.executiveexperience;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +15,7 @@ import com.eddie.executiveexperience.World.Level;
 import com.eddie.executiveexperience.World.MapBodyManager;
 import com.eddie.executiveexperience.World.WorldUtils;
 import com.siondream.core.physics.CategoryBitsManager;
+import net.dermetfan.utils.libgdx.graphics.Box2DSprite;
 
 import java.io.FileNotFoundException;
 
@@ -46,6 +46,8 @@ public class GameStage extends Stage implements ContactListener
 
     public GameStage()
     {
+        batch = new SpriteBatch();
+
         categoryBitsManager = new CategoryBitsManager();
 
         assets = new Assets("config/assets.json");
@@ -64,6 +66,7 @@ public class GameStage extends Stage implements ContactListener
         box2DDebugRenderer.setDrawVelocities(Env.drawVelocities);
         debugCamera = new OrthographicCamera(Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
         debugCamera.position.set(debugCamera.viewportWidth / 2, debugCamera.viewportHeight / 2, 0.0f);
+        batch.setProjectionMatrix(debugCamera.combined);
 
         setupCamera();
 
@@ -97,7 +100,7 @@ public class GameStage extends Stage implements ContactListener
 
     private void setupPlayer()
     {
-        player = new Player(this, WorldUtils.createPlayer());
+        player = new Player(WorldUtils.createPlayer(this));
         addActor(player);
     }
 
@@ -175,6 +178,12 @@ public class GameStage extends Stage implements ContactListener
         mapRenderer.render();
 
         box2DDebugRenderer.render(WorldUtils.getWorld(), debugCamera.combined);
+
+        batch.begin();
+
+        Box2DSprite.draw(batch, getWorld());
+
+        batch.end();
     }
 
     public short getCategoryBits(String level)
@@ -187,6 +196,7 @@ public class GameStage extends Stage implements ContactListener
     {
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
+
 
         if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsEnemy(b)) || (BodyUtils.bodyIsEnemy(a) && BodyUtils.bodyIsPlayer(b)))
         {

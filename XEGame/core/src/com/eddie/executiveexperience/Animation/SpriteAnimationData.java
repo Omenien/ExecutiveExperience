@@ -59,7 +59,7 @@ public class SpriteAnimationData
 
         if(animation == null)
         {
-            logger.info("Animation: " + animationName + " not found returning default");
+            logger.info("Animation: " + animationName + " not found, returning default.");
 
             return defaultAnimation;
         }

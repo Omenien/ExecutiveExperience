@@ -14,10 +14,10 @@ public class CategoryBitsManager
     public CategoryBitsManager()
     {
         logger = new Logger("CategoryBitsManager", Env.debugLevel);
-        logger.info("initialising");
+        logger.info("Initializing");
 
-        categoryBits = new ObjectMap<String, Short>();
-        categoryNames = new ObjectMap<Short, String>();
+        categoryBits = new ObjectMap<>();
+        categoryNames = new ObjectMap<>();
         nextCategory = 0;
     }
 
@@ -34,7 +34,7 @@ public class CategoryBitsManager
         {
             if(nextCategory >= 16)
             {
-                logger.error("maximum number of collision categories reached");
+                logger.error("Maximum number of collision categories reached");
                 return 0;
             }
             else
@@ -42,7 +42,7 @@ public class CategoryBitsManager
                 short newCategory = (short) (1 << (nextCategory++));
                 categoryBits.put(name, newCategory);
                 categoryNames.put(newCategory, name);
-                logger.info("registering category " + name + " => " + newCategory);
+                logger.info("Registering category " + name + " " + newCategory);
                 return newCategory;
             }
         }

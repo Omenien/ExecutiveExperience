@@ -1,27 +1,35 @@
 package com.eddie.executiveexperience.Entity.UserData;
 
-import com.badlogic.gdx.math.Vector2;
 import com.eddie.executiveexperience.Constants;
+import com.eddie.executiveexperience.GameStage;
+import net.dermetfan.utils.libgdx.graphics.AnimatedBox2DSprite;
+import net.dermetfan.utils.libgdx.graphics.AnimatedSprite;
 
-public class PlayerUserData extends UserData
+public class PlayerUserData extends EntityUserData
 {
-    private Vector2 jumpingLinearImpulse;
+    private int jumpingImpulseMagnitude;
 
-    public PlayerUserData(float width, float height)
+    public PlayerUserData(GameStage gameStage, float width, float height)
     {
         super(width, height);
-        jumpingLinearImpulse = Constants.PLAYER_JUMPING_LINEAR_IMPULSE;
+
+        jumpingImpulseMagnitude = Constants.PLAYER_JUMPING_IMPULSE_MAGNITUDE;
+
+        spriteAnimationData = gameStage.getAssetManager().get("player/PlayerAnimation.json");
+        animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("stand"));
+        animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
+
         userDataType = UserDataType.PLAYER;
     }
 
-    public Vector2 getJumpingLinearImpulse()
+    public void setJumpingImpulseMagnitude(int jumpingImpulseMagnitude)
     {
-        return jumpingLinearImpulse;
+        this.jumpingImpulseMagnitude = jumpingImpulseMagnitude;
     }
 
-    public void setJumpingLinearImpulse(Vector2 jumpingLinearImpulse)
+    public int getJumpingImpulseMagnitude()
     {
-        this.jumpingLinearImpulse = jumpingLinearImpulse;
+        return jumpingImpulseMagnitude;
     }
 
     public float getHitAngularImpulse()
