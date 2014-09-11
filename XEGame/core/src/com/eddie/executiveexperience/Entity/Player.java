@@ -1,6 +1,7 @@
 package com.eddie.executiveexperience.Entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
@@ -19,8 +20,6 @@ public class Player extends GameActor
     @Override
     public void draw(Batch batch, float parentAlpha)
     {
-        getUserData().getAnimatedBox2DSprite().play();
-        // getUserData().getAnimatedBox2DSprite().draw(batch, body);
         getUserData().getAnimatedBox2DSprite().draw(batch, body);
     }
 
@@ -30,14 +29,17 @@ public class Player extends GameActor
         {
 //            body.applyLinearImpulse(getUserData().getJumpingLinearImpulse(), body.getWorldCenter(), true);
 
-            float angle = body.getAngle();
+            float angle = MathUtils.radiansToDegrees * body.getAngle();
 
             float jumpingImpulseMagnitude = getUserData().getJumpingImpulseMagnitude();
 
-            Vector2 jumpingLinearImpulse = new Vector2((float) (Math.cos(angle * Math.PI / 180)), (float) (Math.sin(angle * Math.PI / 180)));
+            float xComponent = (float) (Math.sin(angle * Math.PI / 180));
+            float yComponent = (float) (Math.cos(angle * Math.PI / 180));
+
+            Vector2 jumpingLinearImpulse = new Vector2(xComponent, yComponent);
             jumpingLinearImpulse.scl(jumpingImpulseMagnitude);
 
-            body.applyLinearImpulse(jumpingLinearImpulse, body.getPosition(), true);
+            body.applyLinearImpulse(jumpingLinearImpulse, body.getWorldCenter(), true);
 
             jumping = true;
         }

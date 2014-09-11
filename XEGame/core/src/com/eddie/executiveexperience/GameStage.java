@@ -181,7 +181,8 @@ public class GameStage extends Stage implements ContactListener
 
         batch.begin();
 
-        Box2DSprite.draw(batch, getWorld());
+        //Box2DSprite.draw(batch, getWorld());
+        player.draw(batch, 1.0f);
 
         batch.end();
     }

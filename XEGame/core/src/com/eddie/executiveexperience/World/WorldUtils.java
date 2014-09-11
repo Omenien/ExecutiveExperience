@@ -32,12 +32,13 @@ public class WorldUtils
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(new Vector2(Constants.PLAYER_X, Constants.PLAYER_Y));
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(Constants.PLAYER_WIDTH / 2, Constants.PLAYER_HEIGHT);
+        shape.setAsBox(Constants.PLAYER_WIDTH / 2, Constants.PLAYER_HEIGHT / 2);
         Body body = world.createBody(bodyDef);
         body.createFixture(shape, Constants.PLAYER_DENSITY);
         body.resetMassData();
         body.setGravityScale(Constants.PLAYER_GRAVITY_SCALE);
         body.setUserData(new PlayerUserData(gameStage, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT));
+        body.setFixedRotation(true);
         shape.dispose();
         return body;
     }

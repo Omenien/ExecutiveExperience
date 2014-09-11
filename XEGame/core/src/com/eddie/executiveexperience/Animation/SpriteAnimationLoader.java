@@ -1,18 +1,3 @@
-/*  Copyright 2012 SionEngine
- *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
- */
-
 package com.eddie.executiveexperience.Animation;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
@@ -32,15 +17,8 @@ import com.badlogic.gdx.utils.JsonValue.JsonIterator;
 import com.badlogic.gdx.utils.Logger;
 import com.eddie.executiveexperience.Env;
 
-/**
- * @author David Saltares Márquez
- * @class AnimationLoader
- * @date 09/09/2012
- * @brief Asynchronous asset loader for AnimationData objects
- */
 public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimationData, SpriteAnimationLoader.AnimationParameter>
 {
-
     static public class AnimationParameter extends AssetLoaderParameters<SpriteAnimationData>
     {
     }
@@ -62,12 +40,12 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
     }
 
     /**
-     * Aynchronously loads the Animation data animations
+     * Aynchronously loads the animation data animations
      */
     @Override
     public void loadAsync(AssetManager manager, String fileName, FileHandle file, AnimationParameter parameter)
     {
-        logger.info("Loading " + fileName);
+        logger.info("loading " + fileName);
 
         animationData = new SpriteAnimationData();
 
@@ -79,8 +57,7 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
             JsonReader reader = new JsonReader();
             JsonValue root = reader.parse(file);
 
-            animationData.rows = root.getInt("rows");
-            animationData.columns = root.getInt("columns");
+            animationData.texture = manager.get(root.getString("textureFile"), Texture.class);
             animationData.frameDuration = root.getFloat("frameDuration");
 
             JsonValue animations = root.get("animations");
@@ -92,14 +69,18 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
                 JsonValue animationValue = animationsIt.next();
 
                 String name = animationValue.getString("name");
-                String frames = animationValue.getString("frames");
+
+                boolean createReverse = animationValue.getBoolean("createReverse");
+
+                JsonValue frames = animationValue.get("frames");
+                JsonIterator framesIt = frames.iterator();
 
                 Animation animation = new Animation(animationData.frameDuration,
-                        getAnimationFrames(animationData.texture, frames),
+                        getAnimationFrames(animationData.texture, framesIt),
                         getPlayMode(animationValue.getString("mode", "normal")));
                 animationData.animations.put(name, animation);
 
-                logger.info("Loaded Animation " + name + " from " + fileName);
+                logger.info("Loaded animation" + name + " from " + fileName + ".");
 
                 if(first)
                 {
@@ -110,12 +91,14 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
         }
         catch(Exception e)
         {
-            logger.error("Error loading file " + fileName + " " + e.getMessage());
+            logger.error("Error loading " + fileName + ".");
+
+            e.printStackTrace();
         }
     }
 
     /**
-     * Retrieves the Animation data as it is (without loading anything, this is strictly asynchronous)
+     * Retrieves the animation data as it is (without loading anything, this is strictly asynchronous)
      */
     @Override
     public SpriteAnimationData loadSync(AssetManager manager, String fileName, FileHandle file, AnimationParameter parameter)
@@ -124,13 +107,13 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
     }
 
     /**
-     * Gets Animation data dependencies, this is, the spreadsheet texture to load
+     * Gets animation data dependencies, this is, the spreadsheet texture to load
      */
     @Override
     public Array<AssetDescriptor> getDependencies(String fileName, FileHandle file, AnimationParameter parameter)
     {
-        Array<AssetDescriptor> dependencies = new Array<AssetDescriptor>();
-        dependencies.add(new AssetDescriptor<Texture>(stripExtension(fileName) + ".png", Texture.class));
+        Array<AssetDescriptor> dependencies = new Array<>();
+        dependencies.add(new AssetDescriptor<>(stripExtension(fileName) + ".png", Texture.class));
 
         return dependencies;
     }
@@ -151,55 +134,42 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
 
     private PlayMode getPlayMode(String mode)
     {
-        if(mode.equals("normal"))
+        switch(mode)
         {
-            return PlayMode.NORMAL;
-        }
-        else if(mode.equals("loop"))
-        {
-            return PlayMode.LOOP;
-        }
-        else if(mode.equals("loop_pingpong"))
-        {
-            return PlayMode.LOOP_PINGPONG;
-        }
-        else if(mode.equals("loop_random"))
-        {
-            return PlayMode.LOOP_RANDOM;
-        }
-        else if(mode.equals("loop_reversed"))
-        {
-            return PlayMode.LOOP_REVERSED;
-        }
-        else if(mode.equals("reversed"))
-        {
-            return PlayMode.REVERSED;
-        }
-        else
-        {
-            return PlayMode.NORMAL;
+            case "normal":
+                return PlayMode.NORMAL;
+            case "loop":
+                return PlayMode.LOOP;
+            case "loop_pingpong":
+                return PlayMode.LOOP_PINGPONG;
+            case "loop_random":
+                return PlayMode.LOOP_RANDOM;
+            case "loop_reversed":
+                return PlayMode.LOOP_REVERSED;
+            case "reversed":
+                return PlayMode.REVERSED;
+            default:
+                return PlayMode.NORMAL;
         }
     }
 
-    private Array<TextureRegion> getAnimationFrames(Texture texture, String frames)
+    private Array<TextureRegion> getAnimationFrames(Texture texture, JsonIterator framesIt)
     {
-        Array<TextureRegion> regions = new Array<TextureRegion>();
+        Array<TextureRegion> regions = new Array<>();
 
-        if(frames != null)
+        while(framesIt.hasNext())
         {
-            String[] framesArray = frames.replaceAll(" ", "").split(",");
-            int numFrames = framesArray.length;
-            int width = texture.getWidth() / animationData.columns;
-            int height = texture.getHeight() / animationData.rows;
+            JsonValue frame = framesIt.next();
 
-            for(int i = 0; i < numFrames; ++i)
-            {
-                int frame = Integer.parseInt(framesArray[i]);
-                int x = (frame % animationData.columns) * width;
-                int y = (frame / animationData.columns) * height;
+            JsonValue frameBounds = frame.get("frame");
 
-                regions.add(new TextureRegion(texture, x, y, width, height));
-            }
+            int x = frameBounds.getInt("x");
+            int y = frameBounds.getInt("y");
+
+            int width = frameBounds.getInt("w");
+            int height = frameBounds.getInt("h");
+
+            regions.add(new TextureRegion(texture, x, y, width, height));
         }
 
         return regions;
