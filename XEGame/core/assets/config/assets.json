@@ -1,16 +1,16 @@
 {
-  "base": [
-    {
-		"type": "com.badlogic.gdx.maps.tiled.TiledMap",
-		"path": "Level 1.tmx"
-    },
-    {
-      "type": "com.eddie.executiveexperience.Animation.SpriteAnimationData",
-      "path": "player/PlayerWalk.json"
-    },
-    {
-		"type": "com.badlogic.gdx.scenes.scene2d.ui.Skin",
-		"path": "ui/uiskin.json"
-    }
-  ]
+    "base": [
+        {
+            "type": "com.badlogic.gdx.maps.tiled.TiledMap",
+            "path": "Level 1.tmx"
+        },
+        {
+            "type": "com.eddie.executiveexperience.Animation.SpriteAnimationData",
+            "path": "player/PlayerWalk.json"
+        },
+        {
+            "type": "com.badlogic.gdx.scenes.scene2d.ui.Skin",
+            "path": "ui/uiskin.json"
+        }
+    ]
 }
