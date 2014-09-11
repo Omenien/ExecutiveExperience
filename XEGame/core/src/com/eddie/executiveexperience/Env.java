@@ -1,5 +1,6 @@
 package com.eddie.executiveexperience;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Logger;
@@ -19,6 +20,11 @@ public abstract class Env
 
     // Physics
     public static Vector2 gravity;
+
+    // Key Config
+    public static int playerMoveLeft;
+    public static int playerMoveRight;
+    public static int playerJump;
 
     // Debug
     public static int debugLevel;
@@ -49,6 +55,23 @@ public abstract class Env
 
         Vector3 gravity3 = settings.getVector("gravity", Vector3.Zero);
         gravity = new Vector2(gravity3.x, gravity3.y);
+
+        playerMoveLeft = Input.Keys.valueOf(settings.getString("playerMoveLeft", "A"));
+        playerMoveRight = Input.Keys.valueOf(settings.getString("playerMoveRight", "D"));
+        playerJump = Input.Keys.valueOf(settings.getString("playerJump", "Space"));
+
+        if(playerMoveLeft == -1)
+        {
+            playerMoveLeft = Input.Keys.A;
+        }
+        else if(playerMoveRight == -1)
+        {
+            playerMoveRight = Input.Keys.D;
+        }
+        else if(playerJump == -1)
+        {
+            playerJump = Input.Keys.SPACE;
+        }
 
         debugLevel = settings.getInt("debugLevel", Logger.INFO);
         debug = debugLevel > Logger.ERROR;

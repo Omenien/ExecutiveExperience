@@ -4,9 +4,13 @@
 	<int key="virtualWidth" value="700" />
 	<int key="virtualHeight" value="700" />
 	<float key="metersToPixels" value="70.0" />
- 	<vector key="gravity" x="0.0" y="-10.0" z="0.0" />
-	
-	<bool key="drawBodies" value="true" />
+ 	<vector key="gravity" x="0.0" y="-9.8" z="0.0" />
+
+    <string key="playerMoveLeft" value="A"/>
+    <string key="playerMoveRight" value="D"/>
+    <string key="playerJump" value="Space"/>
+
+    <bool key="drawBodies" value="true" />
 	<bool key="drawJoints" value="true" />
 	<bool key="drawABBs" value="true" />
 	<bool key="drawInactiveBodies" value="true" />

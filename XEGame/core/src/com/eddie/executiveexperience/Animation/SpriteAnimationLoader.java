@@ -80,7 +80,7 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
                         getPlayMode(animationValue.getString("mode", "normal")));
                 animationData.animations.put(name, animation);
 
-                logger.info("Loaded animation" + name + " from " + fileName + ".");
+                logger.info("Loaded animation " + name + " from " + fileName + ".");
 
                 if(first)
                 {

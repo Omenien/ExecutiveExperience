@@ -4,8 +4,7 @@ import com.eddie.executiveexperience.Constants;
 
 public enum EnemyType
 {
-    SLIME_SMALL(1f, 1f, Constants.ENEMY_X, Constants.SLIME_SMALL_Y, Constants.ENEMY_DENSITY),
-    SLIME_LARGE(2f, 1f, Constants.ENEMY_X, Constants.SLIME_LARGE_Y, Constants.ENEMY_DENSITY);
+    SLIME_SMALL(0.5f, 0.5f, Constants.ENEMY_X, Constants.SLIME_SMALL_Y, Constants.ENEMY_DENSITY);
 
     private float width;
     private float height;

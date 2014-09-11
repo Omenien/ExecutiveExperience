@@ -1,6 +1,5 @@
 package com.eddie.executiveexperience;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -15,7 +14,6 @@ import com.eddie.executiveexperience.World.Level;
 import com.eddie.executiveexperience.World.MapBodyManager;
 import com.eddie.executiveexperience.World.WorldUtils;
 import com.siondream.core.physics.CategoryBitsManager;
-import net.dermetfan.utils.libgdx.graphics.Box2DSprite;
 
 import java.io.FileNotFoundException;
 
@@ -26,15 +24,14 @@ public class GameStage extends Stage implements ContactListener
 
     private Level curLevel;
 
-    private final float TIME_STEP = 1 / 300f;
+    private final float TIME_STEP = 1 / 60f;
     private float accumulator = 0f;
 
     protected SpriteBatch batch;
     protected Viewport viewport;
-    protected OrthographicCamera camera;
 
     protected Box2DDebugRenderer box2DDebugRenderer;
-    protected OrthographicCamera debugCamera;
+    protected OrthographicCamera camera;
 
     protected TiledMap map;
     protected OrthogonalTiledMapRenderer mapRenderer;
@@ -64,11 +61,11 @@ public class GameStage extends Stage implements ContactListener
         box2DDebugRenderer.setDrawInactiveBodies(Env.drawInactiveBodies);
         box2DDebugRenderer.setDrawJoints(Env.drawJoints);
         box2DDebugRenderer.setDrawVelocities(Env.drawVelocities);
-        debugCamera = new OrthographicCamera(Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
-        debugCamera.position.set(debugCamera.viewportWidth / 2, debugCamera.viewportHeight / 2, 0.0f);
-        batch.setProjectionMatrix(debugCamera.combined);
 
-        setupCamera();
+        camera = new OrthographicCamera(Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
+        camera.setToOrtho(false, Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
+
+        batch.setProjectionMatrix(camera.combined);
 
         try
         {
@@ -87,7 +84,7 @@ public class GameStage extends Stage implements ContactListener
         mapBodyManager = new MapBodyManager(world, Env.metersToPixels, null, Env.debugLevel);
         mapBodyManager.createPhysics(this, map);
 
-        mapRenderer = new OrthogonalTiledMapRenderer(map);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, Env.pixelsToMeters);
     }
 
     private void setupWorld()
@@ -104,14 +101,6 @@ public class GameStage extends Stage implements ContactListener
         addActor(player);
     }
 
-    private void setupCamera()
-    {
-        camera = new OrthographicCamera(Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0.0f);
-        camera.setToOrtho(false);
-        camera.update();
-    }
-
     @Override
     public void act(float delta)
     {
@@ -124,6 +113,8 @@ public class GameStage extends Stage implements ContactListener
         {
             update(body);
         }
+
+        player.handleInput();
 
         accumulator += delta;
 
@@ -156,11 +147,9 @@ public class GameStage extends Stage implements ContactListener
     @Override
     public boolean keyDown(int keyCode)
     {
-        switch(keyCode)
+        if(keyCode == Env.playerJump)
         {
-            case Input.Keys.SPACE:
-                player.jump();
-                break;
+            player.jump();
         }
 
         return false;
@@ -171,18 +160,16 @@ public class GameStage extends Stage implements ContactListener
     {
         super.draw();
 
-        debugCamera.update();
         camera.update();
 
         mapRenderer.setView(camera);
         mapRenderer.render();
 
-        box2DDebugRenderer.render(WorldUtils.getWorld(), debugCamera.combined);
+        box2DDebugRenderer.render(WorldUtils.getWorld(), camera.combined);
 
         batch.begin();
 
-        //Box2DSprite.draw(batch, getWorld());
-        player.draw(batch, 1.0f);
+        player.draw(batch, 0.0f);
 
         batch.end();
     }
