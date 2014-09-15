@@ -2,14 +2,17 @@ package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.eddie.executiveexperience.Entity.Enemy;
 import com.eddie.executiveexperience.Entity.Player;
+import com.eddie.executiveexperience.Entity.Saw;
 import com.eddie.executiveexperience.World.Level;
 import com.eddie.executiveexperience.World.MapBodyManager;
 import com.eddie.executiveexperience.World.WorldUtils;
@@ -28,12 +31,12 @@ public class GameStage extends Stage implements ContactListener
     private float accumulator = 0f;
 
     protected SpriteBatch batch;
-    protected Viewport viewport;
 
     protected Box2DDebugRenderer box2DDebugRenderer;
     protected OrthographicCamera camera;
 
     protected TiledMap map;
+    protected MapProperties mapProperties;
     protected OrthogonalTiledMapRenderer mapRenderer;
     protected MapBodyManager mapBodyManager;
 
@@ -63,9 +66,6 @@ public class GameStage extends Stage implements ContactListener
         box2DDebugRenderer.setDrawVelocities(Env.drawVelocities);
 
         camera = new OrthographicCamera(Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
-        camera.setToOrtho(false, Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
-
-        batch.setProjectionMatrix(camera.combined);
 
         try
         {
@@ -80,6 +80,7 @@ public class GameStage extends Stage implements ContactListener
     public void loadMap()
     {
         map = assets.get(curLevel.getMapPath());
+        mapProperties = map.getProperties();
 
         mapBodyManager = new MapBodyManager(world, Env.metersToPixels, null, Env.debugLevel);
         mapBodyManager.createPhysics(this, map);
@@ -92,7 +93,7 @@ public class GameStage extends Stage implements ContactListener
         WorldUtils.createWorld();
         WorldUtils.getWorld().setContactListener(this);
         setupPlayer();
-        createEnemy();
+        createSaw();
     }
 
     private void setupPlayer()
@@ -129,9 +130,9 @@ public class GameStage extends Stage implements ContactListener
     {
         if(!BodyUtils.bodyInBounds(body))
         {
-            if(BodyUtils.bodyIsEnemy(body) && !player.isHit())
+            if(BodyUtils.bodyIsSaw(body))
             {
-                createEnemy();
+                createSaw();
             }
 
             WorldUtils.getWorld().destroyBody(body);
@@ -142,6 +143,12 @@ public class GameStage extends Stage implements ContactListener
     {
         Enemy enemy = new Enemy(WorldUtils.createEnemy());
         addActor(enemy);
+    }
+
+    private void createSaw()
+    {
+        Saw saw = new Saw(WorldUtils.createSaw(this));
+        addActor(saw);
     }
 
     @Override
@@ -160,6 +167,34 @@ public class GameStage extends Stage implements ContactListener
     {
         super.draw();
 
+        int mapWidth = mapProperties.get("width", Integer.class);
+        int mapHeight = mapProperties.get("height", Integer.class);
+
+        Vector2 playerPos = player.getBody().getPosition();
+
+        float cameraPosX = playerPos.x + (Constants.PLAYER_WIDTH / 2);
+        float cameraPosY = playerPos.y + (Constants.PLAYER_HEIGHT / 2);
+
+        if(cameraPosX < (camera.viewportWidth / 2))
+        {
+            cameraPosX = camera.viewportWidth / 2;
+        }
+        else if(cameraPosX > mapWidth - (camera.viewportWidth / 2))
+        {
+            cameraPosX = mapWidth - (camera.viewportWidth / 2);
+        }
+
+        if(cameraPosY < (camera.viewportHeight / 2))
+        {
+            cameraPosY = camera.viewportHeight / 2;
+        }
+        else if(cameraPosY > mapHeight - (camera.viewportHeight / 2))
+        {
+            cameraPosY = mapHeight - (camera.viewportHeight / 2);
+        }
+
+        camera.position.set(cameraPosX, cameraPosY, 0.0f);
+
         camera.update();
 
         mapRenderer.setView(camera);
@@ -167,9 +202,14 @@ public class GameStage extends Stage implements ContactListener
 
         box2DDebugRenderer.render(WorldUtils.getWorld(), camera.combined);
 
+        batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
 
-        player.draw(batch, 0.0f);
+        for(Actor actor : getActors())
+        {
+            actor.draw(batch, 0.0f);
+        }
 
         batch.end();
     }

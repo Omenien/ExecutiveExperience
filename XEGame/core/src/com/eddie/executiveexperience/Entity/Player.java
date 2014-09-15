@@ -12,6 +12,7 @@ import com.eddie.executiveexperience.GameActor;
 public class Player extends GameActor
 {
     private static final float MAX_VELOCITY_X = 7f;
+
     private boolean jumping;
     private boolean hit;
 
@@ -82,6 +83,15 @@ public class Player extends GameActor
         Vector2 position = body.getPosition();
         Vector2 velocity = body.getLinearVelocity();
 
+        if(velocity.x < -MAX_VELOCITY_X)
+        {
+            body.setLinearVelocity(-MAX_VELOCITY_X, velocity.y);
+        }
+        else if(velocity.x > MAX_VELOCITY_X)
+        {
+            body.setLinearVelocity(MAX_VELOCITY_X, velocity.y);
+        }
+
         if(Gdx.input.isKeyPressed(Env.playerMoveLeft) && velocity.x > -MAX_VELOCITY_X)
         {
             body.applyLinearImpulse(-2f, 0f, position.x, position.y, true);
@@ -94,5 +104,10 @@ public class Player extends GameActor
         {
             body.setLinearVelocity(velocity.x * 0.9f, velocity.y);
         }
+    }
+
+    public Body getBody()
+    {
+        return body;
     }
 }

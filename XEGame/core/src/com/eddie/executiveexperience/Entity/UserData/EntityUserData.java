@@ -1,6 +1,6 @@
 package com.eddie.executiveexperience.Entity.UserData;
 
-import com.eddie.executiveexperience.Animation.SpriteAnimationData;
+import com.eddie.executiveexperience.Graphics.SpriteAnimationData;
 import net.dermetfan.utils.libgdx.graphics.AnimatedBox2DSprite;
 import net.dermetfan.utils.libgdx.graphics.AnimatedSprite;
 

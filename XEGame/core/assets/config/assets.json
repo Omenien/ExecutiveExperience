@@ -5,8 +5,12 @@
             "path": "Level 1.tmx"
         },
         {
-            "type": "com.eddie.executiveexperience.Animation.SpriteAnimationData",
+            "type": "SpriteAnimationData",
             "path": "player/PlayerWalk.json"
+        },
+        {
+            "type": "SpriteAnimationData",
+            "path": "saw/Saw.json"
         },
         {
             "type": "com.badlogic.gdx.scenes.scene2d.ui.Skin",

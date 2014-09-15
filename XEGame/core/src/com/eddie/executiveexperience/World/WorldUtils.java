@@ -5,10 +5,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.EnemyType;
 import com.eddie.executiveexperience.Entity.UserData.EnemyUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
+import com.eddie.executiveexperience.Entity.UserData.SawUserData;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameStage;
 
@@ -59,6 +61,28 @@ public class WorldUtils
         body.setUserData(entityData);
         shape.dispose();
         return (body);
+    }
+
+    public static Body createSaw(GameStage gameStage)
+    {
+        EnemyType enemyType = EnemyType.SAW_STATIONARY_SLOW;
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(enemyType.getWidth() / 2, enemyType.getHeight() / 2);
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
+        bodyDef.position.set(new Vector2(enemyType.getX(), enemyType.getY()));
+        Body body = world.createBody(bodyDef);
+        body.createFixture(shape, enemyType.getDensity());
+        body.resetMassData();
+
+        SawUserData entityData = new SawUserData(gameStage, enemyType.getWidth(), enemyType.getHeight());
+
+        body.setUserData(entityData);
+
+        shape.dispose();
+
+        return body;
     }
 
     public static World getWorld()

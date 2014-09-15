@@ -9,8 +9,8 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.*;
-import com.eddie.executiveexperience.Animation.SpriteAnimationData;
-import com.eddie.executiveexperience.Animation.SpriteAnimationLoader;
+import com.eddie.executiveexperience.Graphics.SpriteAnimationData;
+import com.eddie.executiveexperience.Graphics.SpriteAnimationLoader;
 
 public class Assets implements Disposable, AssetErrorListener
 {

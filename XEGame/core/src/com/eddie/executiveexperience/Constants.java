@@ -11,14 +11,18 @@ public class Constants
     public static final float PLAYER_Y = GROUND_Y + GROUND_HEIGHT;
     public static final float PLAYER_WIDTH = 1.028571428571429f;
     public static final float PLAYER_HEIGHT = 1.385714285714286f;
+    public static final float SAW_DEGREES_PER_SECOND = 15f;
     public static float PLAYER_DENSITY = 1.0f;
     public static final float PLAYER_GRAVITY_SCALE = 3f;
-    public static final int PLAYER_JUMPING_IMPULSE_MAGNITUDE = 20;
+    public static final int PLAYER_JUMPING_IMPULSE_MAGNITUDE = 40;
     public static final float PLAYER_HIT_ANGULAR_IMPULSE = 30f;
 
     public static final float ENEMY_X = 25f;
     public static final float ENEMY_DENSITY = PLAYER_DENSITY;
     public static final float SLIME_SMALL_Y = 1.5f;
-    public static final float SLIME_LARGE_Y = 2f;
-    public static final Vector2 ENEMY_LINEAR_VELOCITY = new Vector2(-10f, 0);
+    public static final Vector2 ENEMY_LINEAR_VELOCITY = new Vector2(-2.5f, 0);
+
+    public static final float SAW_Y = 3f;
+    public static final float SAW_WIDTH = 3.29f;
+    public static final float SAW_HEIGHT = 3.29f;
 }

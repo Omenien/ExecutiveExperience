@@ -19,6 +19,7 @@ public class PlayerUserData extends EntityUserData
         animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("walk"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setAutoUpdate(true);
+        animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);
         animatedBox2DSprite.play();
 
         userDataType = UserDataType.PLAYER;

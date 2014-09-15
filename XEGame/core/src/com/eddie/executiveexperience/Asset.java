@@ -21,9 +21,18 @@ public class Asset implements Json.Serializable
     @Override
     public void read(Json json, JsonValue jsonData)
     {
+        String typeString = jsonData.get("type").asString();
+
+        switch(typeString)
+        {
+            case "SpriteAnimationData":
+                typeString = "com.eddie.executiveexperience.Graphics.SpriteAnimationData";
+                break;
+        }
+
         try
         {
-            type = Class.forName(jsonData.get("type").asString());
+            type = Class.forName(typeString);
         }
         catch(Exception e)
         {

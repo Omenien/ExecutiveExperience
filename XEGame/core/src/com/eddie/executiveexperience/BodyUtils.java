@@ -8,24 +8,29 @@ public class BodyUtils
 {
     public static boolean bodyIsPlayer(Body body)
     {
-        UserData userData = (UserData) body.getUserData();
-
-        return userData != null && userData.getUserDataType() == UserDataType.PLAYER;
+        return bodyIsType(body, UserDataType.PLAYER);
     }
 
     public static boolean bodyIsEnemy(Body body)
     {
-        UserData userData = (UserData) body.getUserData();
-
-        return userData != null && userData.getUserDataType() == UserDataType.ENEMY;
+        return bodyIsType(body, UserDataType.ENEMY);
     }
 
+    public static boolean bodyIsSaw(Body body)
+    {
+        return bodyIsType(body, UserDataType.SAW);
+    }
 
     public static boolean bodyIsTerrain(Body body)
     {
+        return bodyIsType(body, UserDataType.TERRAIN);
+    }
+
+    private static boolean bodyIsType(Body body, UserDataType type)
+    {
         UserData userData = (UserData) body.getUserData();
 
-        return userData != null && userData.getUserDataType() == UserDataType.TERRAIN;
+        return userData != null && userData.getUserDataType() == type;
     }
 
     public static boolean bodyInBounds(Body body)
@@ -37,8 +42,8 @@ public class BodyUtils
             switch(userData.getUserDataType())
             {
                 case PLAYER:
-                case ENEMY:
-                    return body.getPosition().x + userData.getWidth() / 2 > 0;
+                case SAW:
+                    return body.getPosition().x + userData.getWidth() / 2 > 0 && body.getPosition().y + userData.getHeight() / 2 > 0;
             }
         }
 
