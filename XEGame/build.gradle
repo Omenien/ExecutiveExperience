@@ -53,6 +53,11 @@ project(":core") {
     }
 }
 
+jar {
+    baseName="XEGame"
+    version="0.1.0"
+}
+
 tasks.eclipse.doLast {
     delete ".project"
 }
