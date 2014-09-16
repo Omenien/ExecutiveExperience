@@ -1,6 +1,10 @@
 {
     "name": "Level 1",
     "mapFile": "Level 1.tmx",
-    "playerStartX": 10,
-    "playerStartY": 10
+    "invisibleLayers": [
+
+    ],
+    "entityLayer": "Entities",
+    "physicsLayer": "Physics"
+
 }

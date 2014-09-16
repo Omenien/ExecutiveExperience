@@ -3,6 +3,7 @@ package com.eddie.executiveexperience.World;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.objects.*;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -15,13 +16,14 @@ import com.eddie.executiveexperience.GameStage;
 import java.util.Iterator;
 
 /**
- * @author David Saltares Márquez david.saltares at gmail.com
- * @brief Populates box2D world with static bodies using data from a map object
+ * Original implementation created by David Saltares Márquez.
+ * Edited by Edward Jones to facilitate the loading of game entities.
  * <p>
  * It uses a JSON formatted materials file to assign properties to the static
  * bodies it creates. To assign a material to a shape add a "material" custom
  * property to the shape in question using your editor of choice (Tiled, Gleed,
  * Tide...). Such file uses the following structure:
+ *
  * @code [
  * { "name" : "ice", "density" : 1.0, "restitution" : 0.0, "friction" : 0.1 },
  * { "name" : "elastic", "density" : 1.0, "restitution" : 0.8, "friction" : 0.8 }
@@ -64,14 +66,6 @@ public class MapBodyManager
     }
 
     /**
-     * @param map will use the "Physics" layer of this map to look for shapes in order to create the static bodies.
-     */
-    public void createPhysics(GameStage gameStage, Map map)
-    {
-        createPhysics(gameStage, map, "Physics");
-    }
-
-    /**
      * @param map       map to be used to create the static bodies.
      * @param layerName name of the layer that contains the shapes.
      */
@@ -96,6 +90,84 @@ public class MapBodyManager
             {
                 continue;
             }
+
+            Shape shape;
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+
+            if(object instanceof RectangleMapObject)
+            {
+                RectangleMapObject rectangle = (RectangleMapObject) object;
+                shape = getRectangle(rectangle);
+            }
+            else if(object instanceof PolygonMapObject)
+            {
+                shape = getPolygon((PolygonMapObject) object);
+            }
+            else if(object instanceof PolylineMapObject)
+            {
+                shape = getPolyline((PolylineMapObject) object);
+            }
+            else if(object instanceof CircleMapObject)
+            {
+                shape = getCircle((CircleMapObject) object);
+            }
+            else
+            {
+                logger.error("Unsupported shape " + object);
+                continue;
+            }
+
+            MapProperties properties = object.getProperties();
+            String material = properties.get("material", "default", String.class);
+            String userDataType = properties.get("userDataType", "com.eddie.executiveexperience.Entity.UserData.TerrainUserData", String.class);
+            FixtureDef fixtureDef = materials.get(material);
+
+            if(fixtureDef == null)
+            {
+                logger.error("Material " + material + " does not exist, using default material");
+                fixtureDef = materials.get("default");
+            }
+
+            fixtureDef.shape = shape;
+            fixtureDef.filter.categoryBits = gameStage.getCategoryBits("level");
+
+            Body body = world.createBody(bodyDef);
+            body.createFixture(fixtureDef);
+            try
+            {
+                body.setUserData(Class.forName(userDataType).newInstance());
+            }
+            catch(Exception e)
+            {
+                body.setUserData(new TerrainUserData());
+            }
+
+            bodies.add(body);
+
+            fixtureDef.shape = null;
+            shape.dispose();
+        }
+    }
+
+    public void createEntities(GameStage gameStage, TiledMap map, String layerName)
+    {
+        MapLayer layer = map.getLayers().get(layerName);
+
+        if(layer == null)
+        {
+            logger.error("Unable to find Entity layer \"" + layerName + "\" in map. Entities will not be loaded.");
+            return;
+        }
+
+        MapObjects objects = layer.getObjects();
+        Iterator<MapObject> objectIt = objects.iterator();
+
+        while(objectIt.hasNext())
+        {
+            MapObject object = objectIt.next();
+
+            object.getProperties().
 
             Shape shape;
             BodyDef bodyDef = new BodyDef();

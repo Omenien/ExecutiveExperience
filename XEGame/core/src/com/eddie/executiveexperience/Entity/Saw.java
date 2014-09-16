@@ -25,7 +25,10 @@ public class Saw extends GameActor
     {
         super.act(delta);
 
-        body.setTransform(body.getPosition().x, body.getPosition().y, body.getAngle() + ((MathUtils.degreesToRadians * getUserData().getDegreesPerSecond()) / delta));
+        float angle = body.getAngle();
+        angle = body.getAngle() + (getUserData().getDegreesPerSecond() * MathUtils.degreesToRadians) * delta;
+
+        body.setTransform(body.getPosition().x, body.getPosition().y, angle);
 
         body.setLinearVelocity(Constants.ENEMY_LINEAR_VELOCITY);
     }

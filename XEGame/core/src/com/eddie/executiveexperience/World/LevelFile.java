@@ -8,15 +8,19 @@ public class LevelFile implements Json.Serializable
     public String name;
     public String mapFile;
 
-    public int playerStartX;
-    public int playerStartY;
+    public String entityLayer;
+    public String physicsLayer;
+    public String[] invisibleLayers;
 
     public LevelFile()
     {
         name = "Level 1";
         mapFile = "Level 1.tmx";
-        playerStartX = 10;
-        playerStartY = 10;
+
+        physicsLayer = "Physics";
+        entityLayer = "Entities";
+
+        invisibleLayers = null;
     }
 
     @Override
@@ -24,9 +28,14 @@ public class LevelFile implements Json.Serializable
     {
         json.writeValue("name", name);
         json.writeValue("mapFile", mapFile);
-        json.writeValue("playerStartX", playerStartX);
-        json.writeValue("playerStartY", playerStartY);
 
+        json.writeValue("physicsLayer", physicsLayer);
+        json.writeValue("entityLayer", entityLayer);
+
+        if(invisibleLayers != null && invisibleLayers.length > 0)
+        {
+            json.writeValue("invisibleLayers", invisibleLayers);
+        }
     }
 
     @Override
@@ -34,7 +43,17 @@ public class LevelFile implements Json.Serializable
     {
         name = jsonData.get("name").asString();
         mapFile = jsonData.get("mapFile").asString();
-        playerStartX = jsonData.get("playerStartX").asInt();
-        playerStartY = jsonData.get("playerStartY").asInt();
+
+        physicsLayer = jsonData.get("physicsLayer").asString();
+        entityLayer = jsonData.get("entityLayer").asString();
+
+        try
+        {
+            invisibleLayers = jsonData.get("invisibleLayers").asStringArray();
+        }
+        catch(Exception e)
+        {
+            invisibleLayers = null;
+        }
     }
 }

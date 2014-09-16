@@ -83,7 +83,8 @@ public class GameStage extends Stage implements ContactListener
         mapProperties = map.getProperties();
 
         mapBodyManager = new MapBodyManager(world, Env.metersToPixels, null, Env.debugLevel);
-        mapBodyManager.createPhysics(this, map);
+        mapBodyManager.createPhysics(this, map, curLevel.getPhysicsLayer());
+        mapBodyManager.createEntities(this, map, curLevel.getEntityLayer());
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, Env.pixelsToMeters);
     }

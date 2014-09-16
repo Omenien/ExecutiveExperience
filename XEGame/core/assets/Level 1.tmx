@@ -10,7 +10,7 @@
  </layer>
  <layer name="Primary" width="10" height="30">
   <data encoding="base64" compression="zlib">
-   eJybzcDAMHsUj2I6YD0i1VkRoaYeiMuAuIIO7m6lsdm0Nn+g3Ues/kYgzsCBM6FqABQosls=
+   eJybzcDAMHsUj2I6YD0i1VkRoaYeiMuAuIIO7m6lsdm0Nn+g3YcOcKlrBOIMHDgTqgYAcRmwBQ==
   </data>
  </layer>
  <objectgroup name="Physics" width="10" height="30">
@@ -19,9 +19,9 @@
   <object x="281" y="1820" width="138" height="69"/>
   <object x="561" y="1682" width="67" height="66"/>
   <object x="281" y="1541" width="138" height="67"/>
-  <object x="69" y="1961" width="69" height="69"/>
   <object x="69" y="2031">
    <polyline points="0,0 0,30 58,66 493,67 558,30 559,1 0,-1"/>
   </object>
  </objectgroup>
+ <objectgroup name="Entities" width="10" height="30"/>
 </map>
