@@ -45,7 +45,7 @@ public abstract class Env
     {
         Env.game = game;
 
-        settings = new Settings("config/globals.xml");
+        settings = new Settings("assets/config/globals.xml");
 
         virtualWidth = settings.getInt("virtualWidth", 700);
         virtualHeight = settings.getInt("virtualHeight", 700);

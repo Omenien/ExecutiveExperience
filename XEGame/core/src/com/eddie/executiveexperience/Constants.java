@@ -11,7 +11,7 @@ public class Constants
     public static final float PLAYER_Y = GROUND_Y + GROUND_HEIGHT;
     public static final float PLAYER_WIDTH = 1.028571428571429f;
     public static final float PLAYER_HEIGHT = 1.385714285714286f;
-    public static final float SAW_DEGREES_PER_SECOND = 180f;
+    public static final float SAW_DEGREES_PER_SECOND = 720f;
     public static float PLAYER_DENSITY = 1.0f;
     public static final float PLAYER_GRAVITY_SCALE = 3f;
     public static final int PLAYER_JUMPING_IMPULSE_MAGNITUDE = 40;

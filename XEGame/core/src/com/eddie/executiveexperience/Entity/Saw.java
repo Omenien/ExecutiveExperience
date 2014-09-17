@@ -23,10 +23,14 @@ public class Saw extends GameActor
     @Override
     public void act(float delta)
     {
+        if(body == null)
+        {
+            return;
+        }
+
         super.act(delta);
 
-        float angle = body.getAngle();
-        angle = body.getAngle() + (getUserData().getDegreesPerSecond() * MathUtils.degreesToRadians) * delta;
+        float angle = body.getAngle() + (getUserData().getDegreesPerSecond() * MathUtils.degreesToRadians) * delta;
 
         body.setTransform(body.getPosition().x, body.getPosition().y, angle);
 

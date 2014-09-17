@@ -13,7 +13,7 @@ public class SawUserData extends EntityUserData
     {
         super(width, height);
 
-        spriteAnimationData = gameStage.getAssetManager().get("saw/Saw.json");
+        spriteAnimationData = gameStage.getAssetManager().get("assets/saw/Saw.json");
         animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("normal"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setAutoUpdate(true);
@@ -25,13 +25,13 @@ public class SawUserData extends EntityUserData
         userDataType = UserDataType.SAW;
     }
 
-    public void setDegreesPerSecond(float degreesPerSecond)
-    {
-        this.degreesPerSecond = degreesPerSecond;
-    }
-
     public float getDegreesPerSecond()
     {
         return degreesPerSecond;
+    }
+
+    public void setDegreesPerSecond(float degreesPerSecond)
+    {
+        this.degreesPerSecond = degreesPerSecond;
     }
 }

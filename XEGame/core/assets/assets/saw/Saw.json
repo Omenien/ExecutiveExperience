@@ -1,5 +1,5 @@
 {
-    "textureFile": "saw/Saw.png",
+    "textureFile": "assets/saw/Saw.png",
     "frameDuration": 1,
     "animations": [
         {

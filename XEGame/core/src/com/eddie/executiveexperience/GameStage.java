@@ -50,7 +50,7 @@ public class GameStage extends Stage implements ContactListener
 
         categoryBitsManager = new CategoryBitsManager();
 
-        assets = new Assets("config/assets.json");
+        assets = new Assets("assets/config/assets.json");
         assets.loadGroup("base");
         assets.finishLoading();
 
@@ -69,7 +69,7 @@ public class GameStage extends Stage implements ContactListener
 
         try
         {
-            curLevel = new Level("Level 1.json");
+            curLevel = new Level("assets/Level 1.json");
         }
         catch(FileNotFoundException e)
         {
@@ -108,12 +108,26 @@ public class GameStage extends Stage implements ContactListener
     {
         super.act(delta);
 
-        Array<Body> bodies = new Array(WorldUtils.getWorld().getBodyCount());
-        WorldUtils.getWorld().getBodies(bodies);
-
-        for(Body body : bodies)
+        for(Actor actor : getActors())
         {
-            update(body);
+            if(actor instanceof GameActor)
+            {
+                GameActor gameActor = (GameActor) actor;
+
+                Body body = gameActor.getBody();
+
+                if(!BodyUtils.bodyInBounds(body))
+                {
+                    if(BodyUtils.bodyIsSaw(body))
+                    {
+                        createSaw();
+                    }
+
+                    getRoot().removeActor(actor);
+
+                    world.destroyBody(body);
+                }
+            }
         }
 
         player.handleInput();
@@ -122,21 +136,8 @@ public class GameStage extends Stage implements ContactListener
 
         while(accumulator >= delta)
         {
-            WorldUtils.getWorld().step(TIME_STEP, 6, 2);
+            WorldUtils.getWorld().step(TIME_STEP, 8, 3);
             accumulator -= TIME_STEP;
-        }
-    }
-
-    private void update(Body body)
-    {
-        if(!BodyUtils.bodyInBounds(body))
-        {
-            if(BodyUtils.bodyIsSaw(body))
-            {
-                createSaw();
-            }
-
-            WorldUtils.getWorld().destroyBody(body);
         }
     }
 

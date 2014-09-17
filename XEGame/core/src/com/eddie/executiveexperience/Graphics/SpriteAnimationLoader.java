@@ -45,7 +45,7 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
     @Override
     public void loadAsync(AssetManager manager, String fileName, FileHandle file, AnimationParameter parameter)
     {
-        logger.info("loading " + fileName);
+        logger.info("Loading " + fileName);
 
         animationData = new SpriteAnimationData();
 

@@ -2,19 +2,19 @@
     "base": [
         {
             "type": "com.badlogic.gdx.maps.tiled.TiledMap",
-            "path": "Level 1.tmx"
+            "path": "assets/Level 1.tmx"
         },
         {
             "type": "SpriteAnimationData",
-            "path": "player/PlayerWalk.json"
+            "path": "assets/player/PlayerWalk.json"
         },
         {
             "type": "SpriteAnimationData",
-            "path": "saw/Saw.json"
+            "path": "assets/saw/Saw.json"
         },
         {
             "type": "com.badlogic.gdx.scenes.scene2d.ui.Skin",
-            "path": "ui/uiskin.json"
+            "path": "assets/ui/uiskin.json"
         }
     ]
 }

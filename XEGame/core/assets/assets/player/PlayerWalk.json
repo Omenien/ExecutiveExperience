@@ -1,5 +1,5 @@
 {
-    "textureFile": "player/PlayerWalk.png",
+    "textureFile": "assets/player/PlayerWalk.png",
     "frameDuration": 0.09,
     "animations": [
         {

@@ -17,7 +17,7 @@ public class Level
     {
         json = new Json();
 
-        FileHandle file = Gdx.files.local(fileName);
+        FileHandle file = Gdx.files.internal(fileName);
 
         if(file.exists())
         {
