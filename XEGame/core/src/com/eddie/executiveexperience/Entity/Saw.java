@@ -2,13 +2,16 @@ package com.eddie.executiveexperience.Entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.SawUserData;
+import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameActor;
 
 public class Saw extends GameActor
 {
+    private static Vector2 sawVelocity = new Vector2(Env.sawXVelocity, 0.0f);
+
     public Saw(Body body)
     {
         super(body);
@@ -34,7 +37,7 @@ public class Saw extends GameActor
 
         body.setTransform(body.getPosition().x, body.getPosition().y, angle);
 
-        body.setLinearVelocity(Constants.SAW_LINEAR_VELOCITY);
+        body.setLinearVelocity(sawVelocity);
     }
 
     @Override

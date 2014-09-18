@@ -10,6 +10,8 @@
     <string key="playerMoveRight" value="D"/>
     <string key="playerJump" value="Space"/>
 
+    <float key="sawXVelocity" value="10" />
+
     <bool key="drawBodies" value="true" />
 	<bool key="drawJoints" value="true" />
 	<bool key="drawABBs" value="false" />

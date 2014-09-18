@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Logger;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameActor;
@@ -19,15 +18,12 @@ public class Player extends GameActor
 
     public boolean jump;
     private int jumpTimeout;
-    private Logger logger;
 
     private int numFootContacts;
 
     public Player(Body body)
     {
         super(body);
-
-        logger = new Logger(TAG, Env.debugLevel);
 
         jump = false;
 
@@ -68,9 +64,9 @@ public class Player extends GameActor
         {
             body.setLinearVelocity(velocity.x, -MAX_VELOCITY_Y);
         }
-        else if(velocity.x > MAX_VELOCITY_X)
+        else if(velocity.y > MAX_VELOCITY_Y)
         {
-            body.setLinearVelocity(velocity.x, MAX_VELOCITY_X);
+            body.setLinearVelocity(velocity.x, MAX_VELOCITY_Y);
         }
 
         if(jumpTimeout > 0)
@@ -123,17 +119,30 @@ public class Player extends GameActor
         Vector2 position = body.getPosition();
         Vector2 velocity = body.getLinearVelocity();
 
-        if(Gdx.input.isKeyPressed(Env.playerMoveLeft) && velocity.x > -MAX_VELOCITY_X)
+        if(Gdx.input.isKeyPressed(Env.playerMoveLeft))
         {
-            body.applyLinearImpulse(-2f, 0f, position.x, position.y, true);
+            if(velocity.x > -MAX_VELOCITY_X)
+            {
+                body.applyLinearImpulse(-2f, 0f, position.x, position.y, true);
+            }
         }
-        else if(Gdx.input.isKeyPressed(Env.playerMoveRight) && velocity.x < MAX_VELOCITY_X)
+        else if(Gdx.input.isKeyPressed(Env.playerMoveRight))
         {
-            body.applyLinearImpulse(2f, 0f, position.x, position.y, true);
+            if(velocity.x < MAX_VELOCITY_X)
+            {
+                body.applyLinearImpulse(2f, 0f, position.x, position.y, true);
+            }
         }
         else
         {
-            body.setLinearVelocity(velocity.x * 0.9f, velocity.y);
+            if(velocity.x > 0.1f)
+            {
+                body.setLinearVelocity(velocity.x * 0.75f, velocity.y);
+            }
+            else
+            {
+                body.setLinearVelocity(0.0f, velocity.y);
+            }
         }
 
         if(grounded && !jump && Gdx.input.isKeyPressed(Env.playerJump))
@@ -145,10 +154,6 @@ public class Player extends GameActor
     public void incrementFootContacts()
     {
         numFootContacts++;
-
-        Vector2 linearVelocity = body.getLinearVelocity();
-
-        body.setLinearVelocity(linearVelocity.x, 0.0f);
     }
 
     public void decrementFootContacts()
