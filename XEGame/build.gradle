@@ -10,7 +10,6 @@ buildscript {
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
-    apply plugin: "application"
 
     mainClassName="com.eddie.executiveexperience.desktop.DesktopLauncher"
 
@@ -52,11 +51,6 @@ project(":core") {
         compile "net.dermetfan.libgdx-utils:libgdx-utils:$gdxUtilsVersion"
         compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:$gdxUtilsVersion"
     }
-}
-
-jar {
-    baseName="XEGame"
-    version="0.1.0"
 }
 
 tasks.eclipse.doLast {
