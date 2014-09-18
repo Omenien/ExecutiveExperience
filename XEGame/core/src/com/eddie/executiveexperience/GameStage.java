@@ -44,6 +44,9 @@ public class GameStage extends Stage implements ContactListener
 
     protected Assets assets;
 
+    protected int mapWidth;
+    protected int mapHeight;
+
     public GameStage()
     {
         batch = new SpriteBatch();
@@ -58,12 +61,25 @@ public class GameStage extends Stage implements ContactListener
         world = WorldUtils.getWorld();
 
         box2DDebugRenderer = new Box2DDebugRenderer();
-        box2DDebugRenderer.setDrawAABBs(Env.drawABBs);
-        box2DDebugRenderer.setDrawBodies(Env.drawBodies);
-        box2DDebugRenderer.setDrawContacts(Env.drawContacts);
-        box2DDebugRenderer.setDrawInactiveBodies(Env.drawInactiveBodies);
-        box2DDebugRenderer.setDrawJoints(Env.drawJoints);
-        box2DDebugRenderer.setDrawVelocities(Env.drawVelocities);
+
+        if(Env.debug)
+        {
+            box2DDebugRenderer.setDrawAABBs(Env.drawABBs);
+            box2DDebugRenderer.setDrawBodies(Env.drawBodies);
+            box2DDebugRenderer.setDrawContacts(Env.drawContacts);
+            box2DDebugRenderer.setDrawInactiveBodies(Env.drawInactiveBodies);
+            box2DDebugRenderer.setDrawJoints(Env.drawJoints);
+            box2DDebugRenderer.setDrawVelocities(Env.drawVelocities);
+        }
+        else
+        {
+            box2DDebugRenderer.setDrawAABBs(false);
+            box2DDebugRenderer.setDrawBodies(false);
+            box2DDebugRenderer.setDrawContacts(false);
+            box2DDebugRenderer.setDrawInactiveBodies(false);
+            box2DDebugRenderer.setDrawJoints(false);
+            box2DDebugRenderer.setDrawVelocities(false);
+        }
 
         camera = new OrthographicCamera(Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
 
@@ -87,6 +103,9 @@ public class GameStage extends Stage implements ContactListener
         mapBodyManager.createEntities(this, map, curLevel.getEntityLayer());
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, Env.pixelsToMeters);
+
+        mapWidth = mapProperties.get("width", Integer.class);
+        mapHeight = mapProperties.get("height", Integer.class);
     }
 
     private void setupWorld()
@@ -158,7 +177,7 @@ public class GameStage extends Stage implements ContactListener
     {
         if(keyCode == Env.playerJump)
         {
-            player.jump();
+            player.jump = true;
         }
 
         return false;
@@ -168,9 +187,6 @@ public class GameStage extends Stage implements ContactListener
     public void draw()
     {
         super.draw();
-
-        int mapWidth = mapProperties.get("width", Integer.class);
-        int mapHeight = mapProperties.get("height", Integer.class);
 
         Vector2 playerPos = player.getBody().getPosition();
 
@@ -227,7 +243,6 @@ public class GameStage extends Stage implements ContactListener
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
 
-
         if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsEnemy(b)) || (BodyUtils.bodyIsEnemy(a) && BodyUtils.bodyIsPlayer(b)))
         {
             player.hit();
@@ -267,5 +282,23 @@ public class GameStage extends Stage implements ContactListener
     public Assets getAssetManager()
     {
         return assets;
+    }
+
+    public int getMapHeight()
+    {
+        return mapHeight;
+    }
+
+    public int getMapWidth()
+    {
+        return mapWidth;
+    }
+
+    public boolean isPlayerDead()
+    {
+        float playerX = player.getBody().getPosition().x;
+        float playerY = player.getBody().getPosition().y;
+
+        return !(playerX > 0 && playerX < mapWidth && playerY + player.getUserData().getHeight() > 0);
     }
 }

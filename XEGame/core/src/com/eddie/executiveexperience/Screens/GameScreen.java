@@ -20,6 +20,14 @@ public class GameScreen extends ScreenAdapter
     public void update(float delta)
     {
         stage.act(delta);
+
+        if(stage.isPlayerDead())
+        {
+            stage.dispose();
+
+            stage = new GameStage();
+            stage.loadMap();
+        }
     }
 
     public void draw()

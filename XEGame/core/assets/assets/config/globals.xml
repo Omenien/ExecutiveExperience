@@ -12,11 +12,11 @@
 
     <bool key="drawBodies" value="true" />
 	<bool key="drawJoints" value="true" />
-	<bool key="drawABBs" value="true" />
+	<bool key="drawABBs" value="false" />
 	<bool key="drawInactiveBodies" value="true" />
-	<bool key="drawVelocities" value="true" />
-	<bool key="drawContacts" value="true" />
-	<bool key="drawStage" value="true" />
-	<bool key="drawGrid" value="true" />
-	<bool key="drawFPS" value="true" />
+	<bool key="drawVelocities" value="false" />
+	<bool key="drawContacts" value="false" />
+	<bool key="drawStage" value="false" />
+	<bool key="drawGrid" value="false" />
+	<bool key="drawFPS" value="false" />
  </settings>

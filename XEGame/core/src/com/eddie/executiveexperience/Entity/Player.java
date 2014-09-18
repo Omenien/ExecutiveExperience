@@ -5,13 +5,23 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.WorldManifold;
+import com.badlogic.gdx.utils.Array;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameActor;
+import com.eddie.executiveexperience.GameStage;
+
+import java.util.List;
 
 public class Player extends GameActor
 {
     private static final float MAX_VELOCITY_X = 7f;
+
+    public boolean jump;
+
+    private long lastGroundTime = 0;
 
     private boolean jumping;
     private boolean hit;
@@ -19,12 +29,61 @@ public class Player extends GameActor
     public Player(Body body)
     {
         super(body);
+
+        jump = false;
+
+        jumping = false;
+        hit = false;
+    }
+
+    @Override
+    public void act(float delta)
+    {
+        if(body == null)
+        {
+            return;
+        }
+
+        super.act(delta);
+
+        boolean grounded = isGrounded(delta);
+
+        if(grounded)
+        {
+            lastGroundTime = System.nanoTime();
+        }
+        else
+        {
+            if(System.nanoTime() - lastGroundTime > 100000000)
+            {
+                grounded = true;
+            }
+        }
+
+        if(!grounded)
+        {
+            getUserData().getBodyFixture().setFriction(0.0f);
+        }
+        else
+        {
+            getUserData().getBodyFixture().setFriction(0.2f);
+        }
+
+        if(jump)
+        {
+            jump = false;
+
+            if(grounded)
+            {
+                jump();
+            }
+        }
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha)
     {
-        getUserData().getAnimatedBox2DSprite().draw(batch, body);
+        getUserData().getAnimatedBox2DSprite().draw(batch, getUserData().getBodyFixture());
     }
 
     public void jump()
@@ -70,6 +129,45 @@ public class Player extends GameActor
     public boolean isHit()
     {
         return hit;
+    }
+
+    private boolean isGrounded(float delta)
+    {
+//        groundedPlatform = null;
+        Array<Contact> contactList = ((GameStage) getStage()).getWorld().getContactList();
+
+        for(int i = 0; i < contactList.size; i++)
+        {
+            Contact contact = contactList.get(i);
+            if(contact.isTouching() && (contact.getFixtureA() == getUserData().getPhysicsSensor() || contact.getFixtureB() == getUserData().getPhysicsSensor()))
+            {
+                Vector2 pos = body.getPosition();
+                WorldManifold manifold = contact.getWorldManifold();
+                boolean below = true;
+                for(int j = 0; j < manifold.getNumberOfContactPoints(); j++)
+                {
+                    below &= (manifold.getPoints()[j].y < pos.y - 1.5f);
+                }
+
+                if(below)
+                {
+                    /*if(contact.getFixtureA().getUserData() != null && contact.getFixtureA().getUserData().equals("p"))
+                    {
+                        groundedPlatform = (MovingPlatform) contact.getFixtureA().getBody().getUserData();
+                    }
+
+                    if(contact.getFixtureB().getUserData() != null && contact.getFixtureB().getUserData().equals("p"))
+                    {
+                        groundedPlatform = (MovingPlatform) contact.getFixtureB().getBody().getUserData();
+                    }*/
+
+                    return true;
+                }
+
+                return false;
+            }
+        }
+        return false;
     }
 
     @Override

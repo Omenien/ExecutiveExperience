@@ -1,5 +1,6 @@
 package com.eddie.executiveexperience.World;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.eddie.executiveexperience.Constants;
@@ -10,8 +11,12 @@ import com.eddie.executiveexperience.Entity.UserData.SawUserData;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameStage;
 
+import java.util.Random;
+
 public class WorldUtils
 {
+    private final static Random random = new Random(12381912);
+
     private static World world;
 
     public static void createWorld()
@@ -26,18 +31,50 @@ public class WorldUtils
             createWorld();
         }
 
+        Fixture playerSensorFixture;
+        Fixture playerBodyFixture;
+
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(new Vector2(Constants.PLAYER_X, Constants.PLAYER_Y));
+
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(Constants.PLAYER_WIDTH / 2, Constants.PLAYER_HEIGHT / 2);
+
+        CircleShape sensorCircle = new CircleShape();
+        sensorCircle.setRadius(Constants.PLAYER_HEIGHT / 2);
+        sensorCircle.setPosition(new Vector2(0, -Constants.PLAYER_HEIGHT + (Constants.PLAYER_HEIGHT)));
+
+        PolygonShape sensorShape = new PolygonShape();
+        float radius = Constants.PLAYER_WIDTH;
+        Vector2[] vertices = new Vector2[8];
+        vertices[0] = new Vector2(0, 0);
+        for(int i = 0; i < 7; i++)
+        {
+            float angle = (i / 6.0f * 90f - 135f) * MathUtils.degreesToRadians;
+            vertices[i + 1] = new Vector2(radius * MathUtils.cos(angle), radius * MathUtils.sin(angle));
+        }
+        sensorShape.set(vertices);
+
         Body body = world.createBody(bodyDef);
-        body.createFixture(shape, Constants.PLAYER_DENSITY);
+        playerBodyFixture = body.createFixture(shape, Constants.PLAYER_DENSITY);
+        //playerSensorFixture = body.createFixture(sensorCircle, 0);
+        playerSensorFixture = body.createFixture(sensorShape, 0);
+        playerSensorFixture.setSensor(true);
+
         body.resetMassData();
         body.setGravityScale(Constants.PLAYER_GRAVITY_SCALE);
-        body.setUserData(new PlayerUserData(gameStage, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT));
+
+        body.setUserData(new PlayerUserData(gameStage, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT, playerBodyFixture, playerSensorFixture));
+
         body.setFixedRotation(true);
+
+        body.setBullet(true);
+
+        sensorCircle.dispose();
+        sensorShape.dispose();
         shape.dispose();
+
         return body;
     }
 
@@ -63,12 +100,19 @@ public class WorldUtils
     {
         EnemyType enemyType = EnemyType.SAW_STATIONARY_SLOW;
 
+        float sawY = random.nextFloat() * (gameStage.getMapHeight() - enemyType.getHeight());
+
+        if(sawY < 0)
+        {
+            sawY = 30;
+        }
+
         CircleShape shape = new CircleShape();
         shape.setRadius(enemyType.getWidth() / 2);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(new Vector2(enemyType.getX(), enemyType.getY()));
+        bodyDef.position.set(new Vector2(enemyType.getX(), sawY));
 
         Body body = world.createBody(bodyDef);
         body.createFixture(shape, enemyType.getDensity());
