@@ -9,6 +9,16 @@ public class XEGame extends Game
 {
     private static GameScreen gameScreen;
 
+    public static GameScreen getGameScreen()
+    {
+        if(gameScreen == null)
+        {
+            System.out.println("AN UNKNOWN ERROR HAS OCCURRED, PLEASE SELECT OKAY TO TRY AGAIN.");
+        }
+
+        return gameScreen;
+    }
+
     @Override
     public void create()
     {
@@ -24,15 +34,5 @@ public class XEGame extends Game
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         super.render();
-    }
-
-    public static GameScreen getGameScreen()
-    {
-        if(gameScreen == null)
-        {
-            System.out.println("AN UNKNOWN ERROR HAS OCCURRED, PLEASE SELECT OKAY TO TRY AGAIN.");
-        }
-
-        return gameScreen;
     }
 }

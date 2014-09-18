@@ -5,180 +5,54 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.WorldManifold;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Logger;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameActor;
-import com.eddie.executiveexperience.GameStage;
-
-import java.util.List;
 
 public class Player extends GameActor
 {
+    private static final String TAG = "Player";
+
     private static final float MAX_VELOCITY_X = 7f;
+    private static final float MAX_VELOCITY_Y = 15f;
 
     public boolean jump;
+    private int jumpTimeout;
+    private Logger logger;
 
-    private long lastGroundTime = 0;
-
-    private boolean jumping;
-    private boolean hit;
+    private int numFootContacts;
 
     public Player(Body body)
     {
         super(body);
 
+        logger = new Logger(TAG, Env.debugLevel);
+
         jump = false;
 
-        jumping = false;
-        hit = false;
+        jumpTimeout = 0;
+        numFootContacts = 0;
     }
 
     @Override
     public void act(float delta)
     {
-        if(body == null)
-        {
-            return;
-        }
-
         super.act(delta);
 
-        boolean grounded = isGrounded(delta);
+        boolean grounded = numFootContacts > 0;
 
         if(grounded)
         {
-            lastGroundTime = System.nanoTime();
+            getUserData().getBodyFixture().setFriction(0.2f);
         }
         else
-        {
-            if(System.nanoTime() - lastGroundTime > 100000000)
-            {
-                grounded = true;
-            }
-        }
-
-        if(!grounded)
         {
             getUserData().getBodyFixture().setFriction(0.0f);
         }
-        else
-        {
-            getUserData().getBodyFixture().setFriction(0.2f);
-        }
 
-        if(jump)
-        {
-            jump = false;
+        handleInput(grounded);
 
-            if(grounded)
-            {
-                jump();
-            }
-        }
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha)
-    {
-        getUserData().getAnimatedBox2DSprite().draw(batch, getUserData().getBodyFixture());
-    }
-
-    public void jump()
-    {
-        if(!(jumping || hit))
-        {
-            float angle = MathUtils.radiansToDegrees * body.getAngle();
-
-            float jumpingImpulseMagnitude = getUserData().getJumpingImpulseMagnitude();
-
-            float xComponent = (float) (Math.sin(angle * Math.PI / 180));
-            float yComponent = (float) (Math.cos(angle * Math.PI / 180));
-
-            Vector2 jumpingLinearImpulse = new Vector2(xComponent, yComponent);
-            jumpingLinearImpulse.scl(jumpingImpulseMagnitude);
-
-            body.applyLinearImpulse(jumpingLinearImpulse, body.getWorldCenter(), true);
-
-            jumping = true;
-        }
-    }
-
-    public void hit()
-    {
-        body.applyAngularImpulse(getUserData().getHitAngularImpulse(), true);
-
-        hit = true;
-    }
-
-    public void landed()
-    {
-        if(jumping)
-        {
-            jumping = false;
-        }
-
-        if(hit)
-        {
-            hit = false;
-        }
-    }
-
-    public boolean isHit()
-    {
-        return hit;
-    }
-
-    private boolean isGrounded(float delta)
-    {
-//        groundedPlatform = null;
-        Array<Contact> contactList = ((GameStage) getStage()).getWorld().getContactList();
-
-        for(int i = 0; i < contactList.size; i++)
-        {
-            Contact contact = contactList.get(i);
-            if(contact.isTouching() && (contact.getFixtureA() == getUserData().getPhysicsSensor() || contact.getFixtureB() == getUserData().getPhysicsSensor()))
-            {
-                Vector2 pos = body.getPosition();
-                WorldManifold manifold = contact.getWorldManifold();
-                boolean below = true;
-                for(int j = 0; j < manifold.getNumberOfContactPoints(); j++)
-                {
-                    below &= (manifold.getPoints()[j].y < pos.y - 1.5f);
-                }
-
-                if(below)
-                {
-                    /*if(contact.getFixtureA().getUserData() != null && contact.getFixtureA().getUserData().equals("p"))
-                    {
-                        groundedPlatform = (MovingPlatform) contact.getFixtureA().getBody().getUserData();
-                    }
-
-                    if(contact.getFixtureB().getUserData() != null && contact.getFixtureB().getUserData().equals("p"))
-                    {
-                        groundedPlatform = (MovingPlatform) contact.getFixtureB().getBody().getUserData();
-                    }*/
-
-                    return true;
-                }
-
-                return false;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public PlayerUserData getUserData()
-    {
-        return (PlayerUserData) userData;
-    }
-
-    public void handleInput()
-    {
-        Vector2 position = body.getPosition();
         Vector2 velocity = body.getLinearVelocity();
 
         if(velocity.x < -MAX_VELOCITY_X)
@@ -189,6 +63,65 @@ public class Player extends GameActor
         {
             body.setLinearVelocity(MAX_VELOCITY_X, velocity.y);
         }
+
+        if(velocity.y < -MAX_VELOCITY_Y)
+        {
+            body.setLinearVelocity(velocity.x, -MAX_VELOCITY_Y);
+        }
+        else if(velocity.x > MAX_VELOCITY_X)
+        {
+            body.setLinearVelocity(velocity.x, MAX_VELOCITY_X);
+        }
+
+        if(jumpTimeout > 0)
+        {
+            jumpTimeout--;
+        }
+
+        if(jump)
+        {
+            if(grounded && jumpTimeout == 0)
+            {
+                jump();
+            }
+        }
+
+        jump = false;
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha)
+    {
+        getUserData().getAnimatedBox2DSprite().draw(batch, getUserData().getBodyFixture());
+    }
+
+    public void jump()
+    {
+        float angle = MathUtils.radiansToDegrees * body.getAngle();
+
+        float jumpingImpulseMagnitude = getUserData().getJumpingImpulseMagnitude();
+
+        float xComponent = (float) (Math.sin(angle * Math.PI / 180));
+        float yComponent = (float) (Math.cos(angle * Math.PI / 180));
+
+        Vector2 jumpingLinearImpulse = new Vector2(xComponent, yComponent);
+        jumpingLinearImpulse.scl(jumpingImpulseMagnitude);
+
+        body.applyLinearImpulse(jumpingLinearImpulse, body.getWorldCenter(), true);
+
+        jumpTimeout = 40;
+    }
+
+    @Override
+    public PlayerUserData getUserData()
+    {
+        return (PlayerUserData) userData;
+    }
+
+    public void handleInput(boolean grounded)
+    {
+        Vector2 position = body.getPosition();
+        Vector2 velocity = body.getLinearVelocity();
 
         if(Gdx.input.isKeyPressed(Env.playerMoveLeft) && velocity.x > -MAX_VELOCITY_X)
         {
@@ -202,6 +135,25 @@ public class Player extends GameActor
         {
             body.setLinearVelocity(velocity.x * 0.9f, velocity.y);
         }
+
+        if(grounded && !jump && Gdx.input.isKeyPressed(Env.playerJump))
+        {
+            jump = true;
+        }
+    }
+
+    public void incrementFootContacts()
+    {
+        numFootContacts++;
+
+        Vector2 linearVelocity = body.getLinearVelocity();
+
+        body.setLinearVelocity(linearVelocity.x, 0.0f);
+    }
+
+    public void decrementFootContacts()
+    {
+        numFootContacts--;
     }
 
     public Body getBody()

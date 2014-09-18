@@ -7,5 +7,7 @@ public enum UserDataType
 {
     TERRAIN,
     PLAYER,
-    SAW, ENEMY
+    PLAYER_FOOT,
+    SAW,
+    ENEMY
 }

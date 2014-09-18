@@ -19,13 +19,8 @@ import com.eddie.executiveexperience.Env;
 
 public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimationData, SpriteAnimationLoader.AnimationParameter>
 {
-    static public class AnimationParameter extends AssetLoaderParameters<SpriteAnimationData>
-    {
-    }
-
     private SpriteAnimationData animationData = null;
     private Logger logger;
-
     /**
      * Creates a new AnimationLoader
      *
@@ -173,5 +168,9 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
         }
 
         return regions;
+    }
+
+    static public class AnimationParameter extends AssetLoaderParameters<SpriteAnimationData>
+    {
     }
 }

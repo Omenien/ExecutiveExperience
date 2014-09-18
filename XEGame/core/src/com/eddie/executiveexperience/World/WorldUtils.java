@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.EnemyType;
 import com.eddie.executiveexperience.Entity.UserData.EnemyUserData;
+import com.eddie.executiveexperience.Entity.UserData.FootSensorUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Entity.UserData.SawUserData;
 import com.eddie.executiveexperience.Env;
@@ -41,12 +42,8 @@ public class WorldUtils
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(Constants.PLAYER_WIDTH / 2, Constants.PLAYER_HEIGHT / 2);
 
-        CircleShape sensorCircle = new CircleShape();
-        sensorCircle.setRadius(Constants.PLAYER_HEIGHT / 2);
-        sensorCircle.setPosition(new Vector2(0, -Constants.PLAYER_HEIGHT + (Constants.PLAYER_HEIGHT)));
-
         PolygonShape sensorShape = new PolygonShape();
-        float radius = Constants.PLAYER_WIDTH;
+        float radius = Constants.PLAYER_WIDTH * 0.75f;
         Vector2[] vertices = new Vector2[8];
         vertices[0] = new Vector2(0, 0);
         for(int i = 0; i < 7; i++)
@@ -58,9 +55,9 @@ public class WorldUtils
 
         Body body = world.createBody(bodyDef);
         playerBodyFixture = body.createFixture(shape, Constants.PLAYER_DENSITY);
-        //playerSensorFixture = body.createFixture(sensorCircle, 0);
         playerSensorFixture = body.createFixture(sensorShape, 0);
         playerSensorFixture.setSensor(true);
+        playerSensorFixture.setUserData(new FootSensorUserData());
 
         body.resetMassData();
         body.setGravityScale(Constants.PLAYER_GRAVITY_SCALE);
@@ -71,7 +68,6 @@ public class WorldUtils
 
         body.setBullet(true);
 
-        sensorCircle.dispose();
         sensorShape.dispose();
         shape.dispose();
 

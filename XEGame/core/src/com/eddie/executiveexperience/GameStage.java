@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import com.eddie.executiveexperience.Entity.Enemy;
 import com.eddie.executiveexperience.Entity.Player;
 import com.eddie.executiveexperience.Entity.Saw;
@@ -22,30 +21,22 @@ import java.io.FileNotFoundException;
 
 public class GameStage extends Stage implements ContactListener
 {
-    private World world;
-    private Player player;
-
-    private Level curLevel;
-
     private final float TIME_STEP = 1 / 60f;
-    private float accumulator = 0f;
-
     protected SpriteBatch batch;
-
     protected Box2DDebugRenderer box2DDebugRenderer;
     protected OrthographicCamera camera;
-
     protected TiledMap map;
     protected MapProperties mapProperties;
     protected OrthogonalTiledMapRenderer mapRenderer;
     protected MapBodyManager mapBodyManager;
-
     protected CategoryBitsManager categoryBitsManager;
-
     protected Assets assets;
-
     protected int mapWidth;
     protected int mapHeight;
+    private World world;
+    private Player player;
+    private Level curLevel;
+    private float accumulator = 0f;
 
     public GameStage()
     {
@@ -149,8 +140,6 @@ public class GameStage extends Stage implements ContactListener
             }
         }
 
-        player.handleInput();
-
         accumulator += delta;
 
         while(accumulator >= delta)
@@ -170,17 +159,6 @@ public class GameStage extends Stage implements ContactListener
     {
         Saw saw = new Saw(WorldUtils.createSaw(this));
         addActor(saw);
-    }
-
-    @Override
-    public boolean keyDown(int keyCode)
-    {
-        if(keyCode == Env.playerJump)
-        {
-            player.jump = true;
-        }
-
-        return false;
     }
 
     @Override
@@ -240,23 +218,36 @@ public class GameStage extends Stage implements ContactListener
     @Override
     public void beginContact(Contact contact)
     {
-        Body a = contact.getFixtureA().getBody();
-        Body b = contact.getFixtureB().getBody();
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
 
-        if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsEnemy(b)) || (BodyUtils.bodyIsEnemy(a) && BodyUtils.bodyIsPlayer(b)))
-        {
-            player.hit();
-        }
+        Body a = fixtureA.getBody();
+        Body b = fixtureB.getBody();
 
-        if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsTerrain(b)) || (BodyUtils.bodyIsTerrain(a) && BodyUtils.bodyIsPlayer(b)))
+//        if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsEnemy(b)) || (BodyUtils.bodyIsEnemy(a) && BodyUtils.bodyIsPlayer(b)))
+//        {
+//            player.hit();
+//        }
+
+        if((BodyUtils.fixtureIsJumpSensor(fixtureA) && BodyUtils.bodyIsTerrain(b)) || (BodyUtils.bodyIsTerrain(a) && BodyUtils.fixtureIsJumpSensor(fixtureB)))
         {
-            player.landed();
+            player.incrementFootContacts();
         }
     }
 
     @Override
     public void endContact(Contact contact)
     {
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
+
+        Body a = fixtureA.getBody();
+        Body b = fixtureB.getBody();
+
+        if((BodyUtils.fixtureIsJumpSensor(fixtureA) && BodyUtils.bodyIsTerrain(b)) || (BodyUtils.bodyIsTerrain(a) && BodyUtils.fixtureIsJumpSensor(fixtureB)))
+        {
+            player.decrementFootContacts();
+        }
     }
 
     @Override

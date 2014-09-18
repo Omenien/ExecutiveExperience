@@ -40,9 +40,18 @@ public class Level
         return levelFile.mapFile;
     }
 
-    public String getPhysicsLayer() { return levelFile.physicsLayer; }
+    public String getPhysicsLayer()
+    {
+        return levelFile.physicsLayer;
+    }
 
-    public String getEntityLayer() { return levelFile.entityLayer; }
+    public String getEntityLayer()
+    {
+        return levelFile.entityLayer;
+    }
 
-    public String[] getInvisibleLayers() { return levelFile.invisibleLayers; }
+    public String[] getInvisibleLayers()
+    {
+        return levelFile.invisibleLayers;
+    }
 }

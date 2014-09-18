@@ -14,13 +14,10 @@ import com.eddie.executiveexperience.Graphics.SpriteAnimationLoader;
 
 public class Assets implements Disposable, AssetErrorListener
 {
-    private Logger logger;
-
-    private AssetManager assetManager;
-
-    private ObjectMap<String, Array<Asset>> groups;
-
     private static String TAG = "AssetManager";
+    private Logger logger;
+    private AssetManager assetManager;
+    private ObjectMap<String, Array<Asset>> groups;
 
     public Assets(String assetFile)
     {

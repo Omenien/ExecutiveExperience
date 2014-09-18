@@ -25,24 +25,20 @@ public class PlayerUserData extends EntityUserData
         spriteAnimationData = gameStage.getAssetManager().get("assets/player/PlayerWalk.json");
         animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("walk"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
-//        animatedBox2DSprite.setAutoUpdate(true);
-//        animatedBox2DSprite.setWidth(width);
-//        animatedBox2DSprite.setHeight(height);
-//        animatedBox2DSprite.setAdjustSize(false);
         animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);
         animatedBox2DSprite.play();
 
         userDataType = UserDataType.PLAYER;
     }
 
-    public void setJumpingImpulseMagnitude(int jumpingImpulseMagnitude)
-    {
-        this.jumpingImpulseMagnitude = jumpingImpulseMagnitude;
-    }
-
     public int getJumpingImpulseMagnitude()
     {
         return jumpingImpulseMagnitude;
+    }
+
+    public void setJumpingImpulseMagnitude(int jumpingImpulseMagnitude)
+    {
+        this.jumpingImpulseMagnitude = jumpingImpulseMagnitude;
     }
 
     public float getHitAngularImpulse()

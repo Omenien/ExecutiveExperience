@@ -14,12 +14,11 @@ import com.eddie.executiveexperience.Env;
  */
 public class SpriteAnimationData
 {
-    private Logger logger;
-
     Texture texture;
     float frameDuration;
     ObjectMap<String, Animation> animations;
     Animation defaultAnimation;
+    private Logger logger;
 
     public SpriteAnimationData()
     {

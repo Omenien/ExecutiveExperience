@@ -14,13 +14,13 @@ public class EnemyUserData extends UserData
         velocity = Constants.ENEMY_LINEAR_VELOCITY;
     }
 
-    public void setVelocity(Vector2 velocity)
-    {
-        this.velocity = velocity;
-    }
-
     public Vector2 getVelocity()
     {
         return velocity;
+    }
+
+    public void setVelocity(Vector2 velocity)
+    {
+        this.velocity = velocity;
     }
 }

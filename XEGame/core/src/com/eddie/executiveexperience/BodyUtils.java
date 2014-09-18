@@ -1,6 +1,7 @@
 package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.eddie.executiveexperience.Entity.UserData.UserData;
 import com.eddie.executiveexperience.Entity.UserData.UserDataType;
 
@@ -48,5 +49,22 @@ public class BodyUtils
         }
 
         return true;
+    }
+
+    public static boolean fixtureIsJumpSensor(Fixture fixture)
+    {
+        UserData userData = (UserData) fixture.getUserData();
+
+        if(userData != null)
+        {
+            UserDataType userDataType = userData.getUserDataType();
+
+            if(userData.getUserDataType() == UserDataType.PLAYER_FOOT)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

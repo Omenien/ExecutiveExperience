@@ -2,10 +2,9 @@ package com.eddie.executiveexperience.Entity.UserData;
 
 public abstract class UserData
 {
-    UserDataType userDataType;
-
     protected float width;
     protected float height;
+    UserDataType userDataType;
 
     public UserData()
     {
