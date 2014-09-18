@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="10" height="30" tilewidth="70" tileheight="70">
+<map version="1.0" orientation="orthogonal" width="10" height="15" tilewidth="70" tileheight="70">
  <tileset firstgid="1" name="tiles_spritesheet" tilewidth="70" tileheight="70" spacing="2">
   <image source="tiles_spritesheet.png" width="914" height="936"/>
  </tileset>
- <layer name="Background" width="10" height="30">
+ <layer name="Background" width="10" height="15">
   <data encoding="base64" compression="zlib">
-   eJybzcDAMHsUj+JRPIqHAAYAQV21pQ==
+   eJybzcDAMHsUj2IqYwAsWVrT
   </data>
  </layer>
- <layer name="Primary" width="10" height="30">
+ <layer name="Primary" width="10" height="15">
   <data encoding="base64" compression="zlib">
-   eJybzcDAMHsUj2I6YD0i1VkRoaYeiMuAuIIO7m6lsdm0Nn+g3YcOcKlrBOIMHDgTqgYAcRmwBQ==
+   eJybzcDAoAfEs4nAVkSoAQEuKE1I3Wwi1CFjLhLUkoJHzWVgyCASzyQSAwBp5FKy
   </data>
  </layer>
- <objectgroup name="Physics" width="10" height="30">
-  <object x="70" y="1401" width="68" height="68"/>
-  <object x="280" y="1191" width="208" height="38"/>
-  <object x="281" y="1820" width="138" height="69"/>
-  <object x="561" y="1682" width="67" height="66"/>
-  <object x="281" y="1541" width="138" height="67"/>
-  <object x="69" y="2031">
-   <polyline points="0,0 0,30 58,66 493,67 558,30 559,1 0,-1"/>
-  </object>
+ <objectgroup name="Physics" width="10" height="15">
+  <object x="0" y="912" width="698" height="137"/>
+  <object x="631" y="703" width="66" height="65"/>
+  <object x="351" y="422" width="65" height="65"/>
+  <object x="69" y="142" width="69" height="65"/>
  </objectgroup>
- <objectgroup name="Entities" width="10" height="30"/>
+ <objectgroup name="Entities" width="10" height="15">
+  <object gid="91" x="518" y="166"/>
+ </objectgroup>
 </map>

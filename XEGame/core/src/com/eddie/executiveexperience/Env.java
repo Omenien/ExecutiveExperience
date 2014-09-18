@@ -75,7 +75,7 @@ public abstract class Env
             playerJump = Input.Keys.SPACE;
         }
 
-        sawXVelocity = settings.getFloat("sawXVelocity", -30.0f);
+        sawXVelocity = settings.getFloat("sawXVelocity", 30.0f);
 
         debugLevel = settings.getInt("debugLevel", Logger.INFO);
         debug = debugLevel > Logger.ERROR;
