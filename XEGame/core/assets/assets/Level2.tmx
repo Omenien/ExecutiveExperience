@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="30" tilewidth="35" tileheight="35">
+ <tileset firstgid="1" name="tiles" tilewidth="35" tileheight="35" spacing="5">
+  <image source="tiles.png" width="715" height="475"/>
+ </tileset>
+ <layer name="Background" width="20" height="30">
+  <data encoding="base64" compression="zlib">
+   eJyLZWBgiB3Fo3gUj+JRPIpH8SgexVTDALPB2fk=
+  </data>
+ </layer>
+ <layer name="Primary" width="20" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztzCsOACAMBNEqTlDB/U+KJaTQz65AdJKxT6RDGmRvkk0lm0o2VbimCtc8PdS0PMS8eVXz5VVMz8uaES9jRr2omfEiZtbzzIr3MqvezUQ8y0S902R4u8ny+j9fnckY/Q==
+  </data>
+ </layer>
+ <objectgroup name="Physics" width="20" height="30">
+  <object x="-2" y="138">
+   <polygon points="0,0 702,702 702,910 0,912"/>
+  </object>
+ </objectgroup>
+</map>
