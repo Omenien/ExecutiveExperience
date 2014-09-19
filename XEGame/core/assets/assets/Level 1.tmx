@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="10" height="15" tilewidth="70" tileheight="70">
- <tileset firstgid="1" name="tiles_spritesheet" tilewidth="70" tileheight="70" spacing="2">
-  <image source="tiles_spritesheet.png" width="914" height="936"/>
+<map version="1.0" orientation="orthogonal" width="20" height="30" tilewidth="35" tileheight="35">
+ <tileset firstgid="1" name="tiles" tilewidth="35" tileheight="35" spacing="5">
+  <image source="tiles.png" width="715" height="475"/>
  </tileset>
- <layer name="Background" width="10" height="15">
+ <layer name="Background" width="20" height="30">
   <data encoding="base64" compression="zlib">
-   eJybzcDAMHsUj2IqYwAsWVrT
+   eJztw0ENAAAMA6Hzr6yyZmJPSFg1VVXfHnfX1NA=
   </data>
  </layer>
- <layer name="Primary" width="10" height="15">
+ <layer name="Primary" width="20" height="30">
   <data encoding="base64" compression="zlib">
-   eJybzcDAoAfEs4nAVkSoAQEuKE1I3Wwi1CFjLhLUkoJHzWVgyCASzyQSAwBp5FKy
+   eJxjYBgFIwFMHCC9o2B4gUlAPBmIpwy0Q0bBoAKj5csoIAZMpjJeMsgxAOyPKRo=
   </data>
  </layer>
- <objectgroup name="Physics" width="10" height="15">
-  <object x="0" y="912" width="698" height="137"/>
-  <object x="631" y="703" width="66" height="65"/>
-  <object x="351" y="422" width="65" height="65"/>
-  <object x="69" y="142" width="69" height="65"/>
- </objectgroup>
- <objectgroup name="Entities" width="10" height="15">
-  <object gid="91" x="518" y="166"/>
+ <objectgroup name="Physics" width="20" height="30">
+  <object x="-1" y="946" width="700" height="103"/>
+  <object x="596" y="701" width="34" height="33"/>
+  <object x="70" y="701" width="34" height="31"/>
+  <object x="280" y="455" width="103" height="33"/>
+  <object x="70" y="210" width="33" height="33"/>
+  <object x="594" y="210" width="35" height="33"/>
  </objectgroup>
 </map>

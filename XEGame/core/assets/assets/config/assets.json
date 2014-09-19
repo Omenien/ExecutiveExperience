@@ -5,6 +5,10 @@
             "path": "assets/Level 1.tmx"
         },
         {
+            "type": "com.badlogic.gdx.maps.tiled.TiledMap",
+            "path": "assets/Level2.tmx"
+        },
+        {
             "type": "SpriteAnimationData",
             "path": "assets/player/PlayerWalk.json"
         },

@@ -3,14 +3,14 @@
 	<int key="debugLevel" value="3" />
 	<int key="virtualWidth" value="700" />
 	<int key="virtualHeight" value="700" />
-	<float key="metersToPixels" value="70.0" />
+	<float key="metersToPixels" value="35.0" />
  	<vector key="gravity" x="0.0" y="-9.8" z="0.0" />
 
     <string key="playerMoveLeft" value="A"/>
     <string key="playerMoveRight" value="D"/>
     <string key="playerJump" value="Space"/>
 
-    <float key="sawXVelocity" value="-10" />
+    <float key="sawXVelocity" value="-50" />
 
     <bool key="drawBodies" value="true" />
 	<bool key="drawJoints" value="true" />

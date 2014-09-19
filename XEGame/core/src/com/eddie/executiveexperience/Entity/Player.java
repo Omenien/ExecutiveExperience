@@ -60,15 +60,6 @@ public class Player extends GameActor
             body.setLinearVelocity(MAX_VELOCITY_X, velocity.y);
         }
 
-        if(velocity.y < -MAX_VELOCITY_Y)
-        {
-            body.setLinearVelocity(velocity.x, -MAX_VELOCITY_Y);
-        }
-        else if(velocity.y > MAX_VELOCITY_Y)
-        {
-            body.setLinearVelocity(velocity.x, MAX_VELOCITY_Y);
-        }
-
         if(jumpTimeout > 0)
         {
             jumpTimeout--;

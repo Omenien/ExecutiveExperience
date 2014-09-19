@@ -43,7 +43,7 @@ public class WorldUtils
         shape.setAsBox(Constants.PLAYER_WIDTH / 2, Constants.PLAYER_HEIGHT / 2);
 
         PolygonShape sensorShape = new PolygonShape();
-        float radius = Constants.PLAYER_WIDTH * 0.75f;
+        float radius = Constants.PLAYER_WIDTH * 0.85f;
         Vector2[] vertices = new Vector2[8];
         vertices[0] = new Vector2(0, 0);
         for(int i = 0; i < 7; i++)
@@ -64,7 +64,7 @@ public class WorldUtils
 
         body.setUserData(new PlayerUserData(gameStage, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT, playerBodyFixture, playerSensorFixture));
 
-        body.setFixedRotation(true);
+        //body.setFixedRotation(true);
 
         body.setBullet(true);
 
