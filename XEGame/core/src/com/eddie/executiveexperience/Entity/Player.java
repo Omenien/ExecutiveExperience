@@ -74,6 +74,17 @@ public class Player extends GameActor
         }
 
         jump = false;
+
+        if(body.getAngle() < -0.25)
+        {
+            body.setTransform(body.getPosition().x, body.getPosition().y, -0.25f);
+        }
+        else if(body.getAngle() > 0.25)
+        {
+            body.setTransform(body.getPosition().x, body.getPosition().y, 0.25f);
+        }
+
+        System.out.println("Player Angle: " + body.getAngle());
     }
 
     @Override

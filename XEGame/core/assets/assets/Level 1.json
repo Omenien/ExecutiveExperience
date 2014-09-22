@@ -1,10 +1,10 @@
 {
     "name": "Level 1",
-    "mapFile": "assets/Level2.tmx",
+    "mapFile": "assets/Level 1.tmx",
     "invisibleLayers": [
 
     ],
-    "entityLayer": "Entities",
+    "entityLayer": "Objects",
     "physicsLayer": "Physics"
 
 }

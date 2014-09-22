@@ -14,6 +14,7 @@ import com.eddie.executiveexperience.Entity.Player;
 import com.eddie.executiveexperience.Entity.Saw;
 import com.eddie.executiveexperience.World.Level;
 import com.eddie.executiveexperience.World.MapBodyManager;
+import com.eddie.executiveexperience.World.MapObjectManager;
 import com.eddie.executiveexperience.World.WorldUtils;
 import com.siondream.core.physics.CategoryBitsManager;
 
@@ -29,6 +30,7 @@ public class GameStage extends Stage implements ContactListener
     protected MapProperties mapProperties;
     protected OrthogonalTiledMapRenderer mapRenderer;
     protected MapBodyManager mapBodyManager;
+    protected MapObjectManager mapObjectManager;
     protected CategoryBitsManager categoryBitsManager;
     protected Assets assets;
     protected int mapWidth;
@@ -91,7 +93,9 @@ public class GameStage extends Stage implements ContactListener
 
         mapBodyManager = new MapBodyManager(world, Env.metersToPixels, null, Env.debugLevel);
         mapBodyManager.createPhysics(this, map, curLevel.getPhysicsLayer());
-        mapBodyManager.createEntities(this, map, curLevel.getEntityLayer());
+
+        mapObjectManager = new MapObjectManager(world, Env.metersToPixels, Env.debugLevel);
+        mapObjectManager.createObjects(this, map, curLevel.getEntityLayer());
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, Env.pixelsToMeters);
 

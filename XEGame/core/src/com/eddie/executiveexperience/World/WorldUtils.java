@@ -64,7 +64,7 @@ public class WorldUtils
 
         body.setUserData(new PlayerUserData(gameStage, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT, playerBodyFixture, playerSensorFixture));
 
-        //body.setFixedRotation(true);
+        body.setFixedRotation(false);
 
         body.setBullet(true);
 

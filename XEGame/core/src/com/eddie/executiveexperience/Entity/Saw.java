@@ -37,7 +37,7 @@ public class Saw extends GameActor
 
         body.setTransform(body.getPosition().x, body.getPosition().y, angle);
 
-        body.setLinearVelocity(sawVelocity);
+//        body.setLinearVelocity(sawVelocity);
     }
 
     @Override

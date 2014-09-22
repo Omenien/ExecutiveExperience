@@ -3,7 +3,6 @@ package com.eddie.executiveexperience.World;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.objects.*;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -149,87 +148,6 @@ public class MapBodyManager
             shape.dispose();
         }
     }
-
-    public void createEntities(GameStage gameStage, TiledMap map, String layerName)
-    {
-
-    }
-//    {
-//        MapLayer layer = map.getLayers().get(layerName);
-//
-//        if(layer == null)
-//        {
-//            logger.error("Unable to find Entity layer \"" + layerName + "\" in map. Entities will not be loaded.");
-//            return;
-//        }
-//
-//        MapObjects objects = layer.getObjects();
-//        Iterator<MapObject> objectIt = objects.iterator();
-//
-//        while(objectIt.hasNext())
-//        {
-//            MapObject object = objectIt.next();
-//
-//            object.getProperties().
-//
-//            Shape shape;
-//            BodyDef bodyDef = new BodyDef();
-//            bodyDef.type = BodyDef.BodyType.StaticBody;
-//
-//            if(object instanceof RectangleMapObject)
-//            {
-//                RectangleMapObject rectangle = (RectangleMapObject) object;
-//                shape = getRectangle(rectangle);
-//            }
-//            else if(object instanceof PolygonMapObject)
-//            {
-//                shape = getPolygon((PolygonMapObject) object);
-//            }
-//            else if(object instanceof PolylineMapObject)
-//            {
-//                shape = getPolyline((PolylineMapObject) object);
-//            }
-//            else if(object instanceof CircleMapObject)
-//            {
-//                shape = getCircle((CircleMapObject) object);
-//            }
-//            else
-//            {
-//                logger.error("Unsupported shape " + object);
-//                continue;
-//            }
-//
-//            MapProperties properties = object.getProperties();
-//            String material = properties.get("material", "default", String.class);
-//            String userDataType = properties.get("userDataType", "com.eddie.executiveexperience.Entity.UserData.TerrainUserData", String.class);
-//            FixtureDef fixtureDef = materials.get(material);
-//
-//            if(fixtureDef == null)
-//            {
-//                logger.error("Material " + material + " does not exist, using default material");
-//                fixtureDef = materials.get("default");
-//            }
-//
-//            fixtureDef.shape = shape;
-//            fixtureDef.filter.categoryBits = gameStage.getCategoryBits("level");
-//
-//            Body body = world.createBody(bodyDef);
-//            body.createFixture(fixtureDef);
-//            try
-//            {
-//                body.setUserData(Class.forName(userDataType).newInstance());
-//            }
-//            catch(Exception e)
-//            {
-//                body.setUserData(new TerrainUserData());
-//            }
-//
-//            bodies.add(body);
-//
-//            fixtureDef.shape = null;
-//            shape.dispose();
-//        }
-//    }
 
     /**
      * Destroys every static body that has been created using the manager.
