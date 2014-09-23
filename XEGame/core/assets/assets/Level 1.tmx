@@ -1,35 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="20" height="30" tilewidth="35" tileheight="35">
- <tileset firstgid="1" name="tiles" tilewidth="35" tileheight="35" spacing="5">
-  <image source="tiles.png" width="715" height="475"/>
- </tileset>
- <tileset firstgid="217" name="objects" tilewidth="35" tileheight="35" spacing="5">
+<map version="1.0" orientation="orthogonal" width="50" height="20" tilewidth="35" tileheight="35">
+ <tileset firstgid="1" name="objects" tilewidth="35" tileheight="35" spacing="5">
   <image source="objects.png" width="256" height="64"/>
  </tileset>
- <layer name="Background" width="20" height="30">
+ <tileset firstgid="7" name="tiles" tilewidth="35" tileheight="35" spacing="2">
+  <image source="tiles.png" width="1024" height="512"/>
+ </tileset>
+ <layer name="Background" width="50" height="20">
   <data encoding="base64" compression="zlib">
-   eJzrY2Bg6BvFo3gUj+JRPIpH8SgexVTDAA2VTOA=
+   eJztzjERACAMBLAXUamAfiqiA9xlyJ5KUgAAfGG13c4DFwBmXdefT0Q=
   </data>
  </layer>
- <layer name="Primary" width="20" height="30">
+ <layer name="Primary" width="50" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFIwFMHCC9o2B4gUlAPBmIpwy0Q0bBoAKj5csoIAZMpjJeMsgxAOyPKRo=
+   eJztz8EJACAMBMEUrbZhy/rMVwgKMgP7v4sAAADgRNv1osbl7dks7pVffiwA8R99
   </data>
  </layer>
- <objectgroup name="Physics" width="20" height="30">
-  <object x="-1" y="946" width="700" height="103"/>
-  <object x="596" y="701" width="34" height="33"/>
-  <object x="70" y="701" width="34" height="31"/>
-  <object x="280" y="455" width="103" height="33"/>
-  <object x="70" y="210" width="33" height="33"/>
-  <object x="594" y="210" width="35" height="33"/>
+ <objectgroup name="Physics" width="50" height="20">
+  <object x="0" y="595" width="698" height="105"/>
+  <object x="806" y="421" width="102" height="33"/>
  </objectgroup>
- <objectgroup name="Objects" width="20" height="30">
-  <object name="Player" type="Player" gid="217" x="0" y="945"/>
-  <object name="StationarySaw" type="StationarySaw" gid="218" x="315" y="490">
-   <properties>
-    <property name="useCenter" value="false"/>
-   </properties>
-  </object>
+ <objectgroup name="Objects" width="50" height="20">
+  <object name="Player" type="Player" gid="1" x="0" y="595"/>
  </objectgroup>
 </map>

@@ -18,15 +18,16 @@ import com.eddie.executiveexperience.GameStage;
 
 public class Player extends GameActor
 {
-    private static final String TAG = "Player";
+    protected static final float MAX_VELOCITY_X = 12f;
+    private static final float MAX_JUMP_EXTEND_TIME = 0.15f;
 
-    private static final float MAX_VELOCITY_X = 7f;
-    private static final float MAX_VELOCITY_Y = 15f;
+    protected boolean jump;
+    protected boolean extendJump;
 
-    public boolean jump;
-    private int jumpTimeout;
+    protected int jumpTimeout;
+    protected float jumpExtendTime;
 
-    private int numFootContacts;
+    protected int numFootContacts;
 
     public Player(GameStage gameStage, float x, float y, MapProperties objectProperties)
     {
@@ -43,7 +44,7 @@ public class Player extends GameActor
         shape.setAsBox(Constants.PLAYER_WIDTH / 2, Constants.PLAYER_HEIGHT / 2);
 
         PolygonShape sensorShape = new PolygonShape();
-        float radius = Constants.PLAYER_WIDTH * 0.85f;
+        float radius = Constants.PLAYER_WIDTH * 0.75f;
         Vector2[] vertices = new Vector2[8];
         vertices[0] = new Vector2(0, 0);
         for(int i = 0; i < 7; i++)
@@ -76,8 +77,11 @@ public class Player extends GameActor
         gameStage.setPlayer(this);
 
         jump = false;
+        extendJump = false;
 
         jumpTimeout = 0;
+        jumpExtendTime = 0;
+
         numFootContacts = 0;
     }
 
@@ -90,7 +94,9 @@ public class Player extends GameActor
 
         if(grounded)
         {
-            getUserData().getBodyFixture().setFriction(0.2f);
+            getUserData().getBodyFixture().setFriction(0.3f);
+
+            jumpExtendTime = 0;
         }
         else
         {
@@ -123,7 +129,20 @@ public class Player extends GameActor
             }
         }
 
+        if(extendJump)
+        {
+            if(jumpExtendTime < MAX_JUMP_EXTEND_TIME)
+            {
+                body.setLinearVelocity(body.getLinearVelocity().x, body.getLinearVelocity().y * 1.05f);
+
+                jumpExtendTime += delta;
+
+                System.out.println(jumpExtendTime);
+            }
+        }
+
         jump = false;
+        extendJump = false;
     }
 
     @Override
@@ -176,9 +195,9 @@ public class Player extends GameActor
         }
         else
         {
-            if(velocity.x > 0.1f)
+            if(velocity.x > 0.2f)
             {
-                body.setLinearVelocity(velocity.x * 0.75f, velocity.y);
+                body.setLinearVelocity(velocity.x * 0.85f, velocity.y);
             }
             else
             {
@@ -186,9 +205,16 @@ public class Player extends GameActor
             }
         }
 
-        if(grounded && !jump && Gdx.input.isKeyPressed(Env.playerJump))
+        if(Gdx.input.isKeyPressed(Env.playerJump))
         {
-            jump = true;
+            if(grounded && !jump)
+            {
+                jump = true;
+            }
+            else if(!grounded && body.getLinearVelocity().y > 0)
+            {
+                extendJump = true;
+            }
         }
     }
 
