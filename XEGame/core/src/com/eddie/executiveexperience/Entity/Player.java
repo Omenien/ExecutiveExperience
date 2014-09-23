@@ -183,14 +183,28 @@ public class Player extends GameActor
         {
             if(velocity.x > -MAX_VELOCITY_X)
             {
-                body.applyLinearImpulse(-2f, 0f, position.x, position.y, true);
+                if(grounded)
+                {
+                    body.applyLinearImpulse(-2f, 0f, position.x, position.y, true);
+                }
+                else
+                {
+                    body.applyLinearImpulse(-0.25f, 0f, position.x, position.y, true);
+                }
             }
         }
         else if(Gdx.input.isKeyPressed(Env.playerMoveRight))
         {
             if(velocity.x < MAX_VELOCITY_X)
             {
-                body.applyLinearImpulse(2f, 0f, position.x, position.y, true);
+                if(grounded)
+                {
+                    body.applyLinearImpulse(2f, 0f, position.x, position.y, true);
+                }
+                else
+                {
+                    body.applyLinearImpulse(0.25f, 0f, position.x, position.y, true);
+                }
             }
         }
         else

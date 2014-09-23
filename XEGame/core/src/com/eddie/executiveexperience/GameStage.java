@@ -281,4 +281,9 @@ public class GameStage extends Stage implements ContactListener
     {
         this.player = player;
     }
+
+    public int getTileSize()
+    {
+        return map.getTileSets().getTileSet(0).getTile(0).getProperties().get("width", Integer.class);
+    }
 }

@@ -31,7 +31,7 @@ public class Saw extends GameActor
         }
         else
         {
-            bodyDef.position.set(new Vector2(x, y));
+            bodyDef.position.set(new Vector2(x + 0.5f, y + 0.5f));
         }
 
         Body body = gameStage.getWorld().createBody(bodyDef);

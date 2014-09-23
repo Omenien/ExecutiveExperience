@@ -13,7 +13,7 @@
  </layer>
  <layer name="Primary" width="50" height="20">
   <data encoding="base64" compression="zlib">
-   eJztz8EJACAMBMEUrbZhy/rMVwgKMgP7v4sAAADgRNv1osbl7dks7pVffiwA8R99
+   eJztz8ENABAUREGK0Cna0DLHX4AgMpO8+25KALyu5NsLAICortqm+uHt0djcLb/8mNvoH5M=
   </data>
  </layer>
  <objectgroup name="Physics" width="50" height="20">
@@ -22,5 +22,10 @@
  </objectgroup>
  <objectgroup name="Objects" width="50" height="20">
   <object name="Player" type="Player" gid="1" x="0" y="595"/>
+  <object name="Saw" type="StationarySaw" gid="2" x="455" y="280">
+   <properties>
+    <property name="useCenter" value="false"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
