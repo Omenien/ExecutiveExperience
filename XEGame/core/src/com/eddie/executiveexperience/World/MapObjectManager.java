@@ -5,13 +5,11 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Logger;
-import com.eddie.executiveexperience.Entity.Player;
-import com.eddie.executiveexperience.Entity.StationarySaw;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameStage;
 
+import java.lang.reflect.Constructor;
 import java.util.Iterator;
 
 public class MapObjectManager
@@ -19,10 +17,9 @@ public class MapObjectManager
     private Logger logger;
 
     /**
-     * @param world        box2D world to work with.
      * @param loggingLevel verbosity of the embedded logger.
      */
-    public MapObjectManager(World world, int loggingLevel)
+    public MapObjectManager(int loggingLevel)
     {
         logger = new Logger("MapBodyManager", loggingLevel);
         logger.info("Initializing MapBodyManager");
@@ -58,17 +55,19 @@ public class MapObjectManager
             String type = objectProperties.get("type", "Saw", String.class);
 
             float x = objectProperties.get("x", 0f, Float.class) * Env.pixelsToMeters;
-            float y = (mapHeight - objectProperties.get("y", 0f, Float.class)) * Env.pixelsToMeters;
+            float y = objectProperties.get("y", 0f, Float.class) * Env.pixelsToMeters;
 
-            switch(type.toUpperCase())
+            Constructor constructor;
+
+            try
             {
-                case "PLAYER":
-                    new Player(x, y, objectProperties);
-                    break;
+                constructor = Class.forName("com.eddie.executiveexperience.Entity." + type).getConstructor(GameStage.class, Float.TYPE, Float.TYPE, MapProperties.class);
 
-                case "STATIONARYSAW":
-                    new StationarySaw(x, y, objectProperties);
-                    break;
+                constructor.newInstance(gameStage, x, y, objectProperties);
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
             }
         }
     }

@@ -8,7 +8,7 @@
  </tileset>
  <layer name="Background" width="20" height="30">
   <data encoding="base64" compression="zlib">
-   eJztw0ENAAAMA6Hzr6yyZmJPSFg1VVXfHnfX1NA=
+   eJzrY2Bg6BvFo3gUj+JRPIpH8SgexVTDAA2VTOA=
   </data>
  </layer>
  <layer name="Primary" width="20" height="30">
@@ -28,7 +28,7 @@
   <object name="Player" type="Player" gid="217" x="0" y="945"/>
   <object name="StationarySaw" type="StationarySaw" gid="218" x="315" y="490">
    <properties>
-    <property name="useCenter" value="true"/>
+    <property name="useCenter" value="false"/>
    </properties>
   </object>
  </objectgroup>

@@ -1,15 +1,13 @@
 package com.eddie.executiveexperience.Entity;
 
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.maps.MapProperties;
+import com.eddie.executiveexperience.GameStage;
 
-/**
- * Created by scitech on 9/22/2014.
- */
 public class StationarySaw extends Saw
 {
-    public StationarySaw(Body body)
+    public StationarySaw(GameStage gameStage, float x, float y, MapProperties objectProperties)
     {
-        super(body);
+        super(gameStage, x, y, objectProperties);
     }
 
     @Override

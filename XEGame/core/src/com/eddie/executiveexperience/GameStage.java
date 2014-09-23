@@ -9,9 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.eddie.executiveexperience.Entity.Enemy;
 import com.eddie.executiveexperience.Entity.Player;
-import com.eddie.executiveexperience.Entity.Saw;
 import com.eddie.executiveexperience.World.Level;
 import com.eddie.executiveexperience.World.MapBodyManager;
 import com.eddie.executiveexperience.World.MapObjectManager;
@@ -94,7 +92,7 @@ public class GameStage extends Stage implements ContactListener
         mapBodyManager = new MapBodyManager(world, Env.metersToPixels, null, Env.debugLevel);
         mapBodyManager.createPhysics(this, map, curLevel.getPhysicsLayer());
 
-        mapObjectManager = new MapObjectManager(world, Env.metersToPixels, Env.debugLevel);
+        mapObjectManager = new MapObjectManager(Env.debugLevel);
         mapObjectManager.createObjects(this, map, curLevel.getEntityLayer());
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, Env.pixelsToMeters);
@@ -107,14 +105,6 @@ public class GameStage extends Stage implements ContactListener
     {
         WorldUtils.createWorld();
         WorldUtils.getWorld().setContactListener(this);
-        setupPlayer();
-        createSaw();
-    }
-
-    private void setupPlayer()
-    {
-        player = new Player(WorldUtils.createPlayer(this));
-        addActor(player);
     }
 
     @Override
@@ -132,10 +122,10 @@ public class GameStage extends Stage implements ContactListener
 
                 if(!BodyUtils.bodyInBounds(body))
                 {
-                    if(BodyUtils.bodyIsSaw(body))
-                    {
-                        createSaw();
-                    }
+//                    if(BodyUtils.bodyIsSaw(body))
+//                    {
+//                        createSaw();
+//                    }
 
                     getRoot().removeActor(actor);
 
@@ -151,18 +141,6 @@ public class GameStage extends Stage implements ContactListener
             WorldUtils.getWorld().step(TIME_STEP, 8, 3);
             accumulator -= TIME_STEP;
         }
-    }
-
-    private void createEnemy()
-    {
-        Enemy enemy = new Enemy(WorldUtils.createEnemy());
-        addActor(enemy);
-    }
-
-    private void createSaw()
-    {
-        Saw saw = new Saw(WorldUtils.createSaw(this));
-        addActor(saw);
     }
 
     @Override
@@ -198,7 +176,7 @@ public class GameStage extends Stage implements ContactListener
         camera.update();
 
         mapRenderer.setView(camera);
-        mapRenderer.render();
+        mapRenderer.render(new int[] { 0 });
 
         box2DDebugRenderer.render(WorldUtils.getWorld(), camera.combined);
 
@@ -212,6 +190,8 @@ public class GameStage extends Stage implements ContactListener
         }
 
         batch.end();
+
+        mapRenderer.render(new int[] { 1 });
     }
 
     public short getCategoryBits(String level)
@@ -295,5 +275,10 @@ public class GameStage extends Stage implements ContactListener
         float playerY = player.getBody().getPosition().y;
 
         return !(playerX > 0 && playerX < mapWidth && playerY + player.getUserData().getHeight() > 0);
+    }
+
+    public void setPlayer(Player player)
+    {
+        this.player = player;
     }
 }

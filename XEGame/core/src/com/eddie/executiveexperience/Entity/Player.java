@@ -2,12 +2,19 @@ package com.eddie.executiveexperience.Entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.eddie.executiveexperience.Constants;
+import com.eddie.executiveexperience.Entity.UserData.FootSensorUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameActor;
+import com.eddie.executiveexperience.GameStage;
 
 public class Player extends GameActor
 {
@@ -21,9 +28,52 @@ public class Player extends GameActor
 
     private int numFootContacts;
 
-    public Player(Body body)
+    public Player(GameStage gameStage, float x, float y, MapProperties objectProperties)
     {
-        super(body);
+        super(gameStage);
+
+        Fixture playerSensorFixture;
+        Fixture playerBodyFixture;
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(new Vector2(x + Constants.PLAYER_WIDTH / 2, y + Constants.PLAYER_HEIGHT / 2));
+
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(Constants.PLAYER_WIDTH / 2, Constants.PLAYER_HEIGHT / 2);
+
+        PolygonShape sensorShape = new PolygonShape();
+        float radius = Constants.PLAYER_WIDTH * 0.85f;
+        Vector2[] vertices = new Vector2[8];
+        vertices[0] = new Vector2(0, 0);
+        for(int i = 0; i < 7; i++)
+        {
+            float angle = (i / 6.0f * 90f - 135f) * MathUtils.degreesToRadians;
+            vertices[i + 1] = new Vector2(radius * MathUtils.cos(angle), radius * MathUtils.sin(angle));
+        }
+        sensorShape.set(vertices);
+
+        Body body = gameStage.getWorld().createBody(bodyDef);
+        playerBodyFixture = body.createFixture(shape, Constants.PLAYER_DENSITY);
+        playerSensorFixture = body.createFixture(sensorShape, 0);
+        playerSensorFixture.setSensor(true);
+        playerSensorFixture.setUserData(new FootSensorUserData());
+
+        body.resetMassData();
+        body.setGravityScale(Constants.PLAYER_GRAVITY_SCALE);
+
+        body.setUserData(new PlayerUserData(gameStage, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT, playerBodyFixture, playerSensorFixture));
+
+        body.setFixedRotation(true);
+
+        body.setBullet(true);
+
+        sensorShape.dispose();
+        shape.dispose();
+
+        setBody(body);
+
+        gameStage.setPlayer(this);
 
         jump = false;
 
@@ -74,17 +124,6 @@ public class Player extends GameActor
         }
 
         jump = false;
-
-        if(body.getAngle() < -0.25)
-        {
-            body.setTransform(body.getPosition().x, body.getPosition().y, -0.25f);
-        }
-        else if(body.getAngle() > 0.25)
-        {
-            body.setTransform(body.getPosition().x, body.getPosition().y, 0.25f);
-        }
-
-        System.out.println("Player Angle: " + body.getAngle());
     }
 
     @Override

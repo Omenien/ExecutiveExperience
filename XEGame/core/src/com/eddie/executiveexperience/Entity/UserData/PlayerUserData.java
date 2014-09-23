@@ -41,11 +41,6 @@ public class PlayerUserData extends EntityUserData
         this.jumpingImpulseMagnitude = jumpingImpulseMagnitude;
     }
 
-    public float getHitAngularImpulse()
-    {
-        return Constants.PLAYER_HIT_ANGULAR_IMPULSE;
-    }
-
     public Fixture getBodyFixture()
     {
         return playerBodyFixture;

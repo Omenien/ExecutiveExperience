@@ -4,8 +4,8 @@ import com.eddie.executiveexperience.Constants;
 
 public enum EnemyType
 {
-    SLIME_SMALL(0.5f, 0.5f, Constants.ENEMY_X, Constants.SLIME_SMALL_Y, Constants.ENEMY_DENSITY),
-    SAW_STATIONARY_SLOW(Constants.SAW_WIDTH, Constants.SAW_HEIGHT, Constants.ENEMY_X, Constants.SAW_Y, Constants.ENEMY_DENSITY);
+//    SLIME_SMALL(0.5f, 0.5f, Constants.ENEMY_X, Constants.SLIME_SMALL_Y, Constants.ENEMY_DENSITY),
+    SAW_STATIONARY_SLOW(Constants.SAW_WIDTH, Constants.SAW_HEIGHT, 0, 0, Constants.ENEMY_DENSITY);
 
     private float width;
     private float height;
