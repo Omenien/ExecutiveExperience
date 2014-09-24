@@ -6,6 +6,6 @@ public class FootSensorUserData extends UserData
     {
         super();
 
-        userDataType = UserDataType.PLAYER_FOOT;
+        userDataType = UserDataType.PLAYER_SENSOR_FOOT;
     }
 }

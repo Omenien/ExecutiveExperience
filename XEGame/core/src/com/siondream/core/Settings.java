@@ -19,7 +19,7 @@ import java.util.Map.Entry;
  * @class Settings
  * @date 02/09/2012
  * @brief Holds configuration in a key value fashion
- * <p>
+ * <p/>
  * It accepts the following format:
  * @code <?xml version="1.0" encoding="UTF-8"?>
  * <settings>

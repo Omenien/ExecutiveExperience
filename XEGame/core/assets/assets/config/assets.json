@@ -10,7 +10,7 @@
         },
         {
             "type": "SpriteAnimationData",
-            "path": "assets/player/PlayerWalk.json"
+            "path": "assets/player/Player.json"
         },
         {
             "type": "SpriteAnimationData",

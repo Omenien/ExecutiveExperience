@@ -11,7 +11,7 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    mainClassName="com.eddie.executiveexperience.desktop.DesktopLauncher"
+    mainClassName = "com.eddie.executiveexperience.desktop.DesktopLauncher"
 
     version = '1.0'
     ext {

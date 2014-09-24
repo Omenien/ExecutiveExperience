@@ -1,13 +1,10 @@
 package com.eddie.executiveexperience.Entity.UserData;
 
-/**
- * Created by scitech on 9/3/2014.
- */
 public enum UserDataType
 {
     TERRAIN,
     PLAYER,
-    PLAYER_FOOT,
-    SAW,
-    ENEMY
+    PLAYER_SENSOR_FOOT,
+    PLAYER_SENSOR_SIDE,
+    SAW
 }

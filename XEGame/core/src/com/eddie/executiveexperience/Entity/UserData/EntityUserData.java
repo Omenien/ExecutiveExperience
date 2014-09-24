@@ -19,4 +19,9 @@ public abstract class EntityUserData extends UserData
     {
         return animatedBox2DSprite;
     }
+
+    public SpriteAnimationData getSpriteAnimationData()
+    {
+        return spriteAnimationData;
+    }
 }

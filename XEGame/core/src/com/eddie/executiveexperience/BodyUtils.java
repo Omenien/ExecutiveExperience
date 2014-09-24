@@ -12,11 +12,6 @@ public class BodyUtils
         return bodyIsType(body, UserDataType.PLAYER);
     }
 
-    public static boolean bodyIsEnemy(Body body)
-    {
-        return bodyIsType(body, UserDataType.ENEMY);
-    }
-
     public static boolean bodyIsSaw(Body body)
     {
         return bodyIsType(body, UserDataType.SAW);
@@ -59,7 +54,7 @@ public class BodyUtils
         {
             UserDataType userDataType = userData.getUserDataType();
 
-            if(userData.getUserDataType() == UserDataType.PLAYER_FOOT)
+            if(userData.getUserDataType() == UserDataType.PLAYER_SENSOR_FOOT)
             {
                 return true;
             }

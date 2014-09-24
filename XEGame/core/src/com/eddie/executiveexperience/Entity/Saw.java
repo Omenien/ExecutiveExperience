@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.SawUserData;
 import com.eddie.executiveexperience.GameActor;
 import com.eddie.executiveexperience.GameStage;
@@ -17,17 +18,15 @@ public class Saw extends GameActor
     {
         super(gameStage);
 
-        EnemyType enemyType = EnemyType.SAW_STATIONARY_SLOW;
-
         CircleShape shape = new CircleShape();
-        shape.setRadius(enemyType.getWidth() / 2);
+        shape.setRadius(Constants.SAW_WIDTH / 2);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
 
         if(Boolean.parseBoolean(objectProperties.get("useCenter", "false", String.class)))
         {
-            bodyDef.position.set(new Vector2(x + enemyType.getWidth() / 2, y + enemyType.getHeight() / 2));
+            bodyDef.position.set(new Vector2(x + Constants.SAW_WIDTH / 2, y + Constants.SAW_HEIGHT / 2));
         }
         else
         {
@@ -35,10 +34,10 @@ public class Saw extends GameActor
         }
 
         Body body = gameStage.getWorld().createBody(bodyDef);
-        body.createFixture(shape, enemyType.getDensity());
+        body.createFixture(shape, Constants.ENEMY_DENSITY);
         body.resetMassData();
 
-        SawUserData entityData = new SawUserData(gameStage, enemyType.getWidth(), enemyType.getHeight());
+        SawUserData entityData = new SawUserData(gameStage, Constants.SAW_WIDTH, Constants.SAW_HEIGHT);
 
         body.setUserData(entityData);
 
@@ -65,7 +64,10 @@ public class Saw extends GameActor
 
         float angle = body.getAngle() + (getUserData().getDegreesPerSecond() * MathUtils.degreesToRadians) * delta;
 
-        body.setTransform(body.getPosition().x, body.getPosition().y, angle);
+        //body.setTransform(body.getPosition().x, body.getPosition().y, angle);
+
+        body.applyAngularImpulse(1.0f, true);
+        body.applyTorque(1.0f, true);
 
 //        body.setLinearVelocity(sawVelocity);
     }

@@ -21,6 +21,7 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
 {
     private SpriteAnimationData animationData = null;
     private Logger logger;
+
     /**
      * Creates a new AnimationLoader
      *
@@ -65,23 +66,50 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
 
                 String name = animationValue.getString("name");
 
-                boolean createReverse = animationValue.getBoolean("createReverse");
-
                 JsonValue frames = animationValue.get("frames");
                 JsonIterator framesIt = frames.iterator();
 
-                Animation animation = new Animation(animationData.frameDuration,
-                        getAnimationFrames(animationData.texture, framesIt),
-                        getPlayMode(animationValue.getString("mode", "normal")));
-                animationData.animations.put(name, animation);
+                boolean createReverse = animationValue.getBoolean("createReverse", false);
+
+                if(createReverse)
+                {
+                    String rightName = name + "_right";
+                    String leftName = name + "_left";
+
+                    Animation rightAnimation = new Animation(animationData.frameDuration,
+                            getAnimationFrames(animationData.texture, framesIt),
+                            getPlayMode(animationValue.getString("mode", "normal")));
+
+                    framesIt = frames.iterator();
+                    Animation leftAnimation = new Animation(animationData.frameDuration,
+                            getAnimationFrames(animationData.texture, framesIt, true),
+                            getPlayMode(animationValue.getString("mode", "normal")));
+
+                    animationData.animations.put(rightName, rightAnimation);
+                    animationData.animations.put(leftName, leftAnimation);
+
+                    if(first)
+                    {
+                        animationData.defaultAnimation = rightAnimation;
+                        first = false;
+                    }
+                }
+                else
+                {
+                    Animation animation = new Animation(animationData.frameDuration,
+                            getAnimationFrames(animationData.texture, framesIt),
+                            getPlayMode(animationValue.getString("mode", "normal")));
+
+                    animationData.animations.put(name, animation);
+
+                    if(first)
+                    {
+                        animationData.defaultAnimation = animation;
+                        first = false;
+                    }
+                }
 
                 logger.info("Loaded animation " + name + " from " + fileName + ".");
-
-                if(first)
-                {
-                    animationData.defaultAnimation = animation;
-                    first = false;
-                }
             }
         }
         catch(Exception e)
@@ -165,6 +193,36 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
             int height = frameBounds.getInt("h");
 
             regions.add(new TextureRegion(texture, x, y, width, height));
+        }
+
+        return regions;
+    }
+
+
+    private Array<TextureRegion> getAnimationFrames(Texture texture, JsonIterator framesIt, boolean reverse)
+    {
+        Array<TextureRegion> regions = new Array<>();
+
+        while(framesIt.hasNext())
+        {
+            JsonValue frame = framesIt.next();
+
+            JsonValue frameBounds = frame.get("frame");
+
+            int x = frameBounds.getInt("x");
+            int y = frameBounds.getInt("y");
+
+            int width = frameBounds.getInt("w");
+            int height = frameBounds.getInt("h");
+
+            TextureRegion frameTextureRegion = new TextureRegion(texture, x, y, width, height);
+
+            if(reverse)
+            {
+                frameTextureRegion.flip(true, false);
+            }
+
+            regions.add(frameTextureRegion);
         }
 
         return regions;

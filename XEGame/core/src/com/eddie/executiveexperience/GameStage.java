@@ -176,7 +176,7 @@ public class GameStage extends Stage implements ContactListener
         camera.update();
 
         mapRenderer.setView(camera);
-        mapRenderer.render(new int[] { 0 });
+        mapRenderer.render(new int[]{0});
 
         box2DDebugRenderer.render(WorldUtils.getWorld(), camera.combined);
 
@@ -191,7 +191,7 @@ public class GameStage extends Stage implements ContactListener
 
         batch.end();
 
-        mapRenderer.render(new int[] { 1 });
+        mapRenderer.render(new int[]{1});
     }
 
     public short getCategoryBits(String level)
@@ -274,16 +274,11 @@ public class GameStage extends Stage implements ContactListener
         float playerX = player.getBody().getPosition().x;
         float playerY = player.getBody().getPosition().y;
 
-        return !(playerX > 0 && playerX < mapWidth && playerY + player.getUserData().getHeight() > 0);
+        return !(playerX > 0 && playerX < mapWidth && playerY + (player.getUserData().getHeight() / 2) > 0);
     }
 
     public void setPlayer(Player player)
     {
         this.player = player;
-    }
-
-    public int getTileSize()
-    {
-        return map.getTileSets().getTileSet(0).getTile(0).getProperties().get("width", Integer.class);
     }
 }

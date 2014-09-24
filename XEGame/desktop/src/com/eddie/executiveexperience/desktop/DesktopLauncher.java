@@ -2,7 +2,6 @@ package com.eddie.executiveexperience.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.XEGame;
 
