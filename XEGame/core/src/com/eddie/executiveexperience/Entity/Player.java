@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
 import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.FootSensorUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
@@ -19,13 +16,15 @@ import com.eddie.executiveexperience.GameStage;
 
 public class Player extends GameActor
 {
-    protected static final float MAX_VELOCITY_X = 12f;
-    private static final float MAX_JUMP_EXTEND_TIME = 0.2f;
+    protected static final float MAX_VELOCITY_X = 11f;
+    private static final float MAX_JUMP_EXTEND_TIME = 0.20f;
+    private static final float JUMP_TIME_BEFORE_EXTENSION = 0.05f;
 
     protected PlayerState playerState;
     protected Direction playerDirection;
 
     protected boolean jump;
+    protected boolean wallJump;
     protected boolean extendJump;
 
     protected int jumpTimeout;
@@ -33,6 +32,8 @@ public class Player extends GameActor
     protected float jumpExtendTime;
 
     protected int numFootContacts;
+    protected int leftWallContacts;
+    protected int rightWallContacts;
 
     public Player(GameStage gameStage, float x, float y, MapProperties objectProperties)
     {
@@ -41,39 +42,41 @@ public class Player extends GameActor
         playerState = PlayerState.STANDING;
         playerDirection = Direction.RIGHT;
 
-        float sensorRadius = Constants.PLAYER_WIDTH * 0.75f;
-
-        Fixture playerFootSensorFixture;
         Fixture playerWallSensorLeftFixture;
         Fixture playerWallSensorRightFixture;
-        Fixture playerBodyFixture;
+        Fixture playerSpriteFixture;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(new Vector2(x + Constants.PLAYER_WIDTH / 2, y + Constants.PLAYER_HEIGHT / 2 + 0.1f));
+        bodyDef.position.set(new Vector2(x + Constants.PLAYER_WIDTH / 2f, y + Constants.PLAYER_HEIGHT / 2 + 0.25f));
 
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(Constants.PLAYER_WIDTH / 2, Constants.PLAYER_HEIGHT / 2);
+        PolygonShape spriteShape = new PolygonShape();
+        spriteShape.setAsBox(Constants.PLAYER_WIDTH / 2, Constants.PLAYER_HEIGHT / 2);
 
-        PolygonShape footSensorShape = new PolygonShape();
-        Vector2[] vertices = new Vector2[8];
-        vertices[0] = new Vector2(0, 0);
-        for(int i = 0; i < 7; i++)
-        {
-            float angle = (i / 6.0f * 90f - 135f) * MathUtils.degreesToRadians;
-            vertices[i + 1] = new Vector2(sensorRadius * MathUtils.cos(angle), sensorRadius * MathUtils.sin(angle));
-        }
-        footSensorShape.set(vertices);
+        PolygonShape collisionRect = new PolygonShape();
+        collisionRect.setAsBox(Constants.PLAYER_WIDTH * 0.25f, Constants.PLAYER_HEIGHT / 2 - (Constants.PLAYER_WIDTH * 0.25f));
+
+        CircleShape upperCollisionCircle = new CircleShape();
+        upperCollisionCircle.setPosition(new Vector2(0f, Constants.PLAYER_HEIGHT / 2 - (Constants.PLAYER_WIDTH * 0.25f)));
+        upperCollisionCircle.setRadius(Constants.PLAYER_WIDTH * 0.25f);
+
+        CircleShape lowerCollisionCircle = new CircleShape();
+        lowerCollisionCircle.setPosition(new Vector2(0f, -Constants.PLAYER_HEIGHT / 2 + (Constants.PLAYER_WIDTH * 0.25f)));
+        lowerCollisionCircle.setRadius(Constants.PLAYER_WIDTH * 0.25f);
 
         Body body = gameStage.getWorld().createBody(bodyDef);
-        playerBodyFixture = body.createFixture(shape, Constants.PLAYER_DENSITY);
-        playerFootSensorFixture = body.createFixture(footSensorShape, 0);
-        playerFootSensorFixture.setSensor(true);
-        playerFootSensorFixture.setUserData(new FootSensorUserData());
 
-        sensorRadius = Constants.PLAYER_WIDTH * 0.65f;
+        playerSpriteFixture = body.createFixture(spriteShape, Constants.PLAYER_DENSITY);
+        playerSpriteFixture.setSensor(true);
+
+        body.createFixture(collisionRect, 0);
+        body.createFixture(upperCollisionCircle, 0);
+        Fixture lowerCollisionFixture = body.createFixture(lowerCollisionCircle, 0);
+        lowerCollisionFixture.setUserData(new FootSensorUserData());
+
+        float sensorRadius = Constants.PLAYER_WIDTH * 0.65f;
         PolygonShape wallSensorShape = new PolygonShape();
-        vertices = new Vector2[8];
+        Vector2[] vertices = new Vector2[8];
         vertices[0] = new Vector2(0, 0);
         for(int i = 0; i < 7; i++)
         {
@@ -83,7 +86,7 @@ public class Player extends GameActor
         wallSensorShape.set(vertices);
         playerWallSensorLeftFixture = body.createFixture(wallSensorShape, 0);
         playerWallSensorLeftFixture.setSensor(true);
-        playerWallSensorLeftFixture.setUserData(new WallSensorUserData());
+        playerWallSensorLeftFixture.setUserData(new WallSensorUserData(WallSensorUserData.Side.LEFT));
 
         wallSensorShape = new PolygonShape();
         vertices = new Vector2[8];
@@ -96,25 +99,29 @@ public class Player extends GameActor
         wallSensorShape.set(vertices);
         playerWallSensorRightFixture = body.createFixture(wallSensorShape, 0);
         playerWallSensorRightFixture.setSensor(true);
-        playerWallSensorRightFixture.setUserData(new WallSensorUserData());
+        playerWallSensorRightFixture.setUserData(new WallSensorUserData(WallSensorUserData.Side.RIGHT));
 
         body.resetMassData();
         body.setGravityScale(Constants.PLAYER_GRAVITY_SCALE);
 
-        body.setUserData(new PlayerUserData(gameStage, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT, playerBodyFixture, playerFootSensorFixture));
+        body.setUserData(new PlayerUserData(gameStage, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT, playerSpriteFixture));
 
         body.setFixedRotation(true);
 
         body.setBullet(true);
 
-        footSensorShape.dispose();
-        shape.dispose();
+        spriteShape.dispose();
+        wallSensorShape.dispose();
+        collisionRect.dispose();
+        upperCollisionCircle.dispose();
+        lowerCollisionCircle.dispose();
 
         setBody(body);
 
         gameStage.setPlayer(this);
 
         jump = false;
+        wallJump = false;
         extendJump = false;
 
         jumpTimeout = 0;
@@ -122,6 +129,8 @@ public class Player extends GameActor
         jumpExtendTime = 0;
 
         numFootContacts = 0;
+        leftWallContacts = 0;
+        rightWallContacts = 0;
     }
 
     @Override
@@ -129,13 +138,20 @@ public class Player extends GameActor
     {
         super.act(delta);
 
+        if(isDead())
+        {
+            body.setLinearVelocity(new Vector2(0, 0));
+
+            return;
+        }
+
         timeSinceJump += delta;
 
         boolean grounded = numFootContacts > 0 || body.getLinearVelocity().y == 0;
 
         if(grounded)
         {
-            getUserData().getBodyFixture().setFriction(10.0f);
+            getUserData().getSpriteFixture().setFriction(10.0f);
 
             jumpExtendTime = 0;
 
@@ -146,7 +162,7 @@ public class Player extends GameActor
         }
         else
         {
-            getUserData().getBodyFixture().setFriction(0.0f);
+            getUserData().getSpriteFixture().setFriction(0.0f);
         }
 
         handleInput(grounded);
@@ -175,9 +191,17 @@ public class Player extends GameActor
             }
         }
 
+        if(wallJump)
+        {
+            if(jumpTimeout == 0)
+            {
+                wallJump();
+            }
+        }
+
         if(extendJump)
         {
-            if(jumpExtendTime < MAX_JUMP_EXTEND_TIME)
+            if(jumpExtendTime < MAX_JUMP_EXTEND_TIME && timeSinceJump > JUMP_TIME_BEFORE_EXTENSION)
             {
                 body.setLinearVelocity(body.getLinearVelocity().x, body.getLinearVelocity().y * 1.05f);
 
@@ -207,6 +231,7 @@ public class Player extends GameActor
         }
 
         jump = false;
+        wallJump = false;
         extendJump = false;
     }
 
@@ -240,7 +265,7 @@ public class Player extends GameActor
             getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getSpriteAnimationData().getAnimation("stand"));
         }
 
-        getUserData().getAnimatedBox2DSprite().draw(batch, getUserData().getBodyFixture());
+        getUserData().getAnimatedBox2DSprite().draw(batch, getUserData().getSpriteFixture());
     }
 
     public void jump()
@@ -264,6 +289,35 @@ public class Player extends GameActor
         playerState = PlayerState.JUMPING;
     }
 
+    private void wallJump()
+    {
+        float jumpingImpulseMagnitude = getUserData().getJumpingImpulseMagnitude();
+
+        float xComponent = 0.0f;
+        float yComponent = 1.0f;
+
+        if(leftWallContacts > 0 && rightWallContacts == 0)
+        {
+            // TODO: Actual math for wall jump angle
+            xComponent = 1.0f;
+        }
+        else if(leftWallContacts == 0 && rightWallContacts > 0)
+        {
+            xComponent = -1.0f;
+        }
+
+        Vector2 jumpingLinearImpulse = new Vector2(xComponent, yComponent);
+        jumpingLinearImpulse.scl(jumpingImpulseMagnitude);
+
+        body.applyLinearImpulse(jumpingLinearImpulse, body.getWorldCenter(), true);
+
+        timeSinceJump = 0;
+
+        jumpTimeout = 20;
+
+        playerState = PlayerState.JUMPING;
+    }
+
     @Override
     public PlayerUserData getUserData()
     {
@@ -272,35 +326,34 @@ public class Player extends GameActor
 
     public void handleInput(boolean grounded)
     {
+        if(isDead())
+        {
+            return;
+        }
+
         Vector2 position = body.getPosition();
         Vector2 velocity = body.getLinearVelocity();
 
         if(Gdx.input.isKeyPressed(Env.playerMoveLeft))
         {
-            if(velocity.x > -MAX_VELOCITY_X)
+            if(grounded)
             {
-                if(grounded)
-                {
-                    body.applyLinearImpulse(-1.5f, 0f, position.x, position.y, true);
-                }
-                else
-                {
-                    body.applyLinearImpulse(-0.25f, 0f, position.x, position.y, true);
-                }
+                body.applyLinearImpulse(-1.5f, 0f, position.x, position.y, true);
+            }
+            else
+            {
+                body.applyLinearImpulse(-0.25f, 0f, position.x, position.y, true);
             }
         }
         else if(Gdx.input.isKeyPressed(Env.playerMoveRight))
         {
-            if(velocity.x < MAX_VELOCITY_X)
+            if(grounded)
             {
-                if(grounded)
-                {
-                    body.applyLinearImpulse(1.5f, 0f, position.x, position.y, true);
-                }
-                else
-                {
-                    body.applyLinearImpulse(0.25f, 0f, position.x, position.y, true);
-                }
+                body.applyLinearImpulse(1.5f, 0f, position.x, position.y, true);
+            }
+            else
+            {
+                body.applyLinearImpulse(0.25f, 0f, position.x, position.y, true);
             }
         }
         else
@@ -325,6 +378,10 @@ public class Player extends GameActor
             {
                 extendJump = true;
             }
+            else if(!grounded && (leftWallContacts > 0 || rightWallContacts > 0))
+            {
+                wallJump = true;
+            }
         }
     }
 
@@ -338,6 +395,36 @@ public class Player extends GameActor
         numFootContacts--;
     }
 
+    public void incrementLeftWallContacts()
+    {
+        leftWallContacts++;
+    }
+
+    public void incrementRightWallContacts()
+    {
+        rightWallContacts++;
+    }
+
+    public void decrementLeftWallContacts()
+    {
+        leftWallContacts--;
+    }
+
+    public void decrementRightWallContacts()
+    {
+        rightWallContacts--;
+    }
+
+    public boolean isDead()
+    {
+        return playerState == PlayerState.DEADING;
+    }
+
+    public void die()
+    {
+        playerState = PlayerState.DEADING;
+    }
+
     public Body getBody()
     {
         return body;
@@ -345,6 +432,7 @@ public class Player extends GameActor
 
     protected enum PlayerState
     {
+        DEADING,
         STANDING,
         WALKING,
         JUMPING

@@ -10,6 +10,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.eddie.executiveexperience.Entity.Player;
+import com.eddie.executiveexperience.Entity.UserData.DoorUserData;
+import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
 import com.eddie.executiveexperience.World.Level;
 import com.eddie.executiveexperience.World.MapBodyManager;
 import com.eddie.executiveexperience.World.MapObjectManager;
@@ -38,8 +40,14 @@ public class GameStage extends Stage implements ContactListener
     private Level curLevel;
     private float accumulator = 0f;
 
-    public GameStage()
+    public String levelFile;
+    public boolean loadNewMap;
+    public String newLevel;
+
+    public GameStage(String levelFile)
     {
+        this.levelFile = levelFile;
+
         batch = new SpriteBatch();
 
         categoryBitsManager = new CategoryBitsManager();
@@ -76,12 +84,15 @@ public class GameStage extends Stage implements ContactListener
 
         try
         {
-            curLevel = new Level("assets/Level 1.json");
+            curLevel = new Level("assets/" + levelFile);
         }
         catch(FileNotFoundException e)
         {
             e.printStackTrace();
         }
+
+        loadNewMap = false;
+        newLevel = "";
     }
 
     public void loadMap()
@@ -122,11 +133,6 @@ public class GameStage extends Stage implements ContactListener
 
                 if(!BodyUtils.bodyInBounds(body))
                 {
-//                    if(BodyUtils.bodyIsSaw(body))
-//                    {
-//                        createSaw();
-//                    }
-
                     getRoot().removeActor(actor);
 
                     world.destroyBody(body);
@@ -208,14 +214,54 @@ public class GameStage extends Stage implements ContactListener
         Body a = fixtureA.getBody();
         Body b = fixtureB.getBody();
 
-//        if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsEnemy(b)) || (BodyUtils.bodyIsEnemy(a) && BodyUtils.bodyIsPlayer(b)))
-//        {
-//            player.hit();
-//        }
+        if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsSaw(b) || (BodyUtils.bodyIsSaw(a) && BodyUtils.bodyIsPlayer(b))))
+        {
+            player.die();
+        }
+
+        if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsDoor(b) || (BodyUtils.bodyIsDoor(a) && BodyUtils.bodyIsPlayer(b))))
+        {
+            loadNewMap = true;
+
+            newLevel = ((DoorUserData) b.getUserData()).getNewLevel();
+        }
+        else if((BodyUtils.bodyIsDoor(a) && BodyUtils.bodyIsPlayer(b)))
+        {
+            loadNewMap = true;
+
+            newLevel = ((DoorUserData) a.getUserData()).getNewLevel();
+        }
 
         if((BodyUtils.fixtureIsJumpSensor(fixtureA) && BodyUtils.bodyIsTerrain(b)) || (BodyUtils.bodyIsTerrain(a) && BodyUtils.fixtureIsJumpSensor(fixtureB)))
         {
             player.incrementFootContacts();
+        }
+
+        if(BodyUtils.fixtureIsWallSensor(fixtureA) && BodyUtils.bodyIsTerrain(b))
+        {
+            WallSensorUserData wallSensorUserData = (WallSensorUserData) fixtureA.getUserData();
+
+            if(wallSensorUserData.getSide() == WallSensorUserData.Side.LEFT)
+            {
+                player.incrementLeftWallContacts();
+            }
+            else
+            {
+                player.incrementRightWallContacts();
+            }
+        }
+        else if(BodyUtils.bodyIsTerrain(a) && BodyUtils.fixtureIsWallSensor(fixtureB))
+        {
+            WallSensorUserData wallSensorUserData = (WallSensorUserData) fixtureB.getUserData();
+
+            if(wallSensorUserData.getSide() == WallSensorUserData.Side.LEFT)
+            {
+                player.incrementLeftWallContacts();
+            }
+            else
+            {
+                player.incrementRightWallContacts();
+            }
         }
     }
 
@@ -231,6 +277,33 @@ public class GameStage extends Stage implements ContactListener
         if((BodyUtils.fixtureIsJumpSensor(fixtureA) && BodyUtils.bodyIsTerrain(b)) || (BodyUtils.bodyIsTerrain(a) && BodyUtils.fixtureIsJumpSensor(fixtureB)))
         {
             player.decrementFootContacts();
+        }
+
+        if(BodyUtils.fixtureIsWallSensor(fixtureA) && BodyUtils.bodyIsTerrain(b))
+        {
+            WallSensorUserData wallSensorUserData = (WallSensorUserData) fixtureA.getUserData();
+
+            if(wallSensorUserData.getSide() == WallSensorUserData.Side.LEFT)
+            {
+                player.decrementLeftWallContacts();
+            }
+            else
+            {
+                player.decrementRightWallContacts();
+            }
+        }
+        else if(BodyUtils.bodyIsTerrain(a) && BodyUtils.fixtureIsWallSensor(fixtureB))
+        {
+            WallSensorUserData wallSensorUserData = (WallSensorUserData) fixtureB.getUserData();
+
+            if(wallSensorUserData.getSide() == WallSensorUserData.Side.LEFT)
+            {
+                player.decrementLeftWallContacts();
+            }
+            else
+            {
+                player.decrementRightWallContacts();
+            }
         }
     }
 
@@ -274,7 +347,7 @@ public class GameStage extends Stage implements ContactListener
         float playerX = player.getBody().getPosition().x;
         float playerY = player.getBody().getPosition().y;
 
-        return !(playerX > 0 && playerX < mapWidth && playerY + (player.getUserData().getHeight() / 2) > 0);
+        return player.isDead() || !(playerX > 0 && playerX < mapWidth && playerY + (player.getUserData().getHeight() / 2) > 0);
     }
 
     public void setPlayer(Player player)

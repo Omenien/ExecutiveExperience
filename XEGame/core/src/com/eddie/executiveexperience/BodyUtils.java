@@ -17,6 +17,11 @@ public class BodyUtils
         return bodyIsType(body, UserDataType.SAW);
     }
 
+    public static boolean bodyIsDoor(Body body)
+    {
+        return bodyIsType(body, UserDataType.DOOR);
+    }
+
     public static boolean bodyIsTerrain(Body body)
     {
         return bodyIsType(body, UserDataType.TERRAIN);
@@ -55,6 +60,23 @@ public class BodyUtils
             UserDataType userDataType = userData.getUserDataType();
 
             if(userData.getUserDataType() == UserDataType.PLAYER_SENSOR_FOOT)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean fixtureIsWallSensor(Fixture fixture)
+    {
+        UserData userData = (UserData) fixture.getUserData();
+
+        if(userData != null)
+        {
+            UserDataType userDataType = userData.getUserDataType();
+
+            if(userData.getUserDataType() == UserDataType.PLAYER_SENSOR_SIDE)
             {
                 return true;
             }

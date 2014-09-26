@@ -14,16 +14,16 @@ public abstract class GameActor extends Actor
         gameStage.addActor(this);
     }
 
+    public Body getBody()
+    {
+        return body;
+    }
+
     public void setBody(Body body)
     {
         this.body = body;
 
         this.userData = (UserData) body.getUserData();
-    }
-
-    public Body getBody()
-    {
-        return body;
     }
 
     public abstract UserData getUserData();

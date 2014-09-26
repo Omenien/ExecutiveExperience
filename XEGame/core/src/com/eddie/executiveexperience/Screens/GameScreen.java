@@ -11,7 +11,7 @@ public class GameScreen extends ScreenAdapter
 
     public GameScreen()
     {
-        stage = new GameStage();
+        stage = new GameStage("Level 1.json");
         stage.loadMap();
 
         Gdx.input.setInputProcessor(stage);
@@ -23,9 +23,21 @@ public class GameScreen extends ScreenAdapter
 
         if(stage.isPlayerDead())
         {
+            String curLevel = stage.levelFile;
+
             stage.dispose();
 
-            stage = new GameStage();
+            stage = new GameStage(curLevel);
+            stage.loadMap();
+        }
+
+        if(stage.loadNewMap)
+        {
+            String newLevel = stage.newLevel;
+
+            stage.dispose();
+
+            stage = new GameStage(newLevel);
             stage.loadMap();
         }
     }

@@ -11,4 +11,6 @@ public class Constants
     public static final float SAW_HEIGHT = 6.58f;
     public static float PLAYER_DENSITY = 1f;
     public static final float ENEMY_DENSITY = PLAYER_DENSITY;
+    public static final float DOOR_WIDTH = 1f;
+    public static final float DOOR_HEIGHT = 1f;
 }

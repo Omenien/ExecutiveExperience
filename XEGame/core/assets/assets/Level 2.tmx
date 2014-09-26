@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="30" tilewidth="35" tileheight="35">
+ <tileset firstgid="1" name="tiles" tilewidth="35" tileheight="35" spacing="2">
+  <image source="tiles.png" width="1024" height="512"/>
+ </tileset>
+ <tileset firstgid="352" name="objects" tilewidth="35" tileheight="35" spacing="5">
+  <image source="objects.png" width="256" height="64"/>
+ </tileset>
+ <layer name="Background" width="20" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzjY2Bg4BvFo3gUj+JRPIpH8SgexVTDACMGINE=
+  </data>
+ </layer>
+ <layer name="Primary" width="20" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztzLkJADEMBVFF7kKB+2/S0cJifEj6E3pg0mf2Umqw12HTYdNh04013Vhz9lRz5SnmzquaJ69i3rysGfEyZtSLmhkvYma9m1nxTmbV25mKtzJVbzYJ729S3meS3lt/ACVqI+c=
+  </data>
+ </layer>
+ <objectgroup name="Physics" width="20" height="30">
+  <object x="-2" y="138">
+   <polygon points="0,0 702,702 702,910 0,912"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Objects" width="20" height="30">
+  <object name="Player" type="Player" gid="352" x="0" y="140"/>
+ </objectgroup>
+</map>

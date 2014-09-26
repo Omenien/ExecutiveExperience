@@ -1,14 +1,6 @@
 {
     "base": [
         {
-            "type": "com.badlogic.gdx.maps.tiled.TiledMap",
-            "path": "assets/Level 1.tmx"
-        },
-        {
-            "type": "com.badlogic.gdx.maps.tiled.TiledMap",
-            "path": "assets/Level2.tmx"
-        },
-        {
             "type": "SpriteAnimationData",
             "path": "assets/player/Player.json"
         },
@@ -17,8 +9,12 @@
             "path": "assets/saw/Saw.json"
         },
         {
-            "type": "com.badlogic.gdx.scenes.scene2d.ui.Skin",
-            "path": "assets/ui/uiskin.json"
+            "type": "com.badlogic.gdx.maps.tiled.TiledMap",
+            "path": "assets/Level 1.tmx"
+        },
+        {
+            "type": "com.badlogic.gdx.maps.tiled.TiledMap",
+            "path": "assets/Level 2.tmx"
         }
     ]
 }

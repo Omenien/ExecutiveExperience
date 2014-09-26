@@ -24,14 +24,7 @@ public class Saw extends GameActor
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
 
-        if(Boolean.parseBoolean(objectProperties.get("useCenter", "false", String.class)))
-        {
-            bodyDef.position.set(new Vector2(x + Constants.SAW_WIDTH / 2, y + Constants.SAW_HEIGHT / 2));
-        }
-        else
-        {
-            bodyDef.position.set(new Vector2(x + 0.5f, y + 0.5f));
-        }
+        bodyDef.position.set(new Vector2(x + 0.5f, y + 0.5f));
 
         Body body = gameStage.getWorld().createBody(bodyDef);
         body.createFixture(shape, Constants.ENEMY_DENSITY);
@@ -64,12 +57,10 @@ public class Saw extends GameActor
 
         float angle = body.getAngle() + (getUserData().getDegreesPerSecond() * MathUtils.degreesToRadians) * delta;
 
-        //body.setTransform(body.getPosition().x, body.getPosition().y, angle);
+        body.setTransform(body.getPosition().x, body.getPosition().y, angle);
 
-        body.applyAngularImpulse(1.0f, true);
-        body.applyTorque(1.0f, true);
-
-//        body.setLinearVelocity(sawVelocity);
+//        body.applyAngularImpulse(100.0f, true);
+        body.applyTorque(100.0f, true);
     }
 
     @Override

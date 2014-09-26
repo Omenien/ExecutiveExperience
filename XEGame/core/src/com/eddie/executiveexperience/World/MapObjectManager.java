@@ -21,8 +21,8 @@ public class MapObjectManager
      */
     public MapObjectManager(int loggingLevel)
     {
-        logger = new Logger("MapBodyManager", loggingLevel);
-        logger.info("Initializing MapBodyManager");
+        logger = new Logger("MapObjectManager", loggingLevel);
+        logger.info("Initializing MapObjectManager");
     }
 
     public void createObjects(GameStage gameStage, TiledMap map)
@@ -67,6 +67,8 @@ public class MapObjectManager
             }
             catch(Exception e)
             {
+                logger.error("Error loading object of type " + type + " at (" + x + ", " + y + ").");
+
                 e.printStackTrace();
             }
         }

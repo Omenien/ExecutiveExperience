@@ -8,17 +8,15 @@ import net.dermetfan.utils.libgdx.graphics.AnimatedSprite;
 
 public class PlayerUserData extends EntityUserData
 {
-    private Fixture playerBodyFixture;
-    private Fixture playerSensorFixture;
+    private Fixture playerSpriteFixture;
 
     private int jumpingImpulseMagnitude;
 
-    public PlayerUserData(GameStage gameStage, float width, float height, Fixture playerBodyFixture, Fixture playerSensorFixture)
+    public PlayerUserData(GameStage gameStage, float width, float height, Fixture playerSpriteFixture)
     {
         super(width, height);
 
-        this.playerBodyFixture = playerBodyFixture;
-        this.playerSensorFixture = playerSensorFixture;
+        this.playerSpriteFixture = playerSpriteFixture;
 
         jumpingImpulseMagnitude = Constants.PLAYER_JUMPING_IMPULSE_MAGNITUDE;
 
@@ -41,13 +39,8 @@ public class PlayerUserData extends EntityUserData
         this.jumpingImpulseMagnitude = jumpingImpulseMagnitude;
     }
 
-    public Fixture getBodyFixture()
+    public Fixture getSpriteFixture()
     {
-        return playerBodyFixture;
-    }
-
-    public Fixture getPhysicsSensor()
-    {
-        return playerSensorFixture;
+        return playerSpriteFixture;
     }
 }

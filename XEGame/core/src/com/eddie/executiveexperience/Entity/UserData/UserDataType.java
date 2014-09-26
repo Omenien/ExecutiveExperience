@@ -6,5 +6,5 @@ public enum UserDataType
     PLAYER,
     PLAYER_SENSOR_FOOT,
     PLAYER_SENSOR_SIDE,
-    SAW
+    DOOR, SAW
 }
