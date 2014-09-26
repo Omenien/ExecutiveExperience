@@ -13,15 +13,33 @@
  </layer>
  <layer name="Primary" width="20" height="30">
   <data encoding="base64" compression="zlib">
-   eJztzLkJADEMBVFF7kKB+2/S0cJifEj6E3pg0mf2Umqw12HTYdNh04013Vhz9lRz5SnmzquaJ69i3rysGfEyZtSLmhkvYma9m1nxTmbV25mKtzJVbzYJ729S3meS3lt/ACVqI+c=
+   eJxjYMAOTuIQJxfQy7zB4m5qu280/GhjHrlgNPwoA6PhRxkYDT/KwGAPP3qZNwpoCwAXZRxF
   </data>
  </layer>
  <objectgroup name="Physics" width="20" height="30">
-  <object x="-2" y="138">
-   <polygon points="0,0 702,702 702,910 0,912"/>
-  </object>
+  <object x="-35" y="-35" width="35" height="1085"/>
+  <object x="0" y="-35" width="700" height="35"/>
+  <object x="700" y="-35" width="35" height="1085"/>
+  <object x="420" y="770" width="35" height="105"/>
+  <object x="210" y="700" width="35" height="105"/>
+  <object x="420" y="630" width="35" height="105"/>
+  <object x="210" y="560" width="35" height="105"/>
+  <object x="420" y="490" width="35" height="105"/>
+  <object x="210" y="420" width="35" height="105"/>
+  <object x="420" y="350" width="35" height="105"/>
+  <object x="210" y="280" width="35" height="105"/>
+  <object x="420" y="210" width="35" height="105"/>
+  <object x="210" y="140" width="35" height="105"/>
+  <object x="420" y="70" width="35" height="105"/>
+  <object x="210" y="0" width="35" height="105"/>
  </objectgroup>
  <objectgroup name="Objects" width="20" height="30">
-  <object name="Player" type="Player" gid="352" x="0" y="140"/>
+  <object name="Player" type="Player" gid="352" x="315" y="35"/>
+  <object name="StationarySaw" type="StationarySaw" gid="353" x="70" y="1015"/>
+  <object name="StationarySaw" type="StationarySaw" gid="353" x="175" y="1015"/>
+  <object name="StationarySaw" type="StationarySaw" gid="353" x="280" y="1015"/>
+  <object name="StationarySaw" type="StationarySaw" gid="353" x="385" y="1015"/>
+  <object name="StationarySaw" type="StationarySaw" gid="353" x="490" y="1015"/>
+  <object name="StationarySaw" type="StationarySaw" gid="353" x="595" y="1015"/>
  </objectgroup>
 </map>

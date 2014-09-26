@@ -74,7 +74,7 @@ public class Player extends GameActor
         Fixture lowerCollisionFixture = body.createFixture(lowerCollisionCircle, 0);
         lowerCollisionFixture.setUserData(new FootSensorUserData());
 
-        float sensorRadius = Constants.PLAYER_WIDTH * 0.65f;
+        float sensorRadius = Constants.PLAYER_WIDTH * 0.7f;
         PolygonShape wallSensorShape = new PolygonShape();
         Vector2[] vertices = new Vector2[8];
         vertices[0] = new Vector2(0, 0);
