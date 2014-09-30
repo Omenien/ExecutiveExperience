@@ -129,7 +129,6 @@ public class MapBodyManager
             }
 
             fixtureDef.shape = shape;
-            fixtureDef.filter.categoryBits = gameStage.getCategoryBits("level");
 
             Body body = world.createBody(bodyDef);
             body.createFixture(fixtureDef);

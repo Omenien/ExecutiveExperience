@@ -1,4 +1,4 @@
-package com.siondream.core;
+package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -14,23 +14,6 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-/**
- * @author David Saltares Márquez
- * @class Settings
- * @date 02/09/2012
- * @brief Holds configuration in a key value fashion
- * <p/>
- * It accepts the following format:
- * @code <?xml version="1.0" encoding="UTF-8"?>
- * <settings>
- * <string key="appName" value="Sion Engine"
- * <int key="virtualWidth" value="1280" />
- * <float key="ppm" value="30.0" />
- * <vector key="gravity" x="0.0" y="12.0" z="0.0" />
- * <bool key="drawBodies" value="true" />
- * </settings>
- * @endcode
- */
 public class Settings
 {
     private final Logger logger = new Logger("Settings", Logger.ERROR);
@@ -250,23 +233,11 @@ public class Settings
         vectors.put(key, new Vector3(value));
     }
 
-    /**
-     * Modifies or creates a new setting with the given key
-     *
-     * @param key   key to identify the setting
-     * @param value value of the setting
-     */
     public String getFile()
     {
         return settingsFile;
     }
 
-    /**
-     * Modifies or creates a new setting with the given key
-     *
-     * @param key   key to identify the setting
-     * @param value value of the setting
-     */
     public void setFile(String settingsFile)
     {
         this.settingsFile = settingsFile;
@@ -288,7 +259,7 @@ public class Settings
      */
     public void loadSettings(boolean tryExternal)
     {
-        logger.info("Settings: loading file " + settingsFile);
+        logger.info("Loading Settings file " + settingsFile);
 
         try
         {
@@ -299,12 +270,12 @@ public class Settings
                     Gdx.files.external(settingsFile).exists())
             {
                 fileHandle = Gdx.files.external(settingsFile);
-                logger.info("Settings: loading as external file");
+                logger.info("Loading as external file");
             }
             else
             {
                 fileHandle = Gdx.files.internal(settingsFile);
-                logger.info("Settings: loading as internal file");
+                logger.info("Loading as internal file");
             }
 
             XmlReader reader = new XmlReader();
@@ -320,7 +291,7 @@ public class Settings
                 String key = stringNode.getAttribute("key");
                 String value = stringNode.getAttribute("value");
                 strings.put(key, value);
-                logger.info("Settings: loaded string " + key + " = " + value);
+                logger.info("Loaded string " + key + " = " + value);
             }
 
             // Load floats
@@ -333,7 +304,7 @@ public class Settings
                 String key = floatNode.getAttribute("key");
                 Float value = Float.parseFloat(floatNode.getAttribute("value"));
                 floats.put(key, value);
-                logger.info("Settings: loaded float " + key + " = " + value);
+                logger.info("Loaded float " + key + " = " + value);
             }
 
             // Load ints
@@ -346,7 +317,7 @@ public class Settings
                 String key = intNode.getAttribute("key");
                 Integer value = Integer.parseInt(intNode.getAttribute("value"));
                 ints.put(key, value);
-                logger.info("Settings: loaded int " + key + " = " + value);
+                logger.info("Loaded int " + key + " = " + value);
             }
 
             // Load booleans
@@ -359,7 +330,7 @@ public class Settings
                 String key = boolNode.getAttribute("key");
                 Boolean value = Boolean.parseBoolean(boolNode.getAttribute("value"));
                 booleans.put(key, value);
-                logger.info("Settings: loaded boolean " + key + " = " + value);
+                logger.info("Loaded boolean " + key + " = " + value);
             }
 
             // Load vectors
@@ -374,14 +345,14 @@ public class Settings
                 Float y = Float.parseFloat(vectorNode.getAttribute("y"));
                 Float z = Float.parseFloat(vectorNode.getAttribute("z"));
                 vectors.put(key, new Vector3(x, y, z));
-                logger.info("Settings: loaded vector " + key + " = (" + x + ", " + y + ", " + z + ")");
+                logger.info("Loaded vector " + key + " = (" + x + ", " + y + ", " + z + ")");
             }
 
-            logger.info("Settings: successfully finished loading settings");
+            logger.info("Successfully finished loading settings");
         }
         catch(Exception e)
         {
-            logger.error("Settings: error loading file: " + settingsFile + " " + e.getMessage());
+            logger.error("Error loading file: " + settingsFile + " " + e.getMessage());
         }
     }
 
@@ -392,7 +363,7 @@ public class Settings
     {
         if(Gdx.app.getType() != Application.ApplicationType.WebGL)
         {
-            logger.info("Settings: saving file " + settingsFile);
+            logger.info("Saving Settings file " + settingsFile);
             XmlWriter xml;
 
             try
@@ -455,16 +426,16 @@ public class Settings
                 Gdx.files.external(settingsFile).writeString(writer.toString(), true);
                 xml.close();
 
-                logger.info("Settings: successfully saved");
+                logger.info("Successfully saved");
             }
             catch(Exception e)
             {
-                logger.error("Settings: error saving file " + settingsFile);
+                logger.error("Error saving file " + settingsFile);
             }
         }
         else
         {
-            logger.error("Settings: saving feature not supported in HTML5");
+            logger.error("Saving not supported in HTML5");
         }
     }
 }

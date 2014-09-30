@@ -51,7 +51,7 @@ public class Assets implements Disposable, AssetErrorListener
         }
         else
         {
-            // TODO: Ya dun goofed
+            logger.error("Somehow, assets is null. This is probably a bad thing, but I'm no expert.");
         }
     }
 
@@ -71,7 +71,7 @@ public class Assets implements Disposable, AssetErrorListener
         }
         else
         {
-            // TODO: Ya dun goofed
+            logger.error("Somehow, assets is null. This is probably a bad thing, but I'm no expert.");
         }
     }
 

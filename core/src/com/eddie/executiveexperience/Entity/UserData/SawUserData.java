@@ -13,7 +13,7 @@ public class SawUserData extends EntityUserData
     {
         super(width, height);
 
-        spriteAnimationData = gameStage.getAssetManager().get("assets/saw/Saw.json");
+        spriteAnimationData = gameStage.getScreen().getAssets().get("assets/saw/Saw.json");
         animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("normal"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setAutoUpdate(true);

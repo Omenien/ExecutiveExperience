@@ -3,15 +3,22 @@ package com.eddie.executiveexperience.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.eddie.executiveexperience.Assets;
 import com.eddie.executiveexperience.GameStage;
 
 public class GameScreen extends ScreenAdapter
 {
     private GameStage stage;
 
+    protected Assets assets;
+
     public GameScreen()
     {
-        stage = new GameStage("Level 1.json");
+        assets = new Assets("assets/config/assets.json");
+        assets.loadGroup("base");
+        assets.finishLoading();
+
+        stage = new GameStage("Level 1.json", this);
         stage.loadMap();
 
         Gdx.input.setInputProcessor(stage);
@@ -27,7 +34,7 @@ public class GameScreen extends ScreenAdapter
 
             stage.dispose();
 
-            stage = new GameStage(curLevel);
+            stage = new GameStage(curLevel, this);
             stage.loadMap();
         }
 
@@ -37,7 +44,7 @@ public class GameScreen extends ScreenAdapter
 
             stage.dispose();
 
-            stage = new GameStage(newLevel);
+            stage = new GameStage(newLevel, this);
             stage.loadMap();
         }
     }
@@ -67,5 +74,10 @@ public class GameScreen extends ScreenAdapter
     public GameStage getGameStage()
     {
         return stage;
+    }
+
+    public Assets getAssets()
+    {
+        return assets;
     }
 }

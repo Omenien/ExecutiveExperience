@@ -12,17 +12,20 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.eddie.executiveexperience.Entity.Player;
 import com.eddie.executiveexperience.Entity.UserData.DoorUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
+import com.eddie.executiveexperience.Screens.GameScreen;
 import com.eddie.executiveexperience.World.Level;
 import com.eddie.executiveexperience.World.MapBodyManager;
 import com.eddie.executiveexperience.World.MapObjectManager;
 import com.eddie.executiveexperience.World.WorldUtils;
-import com.siondream.core.physics.CategoryBitsManager;
 
 import java.io.FileNotFoundException;
 
 public class GameStage extends Stage implements ContactListener
 {
     private final float TIME_STEP = 1 / 60f;
+
+    protected GameScreen gameScreen;
+
     protected SpriteBatch batch;
     protected Box2DDebugRenderer box2DDebugRenderer;
     protected OrthographicCamera camera;
@@ -31,8 +34,6 @@ public class GameStage extends Stage implements ContactListener
     protected OrthogonalTiledMapRenderer mapRenderer;
     protected MapBodyManager mapBodyManager;
     protected MapObjectManager mapObjectManager;
-    protected CategoryBitsManager categoryBitsManager;
-    protected Assets assets;
     protected int mapWidth;
     protected int mapHeight;
     private World world;
@@ -44,17 +45,13 @@ public class GameStage extends Stage implements ContactListener
     public boolean loadNewMap;
     public String newLevel;
 
-    public GameStage(String levelFile)
+    public GameStage(String levelFile, GameScreen gameScreen)
     {
+        this.gameScreen = gameScreen;
+
         this.levelFile = levelFile;
 
         batch = new SpriteBatch();
-
-        categoryBitsManager = new CategoryBitsManager();
-
-        assets = new Assets("assets/config/assets.json");
-        assets.loadGroup("base");
-        assets.finishLoading();
 
         setupWorld();
         world = WorldUtils.getWorld();
@@ -97,7 +94,7 @@ public class GameStage extends Stage implements ContactListener
 
     public void loadMap()
     {
-        map = assets.get(curLevel.getMapPath());
+        map = gameScreen.getAssets().get(curLevel.getMapPath());
         mapProperties = map.getProperties();
 
         mapBodyManager = new MapBodyManager(world, Env.metersToPixels, null, Env.debugLevel);
@@ -198,11 +195,6 @@ public class GameStage extends Stage implements ContactListener
         batch.end();
 
         mapRenderer.render(new int[]{1});
-    }
-
-    public short getCategoryBits(String level)
-    {
-        return categoryBitsManager.getCategoryBits(level);
     }
 
     @Override
@@ -317,19 +309,9 @@ public class GameStage extends Stage implements ContactListener
     {
     }
 
-    public CategoryBitsManager getCategoryBitsManager()
-    {
-        return categoryBitsManager;
-    }
-
     public World getWorld()
     {
         return world;
-    }
-
-    public Assets getAssetManager()
-    {
-        return assets;
     }
 
     public int getMapHeight()
@@ -353,5 +335,10 @@ public class GameStage extends Stage implements ContactListener
     public void setPlayer(Player player)
     {
         this.player = player;
+    }
+
+    public GameScreen getScreen()
+    {
+        return gameScreen;
     }
 }

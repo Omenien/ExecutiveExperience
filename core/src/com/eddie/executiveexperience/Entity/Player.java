@@ -17,7 +17,7 @@ import com.eddie.executiveexperience.GameStage;
 public class Player extends GameActor
 {
     protected static final float MAX_VELOCITY_X = 11f;
-    private static final float MAX_JUMP_EXTEND_TIME = 0.20f;
+    private static final float MAX_JUMP_EXTEND_TIME = 0.225f;
     private static final float JUMP_TIME_BEFORE_EXTENSION = 0.05f;
 
     protected PlayerState playerState;
@@ -370,7 +370,7 @@ public class Player extends GameActor
 
         if(Gdx.input.isKeyPressed(Env.playerJump))
         {
-            if(grounded && !jump)
+            if(grounded && !jump && body.getLinearVelocity().y == 0)
             {
                 jump = true;
             }

@@ -20,7 +20,7 @@ public class PlayerUserData extends EntityUserData
 
         jumpingImpulseMagnitude = Constants.PLAYER_JUMPING_IMPULSE_MAGNITUDE;
 
-        spriteAnimationData = gameStage.getAssetManager().get("assets/player/Player.json");
+        spriteAnimationData = gameStage.getScreen().getAssets().get("assets/player/Player.json");
         animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("stand"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);
