@@ -22,7 +22,7 @@ public class HiddenSpikeUserData extends EntityUserData
         animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("deploy"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);
-        animatedBox2DSprite.play();
+        animatedBox2DSprite.stop();
 
         isDeployed = false;
 

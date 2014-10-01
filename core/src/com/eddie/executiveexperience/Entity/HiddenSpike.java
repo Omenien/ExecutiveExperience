@@ -3,10 +3,7 @@ package com.eddie.executiveexperience.Entity;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
 import com.eddie.executiveexperience.Entity.UserData.DeadlyFixtureUserData;
 import com.eddie.executiveexperience.Entity.UserData.HiddenSpikeUserData;
 import com.eddie.executiveexperience.GameActor;
@@ -20,10 +17,10 @@ public class HiddenSpike extends GameActor
 
         String spikeDirectionProperty = objectProperties.get("spikeDirection", "up", String.class);
         SpikeDirection spikeDirection = SpikeDirection.valueOf(spikeDirectionProperty.toUpperCase());
-        System.out.println("Spike Direction: " + spikeDirection.toString());
 
-        PolygonShape collisionShape = new PolygonShape();
-        collisionShape.setAsBox(0.375f, 0.25f);
+        CircleShape collisionShape = new CircleShape();
+        collisionShape.setRadius(0.375f);
+        collisionShape.setPosition(new Vector2(0, -0.375f));
 
         PolygonShape spriteShape = new PolygonShape();
         spriteShape.setAsBox(0.5f, 0.5f);
@@ -31,7 +28,7 @@ public class HiddenSpike extends GameActor
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
 
-        bodyDef.position.set(new Vector2(x, y));
+        bodyDef.position.set(new Vector2(x + 1 / 2f, y + 1 / 2f));
 
         Body body = gameStage.getWorld().createBody(bodyDef);
         Fixture collisionFixture = body.createFixture(collisionShape, 0);
@@ -54,6 +51,8 @@ public class HiddenSpike extends GameActor
     @Override
     public void draw(Batch batch, float parentAlpha)
     {
+        int i;
+
         getUserData().getAnimatedBox2DSprite().draw(batch, getUserData().getSpriteFixture());
     }
 

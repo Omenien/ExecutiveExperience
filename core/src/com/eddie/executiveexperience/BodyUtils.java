@@ -23,6 +23,11 @@ public class BodyUtils
         return bodyIsType(body, UserDataType.DOOR);
     }
 
+    public static boolean bodyIsSpike(Body body)
+    {
+        return bodyIsType(body, UserDataType.SPIKE_BLOCK);
+    }
+
     public static boolean bodyIsTerrain(Body body)
     {
         return bodyIsType(body, UserDataType.TERRAIN);

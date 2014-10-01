@@ -32,6 +32,8 @@ public class Player extends GameActor
     protected float timeSinceJump;
     protected float jumpExtendTime;
 
+    protected int deathTimeout;
+
     protected int numFootContacts;
     protected int leftWallContacts;
     protected int rightWallContacts;
@@ -49,7 +51,7 @@ public class Player extends GameActor
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(new Vector2(x + Constants.PLAYER_WIDTH / 2f, y + Constants.PLAYER_HEIGHT / 2 + 0.25f));
+        bodyDef.position.set(new Vector2(x + Constants.PLAYER_WIDTH / 2f, y + Constants.PLAYER_HEIGHT / 2));
 
         PolygonShape spriteShape = new PolygonShape();
         spriteShape.setAsBox(Constants.PLAYER_WIDTH / 2, Constants.PLAYER_HEIGHT / 2);
@@ -143,9 +145,11 @@ public class Player extends GameActor
     {
         super.act(delta);
 
-        if(isDead())
+        if(playerState == PlayerState.DEADING)
         {
             body.setLinearVelocity(new Vector2(0, 0));
+
+            deathTimeout++;
 
             return;
         }
@@ -422,7 +426,7 @@ public class Player extends GameActor
 
     public boolean isDead()
     {
-        return playerState == PlayerState.DEADING;
+        return playerState == PlayerState.DEADING && deathTimeout >= 15;
     }
 
     public void die()

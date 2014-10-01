@@ -1,10 +1,10 @@
 {
     "textureFile": "assets/spike/Spike.png",
-    "frameDuration": 0.1,
+    "frameDuration": 0.05,
     "animations": [
         {
             "name": "deploy",
-            "mode": "loop",
+            "mode": "normal",
             "frames": {
                 "spikes - 0.png": {
                     "frame": {

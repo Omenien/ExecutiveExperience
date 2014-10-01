@@ -9,8 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.eddie.executiveexperience.Entity.HiddenSpike;
 import com.eddie.executiveexperience.Entity.Player;
 import com.eddie.executiveexperience.Entity.UserData.DoorUserData;
+import com.eddie.executiveexperience.Entity.UserData.HiddenSpikeUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
 import com.eddie.executiveexperience.Screens.GameScreen;
 import com.eddie.executiveexperience.World.Level;
@@ -205,6 +207,15 @@ public class GameStage extends Stage implements ContactListener
 
         if((BodyUtils.fixtureIsPlayerCollisionFixture(a, fixtureA) && BodyUtils.fixtureIsDeadly(fixtureB) || BodyUtils.fixtureIsDeadly(fixtureA) && BodyUtils.fixtureIsPlayerCollisionFixture(b, fixtureB)))
         {
+            if(BodyUtils.bodyIsSpike(a))
+            {
+                ((HiddenSpikeUserData) a.getUserData()).deploy();
+            }
+            else if(BodyUtils.bodyIsSpike(b))
+            {
+                ((HiddenSpikeUserData) b.getUserData()).deploy();
+            }
+
             player.die();
         }
 
