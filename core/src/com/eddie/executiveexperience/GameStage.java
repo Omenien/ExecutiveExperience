@@ -23,9 +23,10 @@ import java.io.FileNotFoundException;
 public class GameStage extends Stage implements ContactListener
 {
     private final float TIME_STEP = 1 / 60f;
-
+    public String levelFile;
+    public boolean loadNewMap;
+    public String newLevel;
     protected GameScreen gameScreen;
-
     protected SpriteBatch batch;
     protected Box2DDebugRenderer box2DDebugRenderer;
     protected OrthographicCamera camera;
@@ -40,10 +41,6 @@ public class GameStage extends Stage implements ContactListener
     private Player player;
     private Level curLevel;
     private float accumulator = 0f;
-
-    public String levelFile;
-    public boolean loadNewMap;
-    public String newLevel;
 
     public GameStage(String levelFile, GameScreen gameScreen)
     {
@@ -206,18 +203,18 @@ public class GameStage extends Stage implements ContactListener
         Body a = fixtureA.getBody();
         Body b = fixtureB.getBody();
 
-        if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsSaw(b) || (BodyUtils.bodyIsSaw(a) && BodyUtils.bodyIsPlayer(b))))
+        if((BodyUtils.fixtureIsPlayerCollisionFixture(a, fixtureA) && BodyUtils.fixtureIsDeadly(fixtureB) || BodyUtils.fixtureIsDeadly(fixtureA) && BodyUtils.fixtureIsPlayerCollisionFixture(b, fixtureB)))
         {
             player.die();
         }
 
-        if((BodyUtils.bodyIsPlayer(a) && BodyUtils.bodyIsDoor(b) || (BodyUtils.bodyIsDoor(a) && BodyUtils.bodyIsPlayer(b))))
+        if((BodyUtils.fixtureIsPlayerCollisionFixture(a, fixtureA) && BodyUtils.bodyIsDoor(b)))
         {
             loadNewMap = true;
 
             newLevel = ((DoorUserData) b.getUserData()).getNewLevel();
         }
-        else if((BodyUtils.bodyIsDoor(a) && BodyUtils.bodyIsPlayer(b)))
+        else if((BodyUtils.bodyIsDoor(a) && BodyUtils.fixtureIsPlayerCollisionFixture(b, fixtureB)))
         {
             loadNewMap = true;
 

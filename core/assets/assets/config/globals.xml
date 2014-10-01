@@ -10,10 +10,10 @@
     <string key="playerMoveRight" value="D"/>
     <string key="playerJump" value="Space"/>
 
-    <bool key="drawBodies" value="false"/>
+    <bool key="drawBodies" value="true"/>
     <bool key="drawJoints" value="false"/>
     <bool key="drawABBs" value="false"/>
-    <bool key="drawInactiveBodies" value="false"/>
+    <bool key="drawInactiveBodies" value="true"/>
     <bool key="drawVelocities" value="false"/>
     <bool key="drawContacts" value="false"/>
     <bool key="drawStage" value="false"/>

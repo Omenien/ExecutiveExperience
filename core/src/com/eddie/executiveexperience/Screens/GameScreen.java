@@ -8,9 +8,8 @@ import com.eddie.executiveexperience.GameStage;
 
 public class GameScreen extends ScreenAdapter
 {
-    private GameStage stage;
-
     protected Assets assets;
+    private GameStage stage;
 
     public GameScreen()
     {

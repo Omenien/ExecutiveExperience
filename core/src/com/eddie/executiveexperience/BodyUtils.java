@@ -2,6 +2,7 @@ package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.eddie.executiveexperience.Entity.UserData.CollisionFixtureUserData;
 import com.eddie.executiveexperience.Entity.UserData.UserData;
 import com.eddie.executiveexperience.Entity.UserData.UserDataType;
 
@@ -12,9 +13,9 @@ public class BodyUtils
         return bodyIsType(body, UserDataType.PLAYER);
     }
 
-    public static boolean bodyIsSaw(Body body)
+    public static boolean bodyIsDeadly(Body body)
     {
-        return bodyIsType(body, UserDataType.SAW);
+        return bodyIsType(body, UserDataType.SAW) || bodyIsType(body, UserDataType.SPIKE_BLOCK);
     }
 
     public static boolean bodyIsDoor(Body body)
@@ -25,13 +26,6 @@ public class BodyUtils
     public static boolean bodyIsTerrain(Body body)
     {
         return bodyIsType(body, UserDataType.TERRAIN);
-    }
-
-    private static boolean bodyIsType(Body body, UserDataType type)
-    {
-        UserData userData = (UserData) body.getUserData();
-
-        return userData != null && userData.getUserDataType() == type;
     }
 
     public static boolean bodyInBounds(Body body)
@@ -45,43 +39,51 @@ public class BodyUtils
                 case PLAYER:
                 case SAW:
                     return body.getPosition().x + userData.getWidth() / 2 > 0 && body.getPosition().y + userData.getHeight() / 2 > 0;
+
+                default:
+                    return true;
             }
         }
 
         return true;
     }
 
+    public static boolean fixtureIsDeadly(Fixture fixture)
+    {
+        return fixtureIsType(fixture, UserDataType.DEADLY_FIXTURE);
+    }
+
     public static boolean fixtureIsJumpSensor(Fixture fixture)
     {
-        UserData userData = (UserData) fixture.getUserData();
+        return fixtureIsType(fixture, UserDataType.PLAYER_SENSOR_FOOT);
+    }
 
-        if(userData != null)
+    public static boolean fixtureIsWallSensor(Fixture fixture)
+    {
+        return fixtureIsType(fixture, UserDataType.PLAYER_SENSOR_SIDE);
+    }
+
+    public static boolean fixtureIsPlayerCollisionFixture(Body body, Fixture fixture)
+    {
+        if(((UserData) body.getUserData()).getUserDataType() == UserDataType.PLAYER)
         {
-            UserDataType userDataType = userData.getUserDataType();
-
-            if(userData.getUserDataType() == UserDataType.PLAYER_SENSOR_FOOT)
-            {
-                return true;
-            }
+            return fixtureIsType(fixture, UserDataType.COLLISION_FIXTURE) || fixtureIsType(fixture, UserDataType.PLAYER_SENSOR_FOOT);
         }
 
         return false;
     }
 
-    public static boolean fixtureIsWallSensor(Fixture fixture)
+    private static boolean bodyIsType(Body body, UserDataType type)
+    {
+        UserData userData = (UserData) body.getUserData();
+
+        return userData != null && userData.getUserDataType() == type;
+    }
+
+    private static boolean fixtureIsType(Fixture fixture, UserDataType type)
     {
         UserData userData = (UserData) fixture.getUserData();
 
-        if(userData != null)
-        {
-            UserDataType userDataType = userData.getUserDataType();
-
-            if(userData.getUserDataType() == UserDataType.PLAYER_SENSOR_SIDE)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return userData != null && userData.getUserDataType() == type;
     }
 }

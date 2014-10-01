@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.eddie.executiveexperience.Constants;
+import com.eddie.executiveexperience.Entity.UserData.CollisionFixtureUserData;
 import com.eddie.executiveexperience.Entity.UserData.FootSensorUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
@@ -66,11 +67,15 @@ public class Player extends GameActor
 
         Body body = gameStage.getWorld().createBody(bodyDef);
 
-        playerSpriteFixture = body.createFixture(spriteShape, Constants.PLAYER_DENSITY);
+        playerSpriteFixture = body.createFixture(spriteShape, Constants.ENTITY_DENSITY);
         playerSpriteFixture.setSensor(true);
 
-        body.createFixture(collisionRect, 0);
-        body.createFixture(upperCollisionCircle, 0);
+        Fixture collisionRectFixture = body.createFixture(collisionRect, 0);
+        collisionRectFixture.setUserData(new CollisionFixtureUserData());
+
+        Fixture upperCollisionFixture = body.createFixture(upperCollisionCircle, 0);
+        upperCollisionFixture.setUserData(new CollisionFixtureUserData());
+
         Fixture lowerCollisionFixture = body.createFixture(lowerCollisionCircle, 0);
         lowerCollisionFixture.setUserData(new FootSensorUserData());
 

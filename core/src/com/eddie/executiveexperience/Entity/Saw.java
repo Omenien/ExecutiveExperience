@@ -7,7 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.eddie.executiveexperience.Constants;
+import com.eddie.executiveexperience.Entity.UserData.DeadlyFixtureUserData;
 import com.eddie.executiveexperience.Entity.UserData.SawUserData;
 import com.eddie.executiveexperience.GameActor;
 import com.eddie.executiveexperience.GameStage;
@@ -27,7 +29,8 @@ public class Saw extends GameActor
         bodyDef.position.set(new Vector2(x + 0.5f, y + 0.5f));
 
         Body body = gameStage.getWorld().createBody(bodyDef);
-        body.createFixture(shape, Constants.ENEMY_DENSITY);
+        Fixture fixture = body.createFixture(shape, Constants.ENTITY_DENSITY);
+        fixture.setUserData(new DeadlyFixtureUserData());
         body.resetMassData();
 
         SawUserData entityData = new SawUserData(gameStage, Constants.SAW_WIDTH, Constants.SAW_HEIGHT);

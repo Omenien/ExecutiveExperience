@@ -9,6 +9,10 @@
             "path": "assets/saw/Saw.json"
         },
         {
+            "type": "SpriteAnimationData",
+            "path": "assets/spike/Spike.json"
+        },
+        {
             "type": "com.badlogic.gdx.maps.tiled.TiledMap",
             "path": "assets/Level 1.tmx"
         },
