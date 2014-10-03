@@ -1,6 +1,5 @@
 package com.eddie.executiveexperience;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -9,16 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.eddie.executiveexperience.Entity.HiddenSpike;
 import com.eddie.executiveexperience.Entity.Player;
 import com.eddie.executiveexperience.Entity.UserData.DoorUserData;
 import com.eddie.executiveexperience.Entity.UserData.HiddenSpikeUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
 import com.eddie.executiveexperience.Screens.GameScreen;
-import com.eddie.executiveexperience.World.Level;
-import com.eddie.executiveexperience.World.MapBodyManager;
-import com.eddie.executiveexperience.World.MapObjectManager;
-import com.eddie.executiveexperience.World.WorldUtils;
+import com.eddie.executiveexperience.World.*;
 
 import java.io.FileNotFoundException;
 
@@ -29,9 +24,7 @@ public class GameStage extends Stage implements ContactListener
     public boolean loadNewMap;
     public String newLevel;
     protected GameScreen gameScreen;
-    protected SpriteBatch batch;
     protected Box2DDebugRenderer box2DDebugRenderer;
-    protected OrthographicCamera camera;
     protected TiledMap map;
     protected MapProperties mapProperties;
     protected OrthogonalTiledMapRenderer mapRenderer;
@@ -39,18 +32,19 @@ public class GameStage extends Stage implements ContactListener
     protected MapObjectManager mapObjectManager;
     protected int mapWidth;
     protected int mapHeight;
-    private World world;
-    private Player player;
-    private Level curLevel;
-    private float accumulator = 0f;
+    protected World world;
+    protected Player player;
+    protected Level curLevel;
+    protected float accumulator = 0f;
+    protected SpriteBatch batch;
 
     public GameStage(String levelFile, GameScreen gameScreen)
     {
         this.gameScreen = gameScreen;
 
-        this.levelFile = levelFile;
-
         batch = new SpriteBatch();
+
+        this.levelFile = levelFile;
 
         setupWorld();
         world = WorldUtils.getWorld();
@@ -75,8 +69,6 @@ public class GameStage extends Stage implements ContactListener
             box2DDebugRenderer.setDrawJoints(false);
             box2DDebugRenderer.setDrawVelocities(false);
         }
-
-        camera = new OrthographicCamera(Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
 
         try
         {
@@ -150,39 +142,12 @@ public class GameStage extends Stage implements ContactListener
     {
         super.draw();
 
-        Vector2 playerPos = player.getBody().getPosition();
-
-        float cameraPosX = playerPos.x + (Constants.PLAYER_WIDTH / 2);
-        float cameraPosY = playerPos.y + (Constants.PLAYER_HEIGHT / 2);
-
-        if(cameraPosX < (camera.viewportWidth / 2))
-        {
-            cameraPosX = camera.viewportWidth / 2;
-        }
-        else if(cameraPosX > mapWidth - (camera.viewportWidth / 2))
-        {
-            cameraPosX = mapWidth - (camera.viewportWidth / 2);
-        }
-
-        if(cameraPosY < (camera.viewportHeight / 2))
-        {
-            cameraPosY = camera.viewportHeight / 2;
-        }
-        else if(cameraPosY > mapHeight - (camera.viewportHeight / 2))
-        {
-            cameraPosY = mapHeight - (camera.viewportHeight / 2);
-        }
-
-        camera.position.set(cameraPosX, cameraPosY, 0.0f);
-
-        camera.update();
-
-        mapRenderer.setView(camera);
+        mapRenderer.setView(gameScreen.getCamera());
         mapRenderer.render(new int[]{0});
 
-        box2DDebugRenderer.render(WorldUtils.getWorld(), camera.combined);
+        box2DDebugRenderer.render(WorldUtils.getWorld(), gameScreen.getCamera().combined);
 
-        batch.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(gameScreen.getCamera().combined);
 
         batch.begin();
 
@@ -348,5 +313,10 @@ public class GameStage extends Stage implements ContactListener
     public GameScreen getScreen()
     {
         return gameScreen;
+    }
+
+    public Player getPlayer()
+    {
+        return player;
     }
 }

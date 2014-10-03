@@ -35,11 +35,11 @@
  </objectgroup>
  <objectgroup name="Objects" width="20" height="30">
   <object name="Player" type="Player" gid="352" x="315" y="35"/>
-  <object name="StationarySaw" type="StationarySaw" gid="353" x="70" y="1015"/>
-  <object name="StationarySaw" type="StationarySaw" gid="353" x="175" y="1015"/>
-  <object name="StationarySaw" type="StationarySaw" gid="353" x="280" y="1015"/>
-  <object name="StationarySaw" type="StationarySaw" gid="353" x="385" y="1015"/>
-  <object name="StationarySaw" type="StationarySaw" gid="353" x="490" y="1015"/>
-  <object name="StationarySaw" type="StationarySaw" gid="353" x="595" y="1015"/>
+  <object name="Saw" type="Saw" gid="353" x="70" y="1015"/>
+  <object name="Saw" type="Saw" gid="353" x="175" y="1015"/>
+  <object name="Saw" type="Saw" gid="353" x="280" y="1015"/>
+  <object name="Saw" type="Saw" gid="353" x="385" y="1015"/>
+  <object name="Saw" type="Saw" gid="353" x="490" y="1015"/>
+  <object name="Saw" type="Saw" gid="353" x="595" y="1015"/>
  </objectgroup>
 </map>

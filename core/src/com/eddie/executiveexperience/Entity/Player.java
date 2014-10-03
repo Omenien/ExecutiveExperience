@@ -426,7 +426,7 @@ public class Player extends GameActor
 
     public boolean isDead()
     {
-        return playerState == PlayerState.DEADING && deathTimeout >= 15;
+        return playerState == PlayerState.DEADING && deathTimeout >= 5;
     }
 
     public void die()
