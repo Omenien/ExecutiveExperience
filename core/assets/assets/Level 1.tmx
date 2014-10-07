@@ -34,23 +34,12 @@
  </objectgroup>
  <objectgroup name="Objects" width="50" height="30">
   <object name="Player" type="Player" gid="1" x="0" y="945"/>
-  <object name="Saw" type="Saw" gid="2" x="1540" y="700">
-   <properties>
-    <property name="useCenter" value="false"/>
-   </properties>
-  </object>
-  <object name="Saw" type="Saw" gid="2" x="1085" y="945"/>
   <object name="ExitDoor" type="Door" gid="5" x="1572" y="1015">
    <properties>
     <property name="newLevel" value="Level 2.json"/>
    </properties>
   </object>
-  <object name="HiddenSpike" type="HiddenSpike" gid="3" x="280" y="945">
-   <properties>
-    <property name="spikeDirection" value="up"/>
-   </properties>
-  </object>
-  <object name="HiddenSpike" type="HiddenSpike" gid="3" x="665" y="945">
+  <object name="HiddenSpike" type="HiddenSpike" gid="3" x="1295" y="1015">
    <properties>
     <property name="spikeDirection" value="up"/>
    </properties>

@@ -303,16 +303,16 @@ public class Player extends GameActor
         float jumpingImpulseMagnitude = getUserData().getJumpingImpulseMagnitude();
 
         float xComponent = 0.0f;
-        float yComponent = 1.0f;
+        float yComponent = 1f;
 
         if(leftWallContacts > 0 && rightWallContacts == 0)
         {
             // TODO: Actual math for wall jump angle
-            xComponent = 1.0f;
+            xComponent = 1.5f;
         }
         else if(leftWallContacts == 0 && rightWallContacts > 0)
         {
-            xComponent = -1.0f;
+            xComponent = -1.5f;
         }
 
         Vector2 jumpingLinearImpulse = new Vector2(xComponent, yComponent);
@@ -379,7 +379,7 @@ public class Player extends GameActor
 
         if(Gdx.input.isKeyPressed(Env.playerJump))
         {
-            if(grounded && !jump && body.getLinearVelocity().y == 0)
+            if(grounded && !jump && !(leftWallContacts > 0 || rightWallContacts > 0))
             {
                 jump = true;
             }
