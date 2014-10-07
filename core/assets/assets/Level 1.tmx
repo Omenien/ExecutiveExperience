@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="30" tilewidth="35" tileheight="35">
+ <tileset firstgid="1" name="objects" tilewidth="35" tileheight="35" spacing="5">
+  <image source="objects.png" width="256" height="64"/>
+ </tileset>
+ <tileset firstgid="7" name="tiles" tilewidth="35" tileheight="35" spacing="2">
+  <image source="tiles.png" width="1024" height="512"/>
+ </tileset>
+ <layer name="Background" width="50" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt0cENACAMw8CyA4uwPWzHBH1jIkfyv6fOqpof1e31XTp0ENLBSgcrHax0sNLBSgcrHawSHGtkOFL+oYOXDlY6WO0QxwlxdLtBxmiw
+  </data>
+ </layer>
+ <layer name="Primary" width="50" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1rsNgDAMRVEzBmzBHKwDNAxBxSSMAgMRiZJYiYit2NG70quojsKPyFdTRzRG5i04bAWHrWo6TsHVdkgFR3lwfIOjPM6RejfFsvj9+HNOcOgFBxwateqw/p/I1ep55FTDMYctYStz3YsjFRxwaCTp6Ol9FiU2lLGyuiju2El22t2OHFvYwYy7rx61y3KJ
+  </data>
+ </layer>
+ <objectgroup name="Physics" width="50" height="30">
+  <object x="0" y="945" width="700" height="105"/>
+  <object x="805" y="770" width="105" height="35"/>
+  <object x="1295" y="1015" width="245" height="18"/>
+  <object x="1085" y="420" width="35" height="525"/>
+  <object x="1120" y="420" width="245" height="35"/>
+  <object x="1225" y="665" width="315" height="35"/>
+  <object x="875" y="210" width="35" height="245"/>
+  <object x="910" y="210" width="630" height="35"/>
+  <object x="1540" y="0" width="210" height="957"/>
+  <object x="1575" y="959" width="175" height="56"/>
+  <object x="1540" y="1015" width="210" height="35"/>
+  <object x="-35" y="-35" width="35" height="1120"/>
+  <object x="0" y="-35" width="1750" height="35"/>
+  <object x="1750" y="-35" width="35" height="1120"/>
+ </objectgroup>
+ <objectgroup name="Objects" width="50" height="30">
+  <object name="Player" type="Player" gid="1" x="0" y="945"/>
+  <object name="ExitDoor" type="Door" gid="5" x="1572" y="1015">
+   <properties>
+    <property name="newLevel" value="Level 2.json"/>
+   </properties>
+  </object>
+  <object name="HiddenSpike" type="HiddenSpike" gid="3" x="1295" y="1015">
+   <properties>
+    <property name="spikeDirection" value="up"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

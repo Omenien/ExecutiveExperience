@@ -1,0 +1,9 @@
+{
+    "name": "Level 2",
+    "mapFile": "assets/Level 3.tmx",
+    "invisibleLayers": [
+
+    ],
+    "entityLayer": "Objects",
+    "physicsLayer": "Physics"
+}

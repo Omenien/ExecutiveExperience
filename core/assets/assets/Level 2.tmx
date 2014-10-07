@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="25" tilewidth="35" tileheight="35">
+ <tileset firstgid="1" name="objects" tilewidth="35" tileheight="35" spacing="5">
+  <image source="objects.png" width="256" height="64"/>
+ </tileset>
+ <tileset firstgid="7" name="tiles" tilewidth="35" tileheight="35" spacing="2">
+  <image source="tiles.png" width="1024" height="512"/>
+ </tileset>
+ <layer name="Background" width="30" height="25">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAMBKHzb/mX2ugACaumqqq+fnqZ33k=
+  </data>
+ </layer>
+ <layer name="Primary" width="30" height="25">
+  <data encoding="base64" compression="zlib">
+   eJwzZGRgMBzFo3iY41AgDqQQh5Bhrw8QUwq8R+0dtZdIe4OA4uJoOBiHWmrai80sUtSOVHsDceAAKtjrj8d8UgEp9lITjNo7tOxFL3sIYV8s9vqRaIY4Gfl6qGMA3jJnCw==
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="30" height="25">
+  <object name="Player" type="Player" gid="1" x="0" y="770"/>
+  <object type="Saw" gid="2" x="420" y="805"/>
+  <object type="Saw" gid="2" x="595" y="805"/>
+  <object type="Saw" gid="2" x="175" y="490"/>
+  <object type="Saw" gid="2" x="840" y="490"/>
+  <object name="Saw" type="Saw" gid="2" x="508" y="245"/>
+  <object type="Saw" gid="2" x="910" y="560"/>
+  <object type="Saw" gid="2" x="1015" y="840"/>
+  <object name="ExitDoor" type="Door" x="1041" y="595" width="35" height="175">
+   <properties>
+    <property name="newLevel" value="Level 3.json"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Physics" width="30" height="25">
+  <object x="0" y="770" width="1050" height="105"/>
+  <object x="420" y="420" width="210" height="350"/>
+  <object x="0" y="-175" width="245" height="770"/>
+  <object x="805" y="-175" width="245" height="770"/>
+  <object x="245" y="-175" width="560" height="420"/>
+ </objectgroup>
+</map>
