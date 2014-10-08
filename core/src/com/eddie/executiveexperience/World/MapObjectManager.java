@@ -40,9 +40,6 @@ public class MapObjectManager
             return;
         }
 
-        MapProperties mapProperties = map.getProperties();
-        int mapHeight = mapProperties.get("height", Integer.class);
-
         MapObjects objects = layer.getObjects();
         Iterator<MapObject> objectIt = objects.iterator();
 
@@ -61,9 +58,9 @@ public class MapObjectManager
 
             try
             {
-                constructor = Class.forName("com.eddie.executiveexperience.Entity." + type).getConstructor(GameStage.class, Float.TYPE, Float.TYPE, MapProperties.class);
+                constructor = Class.forName("com.eddie.executiveexperience.Entity." + type).getConstructor(GameStage.class, Float.TYPE, Float.TYPE, MapObject.class);
 
-                constructor.newInstance(gameStage, x, y, objectProperties);
+                constructor.newInstance(gameStage, x, y, object);
             }
             catch(Exception e)
             {

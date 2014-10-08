@@ -34,7 +34,7 @@
  </objectgroup>
  <objectgroup name="Objects" width="50" height="30">
   <object name="Player" type="Player" gid="1" x="0" y="945"/>
-  <object name="ExitDoor" type="Door" gid="5" x="1572" y="1015">
+  <object name="ExitDoor" type="Door" gid="5" x="1572" y="980" width="35" height="70">
    <properties>
     <property name="newLevel" value="Level 2.json"/>
    </properties>
