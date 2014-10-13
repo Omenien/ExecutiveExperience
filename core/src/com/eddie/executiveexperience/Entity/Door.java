@@ -37,7 +37,7 @@ public class Door extends GameActor
         bodyFixture.setSensor(true);
         body.resetMassData();
 
-        DoorUserData entityData = new DoorUserData(rectObject.getRectangle().getWidth() * Env.pixelsToMeters, rectObject.getRectangle().getHeight() * Env.pixelsToMeters, objectProperties.get("newLevel", "Level 1.tmx", String.class));
+        DoorUserData entityData = new DoorUserData(width, height, objectProperties.get("newLevel", "Level 1.tmx", String.class));
 
         body.setUserData(entityData);
 

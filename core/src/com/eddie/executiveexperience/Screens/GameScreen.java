@@ -36,6 +36,8 @@ public class GameScreen extends ScreenAdapter
         Gdx.input.setInputProcessor(stage);
 
         deathTintSprite = new Sprite(new Texture("assets/blank.png"));
+
+        XEGame.game.getMusicManager().play(MusicManager.GameMusic.GAME_MUSIC);
     }
 
     public void update(float delta)
@@ -122,9 +124,7 @@ public class GameScreen extends ScreenAdapter
     }
 
     @Override
-    public void pause()
-    {
-    }
+    public void pause() { }
 
     public GameStage getGameStage()
     {

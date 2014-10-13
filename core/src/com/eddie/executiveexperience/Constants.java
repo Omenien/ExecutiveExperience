@@ -9,7 +9,5 @@ public class Constants
     public static final int PLAYER_JUMPING_IMPULSE_MAGNITUDE = 20;
     public static final float SAW_WIDTH = 6.58f;
     public static final float SAW_HEIGHT = 6.58f;
-    public static final float DOOR_WIDTH = 1f;
-    public static final float DOOR_HEIGHT = 1f;
     public static final float ENTITY_DENSITY = 1f;
 }

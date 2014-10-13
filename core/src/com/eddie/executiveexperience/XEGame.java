@@ -3,18 +3,15 @@ package com.eddie.executiveexperience;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.eddie.executiveexperience.Screens.GameScreen;
-
-import java.nio.ByteBuffer;
 
 public class XEGame extends Game
 {
     public static XEGame game;
 
     private static GameScreen gameScreen;
-
-    Assets assets;
+    protected MusicManager musicManager;
+    protected Assets assets;
 
     public XEGame()
     {
@@ -27,6 +24,8 @@ public class XEGame extends Game
         assets = new Assets("assets/config/assets.json");
         assets.loadGroup("base");
         assets.finishLoading();
+
+        musicManager = new MusicManager();
 
         gameScreen = new GameScreen();
 
@@ -50,6 +49,11 @@ public class XEGame extends Game
     public Assets getAssetManager()
     {
         return assets;
+    }
+
+    public MusicManager getMusicManager()
+    {
+        return musicManager;
     }
 }
 

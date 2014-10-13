@@ -44,5 +44,15 @@
     <property name="spikeDirection" value="up"/>
    </properties>
   </object>
+  <object name="HiddenSpike" type="HiddenSpike" gid="3" x="945" y="280">
+   <properties>
+    <property name="spikeDirection" value="down"/>
+   </properties>
+  </object>
+  <object name="Spike" type="HiddenSpike" gid="3" x="1505" y="455">
+   <properties>
+    <property name="spikeDirection" value="left"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

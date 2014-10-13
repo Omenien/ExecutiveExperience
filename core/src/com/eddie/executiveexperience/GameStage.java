@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -305,11 +304,6 @@ public class GameStage extends Stage implements ContactListener
         return player.isDead() || !(playerX > 0 && playerX < mapWidth && playerY + (player.getUserData().getHeight() / 2) > 0);
     }
 
-    public void setPlayer(Player player)
-    {
-        this.player = player;
-    }
-
     public GameScreen getScreen()
     {
         return gameScreen;
@@ -318,5 +312,10 @@ public class GameStage extends Stage implements ContactListener
     public Player getPlayer()
     {
         return player;
+    }
+
+    public void setPlayer(Player player)
+    {
+        this.player = player;
     }
 }

@@ -3,6 +3,7 @@ package com.eddie.executiveexperience.Entity;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.eddie.executiveexperience.Entity.UserData.DeadlyFixtureUserData;
@@ -41,6 +42,8 @@ public class HiddenSpike extends GameActor
         collisionFixture.setUserData(new DeadlyFixtureUserData());
         body.resetMassData();
 
+        body.setTransform(body.getPosition(), spikeDirection.ordinal() * 90f * MathUtils.degreesToRadians);
+
         HiddenSpikeUserData entityData = new HiddenSpikeUserData(gameStage, 0.5f * 2, 0.5f * 2, spriteFixture, spikeDirection);
 
         body.setUserData(entityData);
@@ -54,8 +57,6 @@ public class HiddenSpike extends GameActor
     @Override
     public void draw(Batch batch, float parentAlpha)
     {
-        int i;
-
         getUserData().getAnimatedBox2DSprite().draw(batch, getUserData().getSpriteFixture());
     }
 
@@ -67,10 +68,9 @@ public class HiddenSpike extends GameActor
 
     public enum SpikeDirection
     {
-        NONE,
-        LEFT,
-        RIGHT,
         UP,
-        DOWN
+        LEFT,
+        DOWN,
+        RIGHT
     }
 }
