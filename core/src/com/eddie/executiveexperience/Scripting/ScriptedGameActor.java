@@ -8,11 +8,11 @@ public abstract class ScriptedGameActor extends GameActor implements Disposable
 {
     LUAScript script;
 
-    public ScriptedGameActor(GameStage gameStage, String scriptFile)
+    public ScriptedGameActor(GameStage gameStage)
     {
         super(gameStage);
 
-        script = new LUAScript(scriptFile);
+        script = new LUAScript("assets/scripts/" + getClass().getSimpleName() + ".lua");
     }
 
     @Override
@@ -23,5 +23,11 @@ public abstract class ScriptedGameActor extends GameActor implements Disposable
         script.update();
 
         script.runScriptFunction("act", this);
+    }
+
+    @Override
+    public void dispose()
+    {
+        script.closeScript();
     }
 }
