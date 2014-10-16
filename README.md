@@ -1,4 +1,7 @@
 2D Game Design
 ===================
 
-Edward Jones' Executive Experience Repository
+Homepage: http://eddie-xe.com/
+Jenkins: http://ci.eddie-xe.com/
+
+A 2D computer game written in Java using LibGDX for Edward Jones' Executive Experience.
