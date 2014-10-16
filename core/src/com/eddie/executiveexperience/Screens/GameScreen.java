@@ -124,7 +124,9 @@ public class GameScreen extends ScreenAdapter
     }
 
     @Override
-    public void pause() { }
+    public void pause()
+    {
+    }
 
     public GameStage getGameStage()
     {

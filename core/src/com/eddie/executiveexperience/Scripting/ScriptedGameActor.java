@@ -1,33 +1,34 @@
 package com.eddie.executiveexperience.Scripting;
 
-import com.badlogic.gdx.utils.Disposable;
 import com.eddie.executiveexperience.GameActor;
 import com.eddie.executiveexperience.GameStage;
 
-public abstract class ScriptedGameActor extends GameActor implements Disposable
+public abstract class ScriptedGameActor extends GameActor
 {
-    LUAScript script;
+    JSScript script;
 
     public ScriptedGameActor(GameStage gameStage)
     {
         super(gameStage);
 
-        script = new LUAScript("assets/scripts/" + getClass().getSimpleName() + ".lua");
+        try
+        {
+            script = new JSScript("assets/scripts/" + getClass().getSimpleName() + ".js");
+        }
+        catch(Exception e)
+        {
+            script = null;
+        }
     }
 
     @Override
     public void act(float delta)
     {
+        if(script != null)
+        {
+            script.executeFunction("act", this);
+        }
+
         super.act(delta);
-
-        script.update();
-
-        script.runScriptFunction("act", this);
-    }
-
-    @Override
-    public void dispose()
-    {
-        script.closeScript();
     }
 }

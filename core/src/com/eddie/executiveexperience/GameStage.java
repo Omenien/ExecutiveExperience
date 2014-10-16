@@ -15,6 +15,7 @@ import com.eddie.executiveexperience.Screens.GameScreen;
 import com.eddie.executiveexperience.World.*;
 
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class GameStage extends Stage implements ContactListener
 {
@@ -36,6 +37,7 @@ public class GameStage extends Stage implements ContactListener
     protected Level curLevel;
     protected float accumulator = 0f;
     protected SpriteBatch batch;
+    protected ScannerRunnable scannerRunnable;
 
     public GameStage(String levelFile, GameScreen gameScreen)
     {
@@ -80,6 +82,10 @@ public class GameStage extends Stage implements ContactListener
 
         loadNewMap = false;
         newLevel = "";
+
+        scannerRunnable = new ScannerRunnable();
+
+        new Thread(scannerRunnable).start();
     }
 
     public void loadMap()
@@ -133,6 +139,11 @@ public class GameStage extends Stage implements ContactListener
         {
             WorldUtils.getWorld().step(TIME_STEP, 8, 3);
             accumulator -= TIME_STEP;
+        }
+
+        if(scannerRunnable.hasInput())
+        {
+            System.out.println(scannerRunnable.getInput());
         }
     }
 
@@ -317,5 +328,42 @@ public class GameStage extends Stage implements ContactListener
     public void setPlayer(Player player)
     {
         this.player = player;
+    }
+
+    // This needs to be replaced with something more sensible
+    // Seriously, it's pretty awful.
+    // TODO: Learn to program
+    public class ScannerRunnable implements Runnable
+    {
+        Scanner scanner;
+
+        String input = "";
+
+        public ScannerRunnable()
+        {
+            scanner = new Scanner(System.in);
+        }
+
+        public void run()
+        {
+            if(input == "")
+            {
+                input = scanner.nextLine();
+            }
+        }
+
+        public String getInput()
+        {
+            String inputTemp = input;
+
+            input = "";
+
+            return inputTemp;
+        }
+
+        public boolean hasInput()
+        {
+            return input != "";
+        }
     }
 }

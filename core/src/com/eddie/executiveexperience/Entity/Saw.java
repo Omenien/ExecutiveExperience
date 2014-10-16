@@ -11,10 +11,10 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.DeadlyFixtureUserData;
 import com.eddie.executiveexperience.Entity.UserData.SawUserData;
-import com.eddie.executiveexperience.GameActor;
 import com.eddie.executiveexperience.GameStage;
+import com.eddie.executiveexperience.Scripting.ScriptedGameActor;
 
-public class Saw extends GameActor
+public class Saw extends ScriptedGameActor
 {
     public Saw(GameStage gameStage, float x, float y, MapObject mapObject)
     {
