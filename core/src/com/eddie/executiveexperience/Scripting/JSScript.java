@@ -28,6 +28,15 @@ public class JSScript
 
     private void loadScript(String filePath)
     {
+        // Create and enter a Context. A Context stores information about the
+        // execution environment of a script.
+        cx = Context.enter();
+
+        // Initialize the standard objects (Object, Function, etc.). This must be done before
+        // scripts can be executed. The null parameter tells initStandardObjects to
+        // create and return a scope object that we usein later calls.
+        scope = cx.initStandardObjects();
+
         StringBuilder sb = new StringBuilder();
 
         try
@@ -51,52 +60,24 @@ public class JSScript
 
     public void executeFunction(String functionName, Object... objs)
     {
-        try
-        {
-            // Create and enter a Context. A Context stores information about the
-            // execution environment of a script.
-            cx = Context.enter();
 
-            // Initialize the standard objects (Object, Function, etc.). This must be done before
-            // scripts can be executed. The null parameter tells initStandardObjects to
-            // create and return a scope object that we usein later calls.
-            scope = cx.initStandardObjects();
+        cx.evaluateString(scope, script, "script", 1, null);
 
-            cx.evaluateString(scope, script, "script", 1, null);
-
-            Function function = (Function) scope.get(functionName, scope);
-            function.call(cx, scope, scope, objs);
-        }
-        finally
-        {
-            cx.exit();
-        }
+        Function function = (Function) scope.get(functionName, scope);
+        function.call(cx, scope, scope, objs);
     }
 
     public Object executeFunction(String functionName, Class returnType, Object... objs)
     {
-        try
-        {
-            // Create and enter a Context. A Context stores information about the
-            // execution environment of a script.
-            cx = Context.enter();
+        cx.evaluateString(scope, script, "script", 1, null);
 
-            // Initialize the standard objects (Object, Function, etc.). This must be done before
-            // scripts can be executed. The null parameter tells initStandardObjects to
-            // create and return a scope object that we usein later calls.
-            scope = cx.initStandardObjects();
+        Function function = (Function) scope.get(functionName, scope);
+        Object result = function.call(cx, scope, scope, objs);
+        return Context.jsToJava(result, returnType);
+    }
 
-            cx.evaluateString(scope, script, "script", 1, null);
-
-            Function function = (Function) scope.get(functionName, scope);
-            Object result = function.call(cx, scope, scope, objs);
-            System.out.println(Context.jsToJava(result, returnType));
-        }
-        finally
-        {
-            cx.exit();
-        }
-
-        return null;
+    public void reloadScript()
+    {
+        loadScript(filePath);
     }
 }

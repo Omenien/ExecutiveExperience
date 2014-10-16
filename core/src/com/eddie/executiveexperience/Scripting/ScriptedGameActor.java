@@ -26,9 +26,14 @@ public abstract class ScriptedGameActor extends GameActor
     {
         if(script != null)
         {
-            script.executeFunction("act", this);
+            System.out.println(script.executeFunction("act", String.class, this));
         }
 
         super.act(delta);
+    }
+
+    public void reloadScript()
+    {
+        script.reloadScript();
     }
 }
