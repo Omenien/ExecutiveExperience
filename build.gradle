@@ -16,8 +16,8 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'XEGame'
-        gdxVersion = '1.3.1'
-        gdxUtilsVersion = '0.4.1-SNAPSHOT'
+        gdxVersion = '1.4.1'
+        gdxUtilsVersion = '0.7.0-SNAPSHOT'
         roboVMVersion = '0.0.14'
     }
 

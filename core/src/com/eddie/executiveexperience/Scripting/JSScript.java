@@ -2,8 +2,6 @@ package com.eddie.executiveexperience.Scripting;
 
 import com.badlogic.gdx.Gdx;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Scriptable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,9 +14,6 @@ public class JSScript
     protected String filePath;
     protected String script;
 
-    protected Context cx;
-    protected Scriptable scope;
-
     public JSScript(String filePath)
     {
         this.filePath = filePath;
@@ -28,15 +23,6 @@ public class JSScript
 
     private void loadScript(String filePath)
     {
-        // Create and enter a Context. A Context stores information about the
-        // execution environment of a script.
-        cx = Context.enter();
-
-        // Initialize the standard objects (Object, Function, etc.). This must be done before
-        // scripts can be executed. The null parameter tells initStandardObjects to
-        // create and return a scope object that we usein later calls.
-        scope = cx.initStandardObjects();
-
         StringBuilder sb = new StringBuilder();
 
         try
@@ -60,19 +46,13 @@ public class JSScript
 
     public void executeFunction(String functionName, Object... objs)
     {
-
-        cx.evaluateString(scope, script, "script", 1, null);
-
-        Function function = (Function) scope.get(functionName, scope);
-        function.call(cx, scope, scope, objs);
+        ScriptCore.getInstance().executeFunction(script, functionName, objs);
     }
 
     public Object executeFunction(String functionName, Class returnType, Object... objs)
     {
-        cx.evaluateString(scope, script, "script", 1, null);
+        Object result = ScriptCore.getInstance().executeFunction(script, functionName, returnType, objs);
 
-        Function function = (Function) scope.get(functionName, scope);
-        Object result = function.call(cx, scope, scope, objs);
         return Context.jsToJava(result, returnType);
     }
 
