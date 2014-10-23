@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.eddie.executiveexperience.Entity.GameActor;
 import com.eddie.executiveexperience.Entity.Player;
 import com.eddie.executiveexperience.Entity.UserData.DoorUserData;
 import com.eddie.executiveexperience.Entity.UserData.HiddenSpikeUserData;
@@ -73,7 +74,7 @@ public class GameStage extends Stage implements ContactListener
 
         try
         {
-            curLevel = new Level("assets/" + levelFile);
+            curLevel = new Level(levelFile);
         }
         catch(FileNotFoundException e)
         {

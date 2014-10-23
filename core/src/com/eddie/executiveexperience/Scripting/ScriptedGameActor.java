@@ -1,6 +1,6 @@
 package com.eddie.executiveexperience.Scripting;
 
-import com.eddie.executiveexperience.GameActor;
+import com.eddie.executiveexperience.Entity.GameActor;
 import com.eddie.executiveexperience.GameStage;
 
 public abstract class ScriptedGameActor extends GameActor

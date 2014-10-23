@@ -15,7 +15,7 @@ public class LevelFile implements Json.Serializable
     public LevelFile()
     {
         name = "Level 1";
-        mapFile = "assets/Level 1.tmx";
+        mapFile = "Level 1.tmx";
 
         physicsLayer = "Physics";
         entityLayer = "Entities";

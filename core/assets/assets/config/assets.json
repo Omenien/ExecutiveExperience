@@ -2,23 +2,27 @@
     "base": [
         {
             "type": "SpriteAnimationData",
-            "path": "assets/player/Player.json"
+            "path": "assets/entities/player/Player.json"
         },
         {
             "type": "SpriteAnimationData",
-            "path": "assets/saw/Saw.json"
+            "path": "assets/entities/saw/Saw.json"
         },
         {
             "type": "SpriteAnimationData",
-            "path": "assets/spike/Spike.json"
+            "path": "assets/entities/spike/Spike.json"
         },
         {
             "type": "com.badlogic.gdx.maps.tiled.TiledMap",
-            "path": "assets/Level 1.tmx"
+            "path": "assets/levels/Level 1.tmx"
         },
         {
             "type": "com.badlogic.gdx.maps.tiled.TiledMap",
-            "path": "assets/Level 2.tmx"
+            "path": "assets/levels/Level 2.tmx"
+        },
+        {
+            "type": "com.badlogic.gdx.maps.tiled.TiledMap",
+            "path": "assets/levels/Level 3.tmx"
         }
     ]
 }

@@ -19,7 +19,7 @@ public class ScriptCore
 
         // Initialize the standard objects (Object, Function, etc.). This must be done before
         // scripts can be executed. The null parameter tells initStandardObjects to
-        // create and return a scope object that we usein later calls.
+        // create and return a scope object that we use in later calls.
         scope = cx.initStandardObjects();
     }
 

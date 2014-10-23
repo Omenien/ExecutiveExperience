@@ -35,7 +35,7 @@ public class GameScreen extends ScreenAdapter
 
         Gdx.input.setInputProcessor(stage);
 
-        deathTintSprite = new Sprite(new Texture("assets/blank.png"));
+        deathTintSprite = new Sprite(new Texture("assets/graphics/wasted.png"));
 
         XEGame.game.getMusicManager().play(MusicManager.GameMusic.GAME_MUSIC);
     }

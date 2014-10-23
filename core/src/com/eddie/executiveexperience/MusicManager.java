@@ -47,7 +47,7 @@ public class MusicManager implements Disposable
         // start streaming the new music
         FileHandle musicFile = Gdx.files.internal(music.getFileName());
         musicBeingPlayed = Gdx.audio.newMusic(musicFile);
-        musicBeingPlayed.setVolume(volume);
+        musicBeingPlayed.setVolume(music.getVolume());
         musicBeingPlayed.setLooping(true);
         musicBeingPlayed.play();
     }
@@ -68,8 +68,7 @@ public class MusicManager implements Disposable
     /**
      * Sets the music volume which must be inside the range [0,1].
      */
-    public void setVolume(
-            float volume)
+    public void setVolume(float volume)
     {
         Gdx.app.log("MusicManager", "Adjusting music volume to: " + volume);
 
@@ -115,18 +114,22 @@ public class MusicManager implements Disposable
      */
     public enum GameMusic
     {
-        GAME_MUSIC("assets/sounds/Newton - Streamline.mp3");
+        GAME_MUSIC("assets/sounds/Newton - Streamline.mp3", 0.7f);
 
         private final String fileName;
+        private final float startVolume;
 
-        private GameMusic(String fileName)
+        private GameMusic(String fileName, float startVolume)
         {
             this.fileName = fileName;
+            this.startVolume = startVolume;
         }
 
         public String getFileName()
         {
             return fileName;
         }
+
+        public float getVolume() { return startVolume; }
     }
 }

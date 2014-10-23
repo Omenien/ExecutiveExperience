@@ -18,7 +18,7 @@ public class HiddenSpikeUserData extends EntityUserData
 
         this.spriteFixture = spriteFixture;
 
-        spriteAnimationData = gameStage.getScreen().getAssets().get("assets/spike/Spike.json");
+        spriteAnimationData = gameStage.getScreen().getAssets().get("assets/entities/spike/Spike.json");
         animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("deploy"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);
