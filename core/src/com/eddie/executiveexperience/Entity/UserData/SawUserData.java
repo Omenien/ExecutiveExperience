@@ -2,8 +2,8 @@ package com.eddie.executiveexperience.Entity.UserData;
 
 import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.GameStage;
-import net.dermetfan.utils.libgdx.graphics.AnimatedBox2DSprite;
-import net.dermetfan.utils.libgdx.graphics.AnimatedSprite;
+import net.dermetfan.gdx.graphics.g2d.AnimatedBox2DSprite;
+import net.dermetfan.gdx.graphics.g2d.AnimatedSprite;
 
 public class SawUserData extends EntityUserData
 {

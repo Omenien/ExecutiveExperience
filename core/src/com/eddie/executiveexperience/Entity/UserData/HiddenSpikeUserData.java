@@ -3,8 +3,8 @@ package com.eddie.executiveexperience.Entity.UserData;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.eddie.executiveexperience.Entity.HiddenSpike;
 import com.eddie.executiveexperience.GameStage;
-import net.dermetfan.utils.libgdx.graphics.AnimatedBox2DSprite;
-import net.dermetfan.utils.libgdx.graphics.AnimatedSprite;
+import net.dermetfan.gdx.graphics.g2d.AnimatedBox2DSprite;
+import net.dermetfan.gdx.graphics.g2d.AnimatedSprite;
 
 public class HiddenSpikeUserData extends EntityUserData
 {
