@@ -14,14 +14,13 @@ public class PlayerUserData extends EntityUserData
 
     public PlayerUserData(GameStage gameStage, float width, float height, Fixture playerSpriteFixture)
     {
-        super(width, height);
+        super(gameStage, "Player", width, height);
 
         this.playerSpriteFixture = playerSpriteFixture;
 
         jumpingImpulseMagnitude = Constants.PLAYER_JUMPING_IMPULSE_MAGNITUDE;
 
-        spriteAnimationData = gameStage.getScreen().getAssets().get("assets/entities/player/Player.json");
-        animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("stand"));
+        animatedSprite = new AnimatedSprite(entityData.getAnimation("stand"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);
         animatedBox2DSprite.play();

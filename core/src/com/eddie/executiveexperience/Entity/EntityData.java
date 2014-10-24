@@ -1,28 +1,26 @@
-package com.eddie.executiveexperience.Graphics;
+package com.eddie.executiveexperience.Entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.eddie.executiveexperience.Env;
+import com.eddie.executiveexperience.Scripting.JSScript;
 
-/**
- * @author Edward Jones
- * @class SpriteAnimationData
- * @date 09/11/2014
- * @brief Holds Graphics frame sequences and reads them from JSON files and a spritesheet-like texture. Original by David Saltares M&aacute;rquez.
- */
-public class SpriteAnimationData
+public class EntityData
 {
-    Texture texture;
-    float frameDuration;
-    ObjectMap<String, Animation> animations;
-    Animation defaultAnimation;
     private Logger logger;
 
-    public SpriteAnimationData()
+    protected Texture texture;
+    protected float frameDuration;
+    protected ObjectMap<String, Animation> animations;
+    protected Animation defaultAnimation;
+    public JSScript scriptFile;
+
+    public EntityData()
     {
-        logger = new Logger("Animation", Env.debugLevel);
+        logger = new Logger("EntityData", Env.debugLevel);
+
         animations = new ObjectMap<>();
         defaultAnimation = null;
         frameDuration = 0.0f;

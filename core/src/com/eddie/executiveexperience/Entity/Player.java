@@ -251,27 +251,27 @@ public class Player extends ScriptedGameActor
         {
             if(playerDirection == Direction.RIGHT)
             {
-                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getSpriteAnimationData().getAnimation("jump_right"));
+                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("jump_right"));
             }
             else
             {
-                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getSpriteAnimationData().getAnimation("jump_left"));
+                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("jump_left"));
             }
         }
         else if(playerState == PlayerState.WALKING)
         {
             if(playerDirection == Direction.RIGHT)
             {
-                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getSpriteAnimationData().getAnimation("walk_right"));
+                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("walk_right"));
             }
             else
             {
-                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getSpriteAnimationData().getAnimation("walk_left"));
+                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("walk_left"));
             }
         }
         else
         {
-            getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getSpriteAnimationData().getAnimation("stand"));
+            getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("stand"));
         }
 
         getUserData().getAnimatedBox2DSprite().draw(batch, getUserData().getSpriteFixture());

@@ -1,23 +1,29 @@
 package com.eddie.executiveexperience.Entity;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.Logger;
 import com.eddie.executiveexperience.Entity.UserData.UserData;
+import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameStage;
 
 public abstract class GameActor extends Actor
 {
+    protected static final Logger logger = new Logger("GameActor", Env.debugLevel);
+
     protected Body body;
     protected UserData userData;
+
+    protected boolean usesScript;
+    protected String scriptFile;
 
     public GameActor(GameStage gameStage)
     {
         gameStage.addActor(this);
-    }
-
-    public void loadGameActor()
-    {
-
     }
 
     public Body getBody()

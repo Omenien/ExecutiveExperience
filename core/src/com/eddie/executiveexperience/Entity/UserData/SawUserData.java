@@ -11,10 +11,9 @@ public class SawUserData extends EntityUserData
 
     public SawUserData(GameStage gameStage, float width, float height)
     {
-        super(width, height);
+        super(gameStage, "Saw", width, height);
 
-        spriteAnimationData = gameStage.getScreen().getAssets().get("assets/entities/saw/Saw.json");
-        animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("normal"));
+        animatedSprite = new AnimatedSprite(entityData.getAnimation("normal"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setAutoUpdate(true);
         animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);

@@ -14,12 +14,11 @@ public class HiddenSpikeUserData extends EntityUserData
 
     public HiddenSpikeUserData(GameStage gameStage, float width, float height, Fixture spriteFixture, HiddenSpike.SpikeDirection spikeDirection)
     {
-        super(width, height);
+        super(gameStage, "Spike", width, height);
 
         this.spriteFixture = spriteFixture;
 
-        spriteAnimationData = gameStage.getScreen().getAssets().get("assets/entities/spike/Spike.json");
-        animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("deploy"));
+        animatedSprite = new AnimatedSprite(entityData.getAnimation("deploy"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);
         animatedBox2DSprite.stop();

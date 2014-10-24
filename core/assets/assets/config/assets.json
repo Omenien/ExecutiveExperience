@@ -1,15 +1,15 @@
 {
     "base": [
         {
-            "type": "SpriteAnimationData",
+            "type": "EntityData",
             "path": "assets/entities/player/Player.json"
         },
         {
-            "type": "SpriteAnimationData",
+            "type": "EntityData",
             "path": "assets/entities/saw/Saw.json"
         },
         {
-            "type": "SpriteAnimationData",
+            "type": "EntityData",
             "path": "assets/entities/spike/Spike.json"
         },
         {

@@ -1,6 +1,7 @@
 package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.assets.AssetLoaderParameters;
+import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -25,8 +26,8 @@ public class Asset implements Json.Serializable
 
         switch(typeString)
         {
-            case "SpriteAnimationData":
-                typeString = "com.eddie.executiveexperience.Graphics.SpriteAnimationData";
+            case "EntityData":
+                typeString = "com.eddie.executiveexperience.Entity.EntityData";
                 break;
         }
 

@@ -1,4 +1,4 @@
-package com.eddie.executiveexperience.Graphics;
+package com.eddie.executiveexperience.Entity;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
@@ -8,56 +8,65 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonValue.JsonIterator;
 import com.badlogic.gdx.utils.Logger;
 import com.eddie.executiveexperience.Env;
+import com.eddie.executiveexperience.Scripting.JSScript;
 
-public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimationData, SpriteAnimationLoader.AnimationParameter>
+public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoader.EntityParameter>
 {
-    private SpriteAnimationData animationData = null;
+    private EntityData entityData = null;
     private Logger logger;
 
-    /**
-     * Creates a new AnimationLoader
-     *
-     * @param resolver file resolver to be used
-     */
-    public SpriteAnimationLoader(FileHandleResolver resolver)
+    public EntityLoader(FileHandleResolver resolver)
     {
         super(resolver);
 
-        animationData = null;
-        logger = new Logger("Animation", Env.debugLevel);
+        entityData = null;
+
+        logger = new Logger("EntityLoader", Env.debugLevel);
     }
 
-    /**
-     * Aynchronously loads the animation data animations
-     */
     @Override
-    public void loadAsync(AssetManager manager, String fileName, FileHandle file, AnimationParameter parameter)
+    public Array<AssetDescriptor> getDependencies(String fileName, FileHandle file, EntityParameter parameter)
+    {
+        Array<AssetDescriptor> dependencies = new Array<>();
+        dependencies.add(new AssetDescriptor<>(stripExtension(fileName) + ".png", Texture.class));
+        dependencies.add(new AssetDescriptor<>(stripExtension(fileName) + ".js", JSScript.class));
+
+        return dependencies;
+    }
+
+    @Override
+    public void loadAsync(AssetManager manager, String fileName, FileHandle file, EntityParameter parameter)
     {
         logger.info("Loading " + fileName);
 
-        animationData = new SpriteAnimationData();
+        entityData = new EntityData();
 
         // Retrieve texture
-        animationData.texture = manager.get(stripExtension(fileName) + ".png", Texture.class);
+        entityData.texture = manager.get(stripExtension(fileName) + ".png", Texture.class);
 
         try
         {
             JsonReader reader = new JsonReader();
             JsonValue root = reader.parse(file);
 
-            animationData.texture = manager.get(root.getString("textureFile"), Texture.class);
-            animationData.frameDuration = root.getFloat("frameDuration");
+            if(root.getBoolean("usesScript", false))
+            {
+                entityData.scriptFile = manager.get(stripExtension(fileName) + ".js", JSScript.class);
+            }
 
-            JsonValue animations = root.get("animations");
-            JsonIterator animationsIt = animations.iterator();
+            JsonValue graphicsRoot = root.get("graphics");
+
+            entityData.texture = manager.get(graphicsRoot.getString("textureFile"), Texture.class);
+            entityData.frameDuration = graphicsRoot.getFloat("frameDuration");
+
+            JsonValue animations = graphicsRoot.get("animations");
+            JsonValue.JsonIterator animationsIt = animations.iterator();
             boolean first = true;
 
             while(animationsIt.hasNext())
@@ -67,7 +76,7 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
                 String name = animationValue.getString("name");
 
                 JsonValue frames = animationValue.get("frames");
-                JsonIterator framesIt = frames.iterator();
+                JsonValue.JsonIterator framesIt = frames.iterator();
 
                 boolean createReverse = animationValue.getBoolean("createReverse", false);
 
@@ -76,35 +85,35 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
                     String rightName = name + "_right";
                     String leftName = name + "_left";
 
-                    Animation rightAnimation = new Animation(animationData.frameDuration,
-                            getAnimationFrames(animationData.texture, framesIt),
+                    Animation rightAnimation = new Animation(entityData.frameDuration,
+                            getAnimationFrames(entityData.texture, framesIt),
                             getPlayMode(animationValue.getString("mode", "normal")));
 
                     framesIt = frames.iterator();
-                    Animation leftAnimation = new Animation(animationData.frameDuration,
-                            getAnimationFrames(animationData.texture, framesIt, true),
+                    Animation leftAnimation = new Animation(entityData.frameDuration,
+                            getAnimationFrames(entityData.texture, framesIt, true),
                             getPlayMode(animationValue.getString("mode", "normal")));
 
-                    animationData.animations.put(rightName, rightAnimation);
-                    animationData.animations.put(leftName, leftAnimation);
+                    entityData.animations.put(rightName, rightAnimation);
+                    entityData.animations.put(leftName, leftAnimation);
 
                     if(first)
                     {
-                        animationData.defaultAnimation = rightAnimation;
+                        entityData.defaultAnimation = rightAnimation;
                         first = false;
                     }
                 }
                 else
                 {
-                    Animation animation = new Animation(animationData.frameDuration,
-                            getAnimationFrames(animationData.texture, framesIt),
+                    Animation animation = new Animation(entityData.frameDuration,
+                            getAnimationFrames(entityData.texture, framesIt),
                             getPlayMode(animationValue.getString("mode", "normal")));
 
-                    animationData.animations.put(name, animation);
+                    entityData.animations.put(name, animation);
 
                     if(first)
                     {
-                        animationData.defaultAnimation = animation;
+                        entityData.defaultAnimation = animation;
                         first = false;
                     }
                 }
@@ -120,63 +129,34 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
         }
     }
 
-    /**
-     * Retrieves the animation data as it is (without loading anything, this is strictly asynchronous)
-     */
     @Override
-    public SpriteAnimationData loadSync(AssetManager manager, String fileName, FileHandle file, AnimationParameter parameter)
+    public EntityData loadSync(AssetManager manager, String fileName, FileHandle file, EntityParameter parameter)
     {
-        return animationData;
+        return entityData;
     }
 
-    /**
-     * Gets animation data dependencies, this is, the spreadsheet texture to load
-     */
-    @Override
-    public Array<AssetDescriptor> getDependencies(String fileName, FileHandle file, AnimationParameter parameter)
-    {
-        Array<AssetDescriptor> dependencies = new Array<>();
-        dependencies.add(new AssetDescriptor<>(stripExtension(fileName) + ".png", Texture.class));
-
-        return dependencies;
-    }
-
-    private String stripExtension(String fileName)
-    {
-        if(fileName == null)
-        {
-            return null;
-        }
-        int pos = fileName.lastIndexOf(".");
-        if(pos == -1)
-        {
-            return fileName;
-        }
-        return fileName.substring(0, pos);
-    }
-
-    private PlayMode getPlayMode(String mode)
+    private Animation.PlayMode getPlayMode(String mode)
     {
         switch(mode)
         {
             case "normal":
-                return PlayMode.NORMAL;
+                return Animation.PlayMode.NORMAL;
             case "loop":
-                return PlayMode.LOOP;
+                return Animation.PlayMode.LOOP;
             case "loop_pingpong":
-                return PlayMode.LOOP_PINGPONG;
+                return Animation.PlayMode.LOOP_PINGPONG;
             case "loop_random":
-                return PlayMode.LOOP_RANDOM;
+                return Animation.PlayMode.LOOP_RANDOM;
             case "loop_reversed":
-                return PlayMode.LOOP_REVERSED;
+                return Animation.PlayMode.LOOP_REVERSED;
             case "reversed":
-                return PlayMode.REVERSED;
+                return Animation.PlayMode.REVERSED;
             default:
-                return PlayMode.NORMAL;
+                return Animation.PlayMode.NORMAL;
         }
     }
 
-    private Array<TextureRegion> getAnimationFrames(Texture texture, JsonIterator framesIt)
+    private Array<TextureRegion> getAnimationFrames(Texture texture, JsonValue.JsonIterator framesIt)
     {
         Array<TextureRegion> regions = new Array<>();
 
@@ -199,7 +179,7 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
     }
 
 
-    private Array<TextureRegion> getAnimationFrames(Texture texture, JsonIterator framesIt, boolean reverse)
+    private Array<TextureRegion> getAnimationFrames(Texture texture, JsonValue.JsonIterator framesIt, boolean reverse)
     {
         Array<TextureRegion> regions = new Array<>();
 
@@ -228,7 +208,22 @@ public class SpriteAnimationLoader extends AsynchronousAssetLoader<SpriteAnimati
         return regions;
     }
 
-    static public class AnimationParameter extends AssetLoaderParameters<SpriteAnimationData>
+    private String stripExtension(String fileName)
     {
+        if(fileName == null)
+        {
+            return null;
+        }
+
+        int pos = fileName.lastIndexOf(".");
+
+        if(pos == -1)
+        {
+            return fileName;
+        }
+
+        return fileName.substring(0, pos);
     }
+
+    static public class EntityParameter extends AssetLoaderParameters<EntityData> { }
 }
