@@ -15,7 +15,7 @@ public class EntityData
     protected float frameDuration;
     protected ObjectMap<String, Animation> animations;
     protected Animation defaultAnimation;
-    public JSScript scriptFile;
+    public JSScript script;
 
     public EntityData()
     {
@@ -48,5 +48,10 @@ public class EntityData
     public Texture getTexture()
     {
         return texture;
+    }
+
+    public JSScript getScript()
+    {
+        return script;
     }
 }

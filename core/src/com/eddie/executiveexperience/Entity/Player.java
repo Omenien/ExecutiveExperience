@@ -13,9 +13,8 @@ import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameStage;
-import com.eddie.executiveexperience.Scripting.ScriptedGameActor;
 
-public class Player extends ScriptedGameActor
+public class Player extends GameActor
 {
     protected static final float MAX_VELOCITY_X = 11f;
     private static final float MAX_JUMP_EXTEND_TIME = 0.225f;

@@ -55,9 +55,4 @@ public class JSScript
 
         return Context.jsToJava(result, returnType);
     }
-
-    public void reloadScript()
-    {
-        loadScript(filePath);
-    }
 }

@@ -57,7 +57,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
 
             if(root.getBoolean("usesScript", false))
             {
-                entityData.scriptFile = manager.get(stripExtension(fileName) + ".js", JSScript.class);
+                entityData.script = manager.get(stripExtension(fileName) + ".js", JSScript.class);
             }
 
             JsonValue graphicsRoot = root.get("graphics");
@@ -225,5 +225,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
         return fileName.substring(0, pos);
     }
 
-    static public class EntityParameter extends AssetLoaderParameters<EntityData> { }
+    static public class EntityParameter extends AssetLoaderParameters<EntityData>
+    {
+    }
 }
