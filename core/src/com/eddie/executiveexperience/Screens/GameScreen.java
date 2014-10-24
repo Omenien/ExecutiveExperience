@@ -46,7 +46,7 @@ public class GameScreen extends ScreenAdapter
 
         if(stage.isPlayerDead())
         {
-            if(Gdx.input.isKeyPressed(Input.Keys.ENTER))
+            if(Gdx.input.isKeyPressed(Input.Keys.ENTER) || stage.skipDeathScreen)
             {
                 String curLevel = stage.levelFile;
 
@@ -126,6 +126,13 @@ public class GameScreen extends ScreenAdapter
     @Override
     public void pause()
     {
+    }
+
+    public void reload()
+    {
+        stage.killPlayer();
+
+        stage.skipDeathScreen = true;
     }
 
     public GameStage getGameStage()

@@ -39,6 +39,7 @@ public class GameStage extends Stage implements ContactListener
     protected float accumulator = 0f;
     protected SpriteBatch batch;
     protected ScannerRunnable scannerRunnable;
+    public boolean skipDeathScreen;
 
     public GameStage(String levelFile, GameScreen gameScreen)
     {
@@ -83,6 +84,8 @@ public class GameStage extends Stage implements ContactListener
 
         loadNewMap = false;
         newLevel = "";
+
+        skipDeathScreen = false;
 
         scannerRunnable = new ScannerRunnable();
 
@@ -144,7 +147,22 @@ public class GameStage extends Stage implements ContactListener
 
         if(scannerRunnable.hasInput())
         {
-            System.out.println(scannerRunnable.getInput());
+            String input = scannerRunnable.getInput().toLowerCase();
+
+            switch(input)
+            {
+                case "reloadassets":
+                    XEGame.game.getAssetManager().unloadGroup("base");
+                    XEGame.game.getAssetManager().finishLoading();
+                    XEGame.game.getAssetManager().loadGroup("base");
+                    XEGame.game.getAssetManager().finishLoading();
+                    gameScreen.reload();
+                    break;
+
+                default:
+                    System.out.println(input);
+                    break;
+            }
         }
     }
 
@@ -329,6 +347,11 @@ public class GameStage extends Stage implements ContactListener
     public void setPlayer(Player player)
     {
         this.player = player;
+    }
+
+    public void killPlayer()
+    {
+        player.die();
     }
 
     // This needs to be replaced with something more sensible
