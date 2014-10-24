@@ -7,7 +7,7 @@ import com.eddie.executiveexperience.Entity.UserData.EntityUserData;
 import com.eddie.executiveexperience.Entity.UserData.UserData;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameStage;
-import com.eddie.executiveexperience.Scripting.JSScript;
+import com.eddie.executiveexperience.Scripting.JythonScript;
 
 public abstract class GameActor extends Actor
 {
@@ -28,11 +28,11 @@ public abstract class GameActor extends Actor
         {
             EntityUserData entityUserData = (EntityUserData) getUserData();
 
-            JSScript script = entityUserData.getEntityData().getScript();
+            JythonScript script = entityUserData.getEntityData().getScript();
 
             if(script != null)
             {
-                System.out.println(script.executeFunction("act", String.class, this));
+                script.executeFunction("act", this);
             }
         }
 

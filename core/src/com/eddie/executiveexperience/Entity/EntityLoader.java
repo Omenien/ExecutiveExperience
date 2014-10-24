@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Logger;
 import com.eddie.executiveexperience.Env;
-import com.eddie.executiveexperience.Scripting.JSScript;
+import com.eddie.executiveexperience.Scripting.JythonScript;
 
 public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoader.EntityParameter>
 {
@@ -35,7 +35,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
     {
         Array<AssetDescriptor> dependencies = new Array<>();
         dependencies.add(new AssetDescriptor<>(stripExtension(fileName) + ".png", Texture.class));
-        dependencies.add(new AssetDescriptor<>(stripExtension(fileName) + ".js", JSScript.class));
+        dependencies.add(new AssetDescriptor<>(stripExtension(fileName) + ".py", JythonScript.class));
 
         return dependencies;
     }
@@ -57,7 +57,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
 
             if(root.getBoolean("usesScript", false))
             {
-                entityData.script = manager.get(stripExtension(fileName) + ".js", JSScript.class);
+                entityData.script = manager.get(stripExtension(fileName) + ".py", JythonScript.class);
             }
 
             JsonValue graphicsRoot = root.get("graphics");

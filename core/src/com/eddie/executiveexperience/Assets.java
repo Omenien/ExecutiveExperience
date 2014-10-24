@@ -11,8 +11,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.*;
 import com.eddie.executiveexperience.Entity.EntityData;
 import com.eddie.executiveexperience.Entity.EntityLoader;
-import com.eddie.executiveexperience.Scripting.JSScript;
-import com.eddie.executiveexperience.Scripting.JSScriptLoader;
+import com.eddie.executiveexperience.Scripting.JythonScript;
+import com.eddie.executiveexperience.Scripting.JythonScriptLoader;
 
 public class Assets implements Disposable, AssetErrorListener
 {
@@ -29,7 +29,7 @@ public class Assets implements Disposable, AssetErrorListener
 
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         assetManager.setLoader(EntityData.class, new EntityLoader(new InternalFileHandleResolver()));
-        assetManager.setLoader(JSScript.class, new JSScriptLoader(new InternalFileHandleResolver()));
+        assetManager.setLoader(JythonScript.class, new JythonScriptLoader(new InternalFileHandleResolver()));
 
         loadGroups(assetFile);
     }

@@ -18,7 +18,7 @@ allprojects {
     ext {
         appName = 'XEGame'
         gdxVersion = '1.4.1'
-        gdxUtilsVersion = '0.7.0-SNAPSHOT'
+        gdxUtilsVersion = '0.6.0'
     }
 
     repositories {
@@ -49,7 +49,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "net.dermetfan.libgdx-utils:libgdx-utils:$gdxUtilsVersion"
         compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:$gdxUtilsVersion"
-        compile 'org.mozilla:rhino:1.7R4'
+        compile 'org.python:jython-standalone:2.5.2'
     }
 }
 

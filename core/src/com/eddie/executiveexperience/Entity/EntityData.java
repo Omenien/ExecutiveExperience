@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.eddie.executiveexperience.Env;
-import com.eddie.executiveexperience.Scripting.JSScript;
+import com.eddie.executiveexperience.Scripting.JythonScript;
 
 public class EntityData
 {
@@ -15,7 +15,7 @@ public class EntityData
     protected float frameDuration;
     protected ObjectMap<String, Animation> animations;
     protected Animation defaultAnimation;
-    public JSScript script;
+    public JythonScript script;
 
     public EntityData()
     {
@@ -50,7 +50,7 @@ public class EntityData
         return texture;
     }
 
-    public JSScript getScript()
+    public JythonScript getScript()
     {
         return script;
     }
