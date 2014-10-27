@@ -13,6 +13,10 @@
             "path": "assets/entities/spike/Spike.json"
         },
         {
+            "type": "EntityData",
+            "path": "assets/entities/movingplatform/MovingPlatform.json"
+        },
+        {
             "type": "com.badlogic.gdx.maps.tiled.TiledMap",
             "path": "assets/levels/Level 1.tmx"
         },

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="50" height="30" tilewidth="35" tileheight="35">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="35" tileheight="35">
  <tileset firstgid="1" name="objects" tilewidth="35" tileheight="35" spacing="5">
   <image source="../graphics/objects.png" width="256" height="64"/>
  </tileset>
@@ -16,7 +16,7 @@
    eJzt1rsNgDAMRVEzBmzBHKwDNAxBxSSMAgMRiZJYiYit2NG70quojsKPyFdTRzRG5i04bAWHrWo6TsHVdkgFR3lwfIOjPM6RejfFsvj9+HNOcOgFBxwateqw/p/I1ep55FTDMYctYStz3YsjFRxwaCTp6Ol9FiU2lLGyuiju2El22t2OHFvYwYy7rx61y3KJ
   </data>
  </layer>
- <objectgroup name="Physics" width="50" height="30">
+ <objectgroup name="Physics">
   <object x="0" y="945" width="700" height="105"/>
   <object x="805" y="770" width="105" height="35"/>
   <object x="1295" y="1015" width="245" height="18"/>
@@ -32,7 +32,7 @@
   <object x="0" y="-35" width="1750" height="35"/>
   <object x="1750" y="-35" width="35" height="1120"/>
  </objectgroup>
- <objectgroup name="Objects" width="50" height="30">
+ <objectgroup name="Objects">
   <object name="Player" type="Player" gid="1" x="0" y="945"/>
   <object name="ExitDoor" type="Door" gid="5" x="1572" y="980" width="35" height="70">
    <properties>
@@ -52,6 +52,12 @@
   <object name="Spike" type="HiddenSpike" gid="3" x="1505" y="455">
    <properties>
     <property name="spikeDirection" value="left"/>
+   </properties>
+  </object>
+  <object name="MovingPlatform" type="MovingPlatform" gid="4" x="140" y="840">
+   <properties>
+    <property name="finalPosX" value="60"/>
+    <property name="finalPosY" value="30"/>
    </properties>
   </object>
  </objectgroup>

@@ -1,4 +1,4 @@
-package com.eddie.executiveexperience.World;
+package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -29,7 +29,7 @@ public class BodyUtils
 
     public static boolean bodyIsTerrain(Body body)
     {
-        return bodyIsType(body, UserDataType.TERRAIN);
+        return bodyIsType(body, UserDataType.TERRAIN) || bodyIsType(body, UserDataType.MOVING_PLATFORM);
     }
 
     public static boolean bodyInBounds(Body body)
@@ -38,14 +38,21 @@ public class BodyUtils
 
         if(userData != null)
         {
-            switch(userData.getUserDataType())
+            try
             {
-                case PLAYER:
-                case SAW:
-                    return body.getPosition().x + userData.getWidth() / 2 > 0 && body.getPosition().y + userData.getHeight() / 2 > 0;
+                switch(userData.getUserDataType())
+                {
+                    case PLAYER:
+                    case SAW:
+                        return body.getPosition().x + userData.getWidth() / 2 > 0 && body.getPosition().y + userData.getHeight() / 2 > 0;
 
-                default:
-                    return true;
+                    default:
+                        return true;
+                }
+            }
+            catch(Exception e)
+            {
+                System.out.println("Error in UserData for " + body.getClass().getSimpleName() + ". UserDataType: " + userData.getUserDataType());
             }
         }
 
