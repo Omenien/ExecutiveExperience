@@ -8,12 +8,12 @@ public class SawLauncherUserData extends EntityUserData
 {
     public SawLauncherUserData(GameStage gameStage, float width, float height)
     {
-        super(gameStage, "Spike", width, height);
+        super(gameStage, "SawLauncher", width, height);
 
         animatedSprite = new AnimatedSprite(entityData.getAnimation("normal"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);
-        animatedBox2DSprite.stop();
+        animatedBox2DSprite.play();
 
         userDataType = UserDataType.SAW_LAUNCHER;
     }

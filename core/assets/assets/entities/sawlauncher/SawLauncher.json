@@ -9,7 +9,7 @@
                 "mode": "loop",
                 "createReverse": false,
                 "frames": {
-                    "MovingPlatform.png": {
+                    "SawLauncher.png": {
                         "frame": {
                             "x": 0,
                             "y": 0,

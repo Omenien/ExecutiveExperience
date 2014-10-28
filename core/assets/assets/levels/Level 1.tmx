@@ -62,8 +62,8 @@
   </object>
   <object name="SawLauncher" type="SawLauncher" gid="6" x="315" y="840">
    <properties>
-    <property name="sawVelocityX" value="-1"/>
-    <property name="sawVelocityY" value="0"/>
+    <property name="sawVelocityX" value="0"/>
+    <property name="sawVelocityY" value="-5"/>
    </properties>
   </object>
  </objectgroup>

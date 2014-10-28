@@ -5,8 +5,8 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.eddie.executiveexperience.BodyUtils;
 import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.SawLauncherUserData;
 import com.eddie.executiveexperience.GameStage;
@@ -30,7 +30,7 @@ public class SawLauncher extends GameActor
         bodyDef.position.set(new Vector2(x, y));
 
         Body body = gameStage.getWorld().createBody(bodyDef);
-        Fixture fixture = body.createFixture(shape, Constants.ENTITY_DENSITY);
+        body.createFixture(shape, Constants.ENTITY_DENSITY);
         body.resetMassData();
 
         SawLauncherUserData entityData = new SawLauncherUserData(gameStage, 1f, 1f);
@@ -40,6 +40,8 @@ public class SawLauncher extends GameActor
         shape.dispose();
 
         setBody(body);
+
+        sawVelocity = new Vector2(Float.parseFloat(mapObject.getProperties().get("sawVelocityX", "0.0", String.class)), Float.parseFloat(mapObject.getProperties().get("sawVelocityY", "0.0", String.class)));
     }
 
     @Override
@@ -58,9 +60,9 @@ public class SawLauncher extends GameActor
 
         super.act(delta);
 
-        if(spawnedSaw == null)
+        if(spawnedSaw == null || !BodyUtils.bodyInBounds(spawnedSaw.getBody()))
         {
-            spawnedSaw = new MovingSaw(XEGame.game.getGameScreen().getGameStage(), body.getPosition().x, body.getPosition().y, new Vector2(-1, -1));
+            spawnedSaw = new MovingSaw(XEGame.game.getGameScreen().getGameStage(), body.getPosition().x, body.getPosition().y, sawVelocity);
         }
     }
 
