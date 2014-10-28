@@ -108,7 +108,7 @@ public class GameScreen extends ScreenAdapter
         }*/
 
         float minCameraX = camera.zoom * (camera.viewportWidth / 2);
-        float maxCameraX = getGameStage().getMapWidth()  - minCameraX;
+        float maxCameraX = getGameStage().getMapWidth() - minCameraX;
         float minCameraY = camera.zoom * (camera.viewportHeight / 2);
         float maxCameraY = getGameStage().getMapHeight() - minCameraY;
 

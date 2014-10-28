@@ -131,6 +131,9 @@ public class MusicManager implements Disposable
             return fileName;
         }
 
-        public float getVolume() { return startVolume; }
+        public float getVolume()
+        {
+            return startVolume;
+        }
     }
 }
