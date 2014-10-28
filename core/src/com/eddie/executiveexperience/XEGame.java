@@ -3,6 +3,8 @@ package com.eddie.executiveexperience;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.eddie.executiveexperience.Entity.EntityData;
 import com.eddie.executiveexperience.Screens.GameScreen;
 
 public class XEGame extends Game
@@ -23,6 +25,8 @@ public class XEGame extends Game
     {
         assets = new Assets("assets/config/assets.json");
         assets.loadGroup("base");
+        assets.loadFolder("entities", "assets/entities/", EntityData.class, ".json", true);
+        assets.loadFolder("maps", "assets/levels/", TiledMap.class, ".tmx", false);
         assets.finishLoading();
 
         musicManager = new MusicManager();

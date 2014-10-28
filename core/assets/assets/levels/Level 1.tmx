@@ -60,5 +60,11 @@
     <property name="finalPosY" value="6"/>
    </properties>
   </object>
+  <object name="SawLauncher" type="SawLauncher" gid="6" x="315" y="840">
+   <properties>
+    <property name="sawVelocityX" value="-1"/>
+    <property name="sawVelocityY" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

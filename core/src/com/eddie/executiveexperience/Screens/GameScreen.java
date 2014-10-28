@@ -77,10 +77,19 @@ public class GameScreen extends ScreenAdapter
 
         Vector2 playerPos = getGameStage().getPlayer().getBody().getPosition();
 
+        if(stage.isPlayerDead())
+        {
+            camera.zoom = 0.5f;
+        }
+        else
+        {
+            camera.zoom = 1;
+        }
+
         float cameraPosX = playerPos.x + (Constants.PLAYER_WIDTH / 2);
         float cameraPosY = playerPos.y + (Constants.PLAYER_HEIGHT / 2);
 
-        if(cameraPosX < (camera.viewportWidth / 2))
+        /*if(cameraPosX < (camera.viewportWidth / 2))
         {
             cameraPosX = camera.viewportWidth / 2;
         }
@@ -96,9 +105,17 @@ public class GameScreen extends ScreenAdapter
         else if(cameraPosY > getGameStage().getMapHeight() - (camera.viewportHeight / 2))
         {
             cameraPosY = getGameStage().getMapHeight() - (camera.viewportHeight / 2);
-        }
+        }*/
 
-        camera.position.set(cameraPosX, cameraPosY, 0.0f);
+        float minCameraX = camera.zoom * (camera.viewportWidth / 2);
+        float maxCameraX = getGameStage().getMapWidth()  - minCameraX;
+        float minCameraY = camera.zoom * (camera.viewportHeight / 2);
+        float maxCameraY = getGameStage().getMapHeight() - minCameraY;
+
+        cameraPosX = Math.min(maxCameraX, Math.max(cameraPosX, minCameraX));
+        cameraPosY = Math.min(maxCameraY, Math.max(cameraPosY, minCameraY));
+
+        camera.position.set(cameraPosX, cameraPosY, 0);
 
         camera.update();
 

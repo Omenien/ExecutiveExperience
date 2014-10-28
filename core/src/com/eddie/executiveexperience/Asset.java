@@ -1,7 +1,6 @@
 package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.assets.AssetLoaderParameters;
-import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -10,6 +9,18 @@ public class Asset implements Json.Serializable
     public Class<?> type;
     public String path;
     public AssetLoaderParameters parameters;
+
+    public Asset()
+    {
+
+    }
+
+    public Asset(Class<?> type, String path, AssetLoaderParameters parameters)
+    {
+        this.type = type;
+        this.path = path;
+        this.parameters = parameters;
+    }
 
     @Override
     public void write(Json json)

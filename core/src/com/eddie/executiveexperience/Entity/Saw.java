@@ -41,6 +41,11 @@ public class Saw extends GameActor
         setBody(body);
     }
 
+    public Saw(GameStage gameStage, float x, float y)
+    {
+        this(gameStage, x, y, new MapObject());
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha)
     {
@@ -61,7 +66,6 @@ public class Saw extends GameActor
 
         body.setTransform(body.getPosition().x, body.getPosition().y, angle);
 
-//        body.applyAngularImpulse(100.0f, true);
         body.applyTorque(100.0f, true);
     }
 
