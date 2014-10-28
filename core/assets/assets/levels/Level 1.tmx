@@ -56,8 +56,8 @@
   </object>
   <object name="MovingPlatform" type="MovingPlatform" gid="4" x="140" y="840">
    <properties>
-    <property name="finalPosX" value="60"/>
-    <property name="finalPosY" value="30"/>
+    <property name="finalPosX" value="25"/>
+    <property name="finalPosY" value="6"/>
    </properties>
   </object>
  </objectgroup>
