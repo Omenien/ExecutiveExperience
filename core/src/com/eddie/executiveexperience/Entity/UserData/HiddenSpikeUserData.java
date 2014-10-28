@@ -18,7 +18,7 @@ public class HiddenSpikeUserData extends EntityUserData
 
         this.spriteFixture = spriteFixture;
 
-        animatedSprite = new AnimatedSprite(entityData.getAnimation("deploy"));
+        animatedSprite = new AnimatedSprite(entityData.getAnimation("normal"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);
         animatedBox2DSprite.stop();

@@ -4,7 +4,7 @@
         "frameDuration": 0.05,
         "animations": [
             {
-                "name": "deploy",
+                "name": "normal",
                 "mode": "normal",
                 "frames": {
                     "spikes - 0.png": {
