@@ -18,7 +18,7 @@ allprojects {
     ext {
         appName = 'XEGame'
         gdxVersion = '1.4.1'
-        gdxUtilsVersion = '0.6.0'
+        gdxUtilsVersion = '0.7.0-SNAPSHOT'
     }
 
     repositories {
