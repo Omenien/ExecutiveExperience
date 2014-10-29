@@ -1,0 +1,27 @@
+
+pack.png
+size: 901,804
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+background
+  rotate: false
+  xy: 2, 104
+  size: 700, 700
+  orig: 700, 700
+  offset: 0, 0
+  index: -1
+ready
+  rotate: false
+  xy: 2, 2
+  size: 335, 100
+  orig: 335, 100
+  offset: 0, 0
+  index: -1
+replay
+  rotate: false
+  xy: 704, 684
+  size: 197, 120
+  orig: 197, 120
+  offset: 0, 0
+  index: -1

@@ -5,13 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.eddie.executiveexperience.Entity.EntityData;
-import com.eddie.executiveexperience.Screens.GameScreen;
+import com.eddie.executiveexperience.UI.HomeScreen;
 
 public class XEGame extends Game
 {
     public static XEGame game;
 
-    private static GameScreen gameScreen;
+    public GameScreen gameScreen;
+    public HomeScreen homeScreen;
     protected MusicManager musicManager;
     protected Assets assets;
 
@@ -31,9 +32,9 @@ public class XEGame extends Game
 
         musicManager = new MusicManager();
 
-        gameScreen = new GameScreen();
+        homeScreen = new HomeScreen();
 
-        setScreen(gameScreen);
+        setScreen(homeScreen);
     }
 
     @Override

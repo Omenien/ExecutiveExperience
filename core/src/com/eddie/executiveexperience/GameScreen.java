@@ -1,4 +1,4 @@
-package com.eddie.executiveexperience.Screens;
+package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.eddie.executiveexperience.*;
 
 public class GameScreen extends ScreenAdapter
 {
@@ -66,6 +65,8 @@ public class GameScreen extends ScreenAdapter
             stage = new GameStage(newLevel, this);
             stage.loadMap();
         }
+
+        XEGame.game.getMusicManager().setVolume(delta * delta * 1000 > 1 ? 1 : (delta * delta * 1000 < 0 ? 0 : delta * delta * 1000));
     }
 
     public void draw()
