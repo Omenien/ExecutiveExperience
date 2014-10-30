@@ -25,7 +25,7 @@ public class HomeScreenScript implements IScript
     {
         menu = item;
 
-        ImageItem playBtn = item.getImageById("startBtn");
+        ImageItem playBtn = item.getImageById("playBtn");
 
         // Adding a Click listener to playButton so we can start game when clicked
         playBtn.addListener(new ClickListener()
