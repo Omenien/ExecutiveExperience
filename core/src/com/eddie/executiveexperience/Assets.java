@@ -161,7 +161,7 @@ public class Assets implements Disposable, AssetErrorListener
     {
         FileHandle dir = Gdx.files.internal(directory);
 
-        if(dir.exists() && dir.isDirectory())
+        if(dir.exists())
         {
             if(groups == null)
             {
@@ -174,7 +174,7 @@ public class Assets implements Disposable, AssetErrorListener
 
             for(FileHandle cur : files)
             {
-                if(recursive && cur.isDirectory())
+                if(recursive && (cur.isDirectory() || cur.extension() == ""))
                 {
                     loadFolder(groupName, cur.path(), assetClass, mask, recursive);
                 }
