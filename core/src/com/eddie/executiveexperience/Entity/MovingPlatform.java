@@ -17,6 +17,8 @@ public class MovingPlatform extends GameActor
     protected Vector2 startPos;
     protected Vector2 finalPos;
 
+    protected Vector2 maxVelocity;
+
     protected int movingTo;
 
     protected Vector<Body> passengers;
@@ -52,6 +54,8 @@ public class MovingPlatform extends GameActor
         startPos = new Vector2(x, y);
 
         finalPos = new Vector2(Float.parseFloat(mapObject.getProperties().get("finalPosX", "0.0", String.class)), Float.parseFloat(mapObject.getProperties().get("finalPosY", "0.0", String.class)));
+
+        maxVelocity = new Vector2(Float.parseFloat(mapObject.getProperties().get("maxVelocityX", "5.0", String.class)), Float.parseFloat(mapObject.getProperties().get("maxVelocityY", "5.0", String.class)));
     }
 
     @Override
@@ -103,20 +107,20 @@ public class MovingPlatform extends GameActor
 
         body.setLinearVelocity(body.getLinearVelocity().cpy().add(velocityChange));
 
-        if(body.getLinearVelocity().x > 10f)
+        if(body.getLinearVelocity().x > maxVelocity.x)
         {
             body.setLinearVelocity(10f, body.getLinearVelocity().y);
         }
-        else if(body.getLinearVelocity().x < -10f)
+        else if(body.getLinearVelocity().x < -maxVelocity.x)
         {
             body.setLinearVelocity(-10f, body.getLinearVelocity().y);
         }
 
-        if(body.getLinearVelocity().y > 10f)
+        if(body.getLinearVelocity().y > maxVelocity.y)
         {
             body.setLinearVelocity(body.getLinearVelocity().x, 10f);
         }
-        else if(body.getLinearVelocity().y < -10f)
+        else if(body.getLinearVelocity().y < -maxVelocity.y)
         {
             body.setLinearVelocity(body.getLinearVelocity().x, -10f);
         }
