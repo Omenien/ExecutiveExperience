@@ -18,7 +18,6 @@ import com.eddie.executiveexperience.World.MapObjectManager;
 import com.eddie.executiveexperience.World.WorldUtils;
 
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class GameStage extends Stage implements ContactListener
 {
@@ -40,7 +39,6 @@ public class GameStage extends Stage implements ContactListener
     protected Level curLevel;
     protected float accumulator = 0f;
     protected SpriteBatch batch;
-    protected ScannerRunnable scannerRunnable;
     public boolean skipDeathScreen;
 
     public GameStage(String levelFile, GameScreen gameScreen)
@@ -88,10 +86,6 @@ public class GameStage extends Stage implements ContactListener
         newLevel = "";
 
         skipDeathScreen = false;
-
-        scannerRunnable = new ScannerRunnable();
-
-        new Thread(scannerRunnable).start();
     }
 
     public void loadMap()
@@ -145,26 +139,6 @@ public class GameStage extends Stage implements ContactListener
         {
             WorldUtils.getWorld().step(TIME_STEP, 8, 3);
             accumulator -= TIME_STEP;
-        }
-
-        if(scannerRunnable.hasInput())
-        {
-            String input = scannerRunnable.getInput().toLowerCase();
-
-            switch(input)
-            {
-                case "reloadassets":
-                    XEGame.game.getAssetManager().unloadGroup("base");
-                    XEGame.game.getAssetManager().finishLoading();
-                    XEGame.game.getAssetManager().loadGroup("base");
-                    XEGame.game.getAssetManager().finishLoading();
-                    gameScreen.reload();
-                    break;
-
-                default:
-                    System.out.println(input);
-                    break;
-            }
         }
     }
 
@@ -354,42 +328,5 @@ public class GameStage extends Stage implements ContactListener
     public void killPlayer()
     {
         player.die();
-    }
-
-    // This needs to be replaced with something more sensible
-    // Seriously, it's pretty awful.
-    // TODO: Learn to program
-    public class ScannerRunnable implements Runnable
-    {
-        Scanner scanner;
-
-        String input = "";
-
-        public ScannerRunnable()
-        {
-            scanner = new Scanner(System.in);
-        }
-
-        public void run()
-        {
-            if(input == "")
-            {
-                input = scanner.nextLine();
-            }
-        }
-
-        public String getInput()
-        {
-            String inputTemp = input;
-
-            input = "";
-
-            return inputTemp;
-        }
-
-        public boolean hasInput()
-        {
-            return input != "";
-        }
     }
 }

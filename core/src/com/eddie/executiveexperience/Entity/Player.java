@@ -306,7 +306,6 @@ public class Player extends GameActor
 
         if(leftWallContacts > 0 && rightWallContacts == 0)
         {
-            // TODO: Actual math for wall jump angle
             xComponent = 1.5f;
         }
         else if(leftWallContacts == 0 && rightWallContacts > 0)
