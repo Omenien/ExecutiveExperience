@@ -5,11 +5,12 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.MovingPlatformUserData;
 import com.eddie.executiveexperience.GameStage;
+
+import java.util.Vector;
 
 public class MovingPlatform extends GameActor
 {
@@ -17,6 +18,8 @@ public class MovingPlatform extends GameActor
     protected Vector2 finalPos;
 
     protected int movingTo;
+
+    protected Vector<Body> passengers;
 
     public MovingPlatform(GameStage gameStage, float x, float y, MapObject mapObject)
     {
@@ -31,8 +34,7 @@ public class MovingPlatform extends GameActor
         bodyDef.position.set(new Vector2(x, y));
 
         Body body = gameStage.getWorld().createBody(bodyDef);
-        Fixture fixture = body.createFixture(shape, Constants.ENTITY_DENSITY);
-        fixture.setFriction(100f);
+        body.createFixture(shape, Constants.ENTITY_DENSITY);
         body.resetMassData();
 
         MovingPlatformUserData entityData = new MovingPlatformUserData(gameStage, getClass().getSimpleName(), 1f, 1f);
@@ -42,6 +44,8 @@ public class MovingPlatform extends GameActor
         shape.dispose();
 
         setBody(body);
+
+        passengers = new Vector<>();
 
         movingTo = 1;
 
@@ -116,8 +120,14 @@ public class MovingPlatform extends GameActor
         {
             body.setLinearVelocity(body.getLinearVelocity().x, -10f);
         }
-    }
 
+        Vector2 thisVelocity = body.getLinearVelocity();
+
+        for(Body passenger : getUserData().getPassengers())
+        {
+            passenger.setLinearVelocity(passenger.getLinearVelocity().add(thisVelocity));
+        }
+    }
 
     @Override
     public MovingPlatformUserData getUserData()

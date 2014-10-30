@@ -175,17 +175,6 @@ public class Player extends GameActor
 
         handleInput(grounded);
 
-        Vector2 velocity = body.getLinearVelocity();
-
-        if(velocity.x < -MAX_VELOCITY_X)
-        {
-            body.setLinearVelocity(-MAX_VELOCITY_X, velocity.y);
-        }
-        else if(velocity.x > MAX_VELOCITY_X)
-        {
-            body.setLinearVelocity(MAX_VELOCITY_X, velocity.y);
-        }
-
         if(jumpTimeout > 0)
         {
             jumpTimeout--;
@@ -257,7 +246,7 @@ public class Player extends GameActor
                 getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("jump_left"));
             }
         }
-        else if(playerState == PlayerState.WALKING)
+        else if(playerState == PlayerState.WALKING && numFootContacts > 0)
         {
             if(playerDirection == Direction.RIGHT)
             {
@@ -343,24 +332,30 @@ public class Player extends GameActor
 
         if(Gdx.input.isKeyPressed(Env.playerMoveLeft))
         {
-            if(grounded)
+            if(body.getLinearVelocity().x > -MAX_VELOCITY_X)
             {
-                body.applyLinearImpulse(-1.5f, 0f, position.x, position.y, true);
-            }
-            else
-            {
-                body.applyLinearImpulse(-0.25f, 0f, position.x, position.y, true);
+                if(grounded)
+                {
+                    body.applyLinearImpulse(-1.5f, 0f, position.x, position.y, true);
+                }
+                else
+                {
+                    body.applyLinearImpulse(-0.25f, 0f, position.x, position.y, true);
+                }
             }
         }
         else if(Gdx.input.isKeyPressed(Env.playerMoveRight))
         {
-            if(grounded)
+            if(body.getLinearVelocity().x < MAX_VELOCITY_X)
             {
-                body.applyLinearImpulse(1.5f, 0f, position.x, position.y, true);
-            }
-            else
-            {
-                body.applyLinearImpulse(0.25f, 0f, position.x, position.y, true);
+                if(grounded)
+                {
+                    body.applyLinearImpulse(1.5f, 0f, position.x, position.y, true);
+                }
+                else
+                {
+                    body.applyLinearImpulse(0.25f, 0f, position.x, position.y, true);
+                }
             }
         }
         else

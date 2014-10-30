@@ -97,4 +97,9 @@ public class BodyUtils
 
         return userData != null && userData.getUserDataType() == type;
     }
+
+    public static boolean bodyIsMovingPlatform(Body body)
+    {
+        return bodyIsType(body, UserDataType.MOVING_PLATFORM);
+    }
 }
