@@ -70,7 +70,7 @@ public class MusicManager implements Disposable
      */
     public void setVolume(float volume)
     {
-        Gdx.app.log("MusicManager", "Adjusting music volume to: " + volume);
+//        Gdx.app.log("MusicManager", "Adjusting music volume to: " + volume);
 
         // check and set the new volume
         if(volume < 0 || volume > 1f)
@@ -116,7 +116,7 @@ public class MusicManager implements Disposable
     {
         //GAME_MUSIC("assets/sounds/Newton - Streamline.mp3", 0.7f);
         //GAME_MUSIC("assets/sounds/Like a Twinkie.wav", 0.7f);
-        GAME_MUSIC("assets/sounds/AidanPanther.wav", 0.7f);
+        GAME_MUSIC("assets/sounds/AidanPanther.ogg", 0.7f);
 
         private final String fileName;
         private final float startVolume;
