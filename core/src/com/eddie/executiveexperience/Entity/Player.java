@@ -360,14 +360,7 @@ public class Player extends GameActor
         }
         else
         {
-            if(Math.abs(velocity.x) > 0.2f)
-            {
-                body.setLinearVelocity(velocity.x * 0.8f, velocity.y);
-            }
-            else
-            {
-                body.setLinearVelocity(0.0f, velocity.y);
-            }
+            body.setLinearVelocity(0.0f, velocity.y);
         }
 
         if(Gdx.input.isKeyPressed(Env.playerJump))

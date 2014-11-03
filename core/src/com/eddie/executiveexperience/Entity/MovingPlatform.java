@@ -17,7 +17,7 @@ public class MovingPlatform extends GameActor
     protected Vector2 startPos;
     protected Vector2 finalPos;
 
-    protected Vector2 maxVelocity;
+    protected float speed;
 
     protected int movingTo;
 
@@ -55,7 +55,7 @@ public class MovingPlatform extends GameActor
 
         finalPos = new Vector2(Float.parseFloat(mapObject.getProperties().get("finalPosX", "0.0", String.class)), Float.parseFloat(mapObject.getProperties().get("finalPosY", "0.0", String.class)));
 
-        maxVelocity = new Vector2(Float.parseFloat(mapObject.getProperties().get("maxVelocityX", "5.0", String.class)), Float.parseFloat(mapObject.getProperties().get("maxVelocityY", "5.0", String.class)));
+        speed = Float.parseFloat(mapObject.getProperties().get("speed", "5.0", String.class));
     }
 
     @Override
@@ -74,62 +74,47 @@ public class MovingPlatform extends GameActor
 
         super.act(delta);
 
-        Vector2 diffVector = new Vector2(0f, 0f);
+        Vector2 destination = movingTo == 1 ? new Vector2(finalPos.x, finalPos.y) : new Vector2(startPos.x, startPos.y);
+        destination.sub(body.getPosition());
 
-        if(movingTo == 0)
+        Vector2 newVelocity = destination;
+
+        if(newVelocity.len() > speed)
         {
-            if(body.getPosition().equals(startPos))
-            {
-                movingTo = 1;
+            newVelocity.nor();
 
-                body.setLinearVelocity(0f, 0f);
-            }
-            else
-            {
-                diffVector = body.getPosition().cpy().sub(startPos);
-            }
+            newVelocity.scl(speed);
         }
         else
         {
-            if(body.getPosition().equals(finalPos))
-            {
-                movingTo = 0;
+            movingTo = movingTo == 1 ? 0 : 1;
 
-                body.setLinearVelocity(0f, 0f);
-            }
-            else
+            for(Body passenger : passengers)
             {
-                diffVector = finalPos.cpy().sub(body.getPosition());
+                passenger.setLinearVelocity(newVelocity);
             }
         }
 
-        Vector2 velocityChange = diffVector.cpy().scl(0.001f);
-
-        body.setLinearVelocity(body.getLinearVelocity().cpy().add(velocityChange));
-
-        if(body.getLinearVelocity().x > maxVelocity.x)
-        {
-            body.setLinearVelocity(10f, body.getLinearVelocity().y);
-        }
-        else if(body.getLinearVelocity().x < -maxVelocity.x)
-        {
-            body.setLinearVelocity(-10f, body.getLinearVelocity().y);
-        }
-
-        if(body.getLinearVelocity().y > maxVelocity.y)
-        {
-            body.setLinearVelocity(body.getLinearVelocity().x, 10f);
-        }
-        else if(body.getLinearVelocity().y < -maxVelocity.y)
-        {
-            body.setLinearVelocity(body.getLinearVelocity().x, -10f);
-        }
-
-        Vector2 thisVelocity = body.getLinearVelocity();
+        body.setLinearVelocity(newVelocity);
 
         for(Body passenger : getUserData().getPassengers())
         {
-            passenger.setLinearVelocity(passenger.getLinearVelocity().add(thisVelocity));
+            Vector2 passengerVelocity = passenger.getLinearVelocity();
+
+            String output = "Passenger " + passenger.getUserData().getClass().getSimpleName() + ": Start Velocity - " + passengerVelocity.toString();
+
+            passengerVelocity.x += newVelocity.x;
+
+            if(newVelocity.y > 0)
+            {
+                passengerVelocity.y += newVelocity.y;
+            }
+
+            passenger.setLinearVelocity(passengerVelocity);
+
+            output += ", New Velocity - " + passengerVelocity.toString();
+
+            System.out.println(output);
         }
     }
 
