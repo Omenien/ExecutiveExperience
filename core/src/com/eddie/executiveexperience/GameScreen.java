@@ -43,9 +43,9 @@ public class GameScreen extends ScreenAdapter
     {
         stage.act(delta);
 
-        if(stage.isPlayerDead())
+        if (stage.isPlayerDead())
         {
-            if(Gdx.input.isKeyPressed(Input.Keys.ENTER))
+            if (Gdx.input.isKeyPressed(Input.Keys.ENTER))
             {
                 String curLevel = stage.levelFile;
 
@@ -56,7 +56,7 @@ public class GameScreen extends ScreenAdapter
             }
         }
 
-        if(stage.loadNewMap)
+        if (stage.loadNewMap)
         {
             String newLevel = stage.newLevel;
 
@@ -76,7 +76,7 @@ public class GameScreen extends ScreenAdapter
 
         Vector2 playerPos = getGameStage().getPlayer().getBody().getPosition();
 
-        if(stage.isPlayerDead())
+        if (stage.isPlayerDead())
         {
             camera.zoom = 0.5f;
         }
@@ -102,7 +102,7 @@ public class GameScreen extends ScreenAdapter
 
         stage.draw();
 
-        if(stage.isPlayerDead())
+        if (stage.isPlayerDead())
         {
             batch.setProjectionMatrix(UICamera.combined);
 

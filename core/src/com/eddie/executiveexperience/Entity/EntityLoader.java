@@ -55,7 +55,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
             JsonReader reader = new JsonReader();
             JsonValue root = reader.parse(file);
 
-            if(root.getBoolean("usesScript", false))
+            if (root.getBoolean("usesScript", false))
             {
                 entityData.script = manager.get(stripExtension(fileName) + ".py", JythonScript.class);
             }
@@ -69,7 +69,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
             JsonValue.JsonIterator animationsIt = animations.iterator();
             boolean first = true;
 
-            while(animationsIt.hasNext())
+            while (animationsIt.hasNext())
             {
                 JsonValue animationValue = animationsIt.next();
 
@@ -80,7 +80,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
 
                 boolean createReverse = animationValue.getBoolean("createReverse", false);
 
-                if(createReverse)
+                if (createReverse)
                 {
                     String rightName = name + "_right";
                     String leftName = name + "_left";
@@ -97,7 +97,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
                     entityData.animations.put(rightName, rightAnimation);
                     entityData.animations.put(leftName, leftAnimation);
 
-                    if(first)
+                    if (first)
                     {
                         entityData.defaultAnimation = rightAnimation;
                         first = false;
@@ -111,7 +111,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
 
                     entityData.animations.put(name, animation);
 
-                    if(first)
+                    if (first)
                     {
                         entityData.defaultAnimation = animation;
                         first = false;
@@ -121,7 +121,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
                 logger.info("Loaded animation " + name + " from " + fileName + ".");
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             logger.error("Error loading " + fileName + ".");
 
@@ -137,7 +137,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
 
     private Animation.PlayMode getPlayMode(String mode)
     {
-        switch(mode)
+        switch (mode)
         {
             case "normal":
                 return Animation.PlayMode.NORMAL;
@@ -160,7 +160,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
     {
         Array<TextureRegion> regions = new Array<>();
 
-        while(framesIt.hasNext())
+        while (framesIt.hasNext())
         {
             JsonValue frame = framesIt.next();
 
@@ -183,7 +183,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
     {
         Array<TextureRegion> regions = new Array<>();
 
-        while(framesIt.hasNext())
+        while (framesIt.hasNext())
         {
             JsonValue frame = framesIt.next();
 
@@ -197,7 +197,7 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
 
             TextureRegion frameTextureRegion = new TextureRegion(texture, x, y, width, height);
 
-            if(reverse)
+            if (reverse)
             {
                 frameTextureRegion.flip(true, false);
             }
@@ -210,14 +210,14 @@ public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoad
 
     private String stripExtension(String fileName)
     {
-        if(fileName == null)
+        if (fileName == null)
         {
             return null;
         }
 
         int pos = fileName.lastIndexOf(".");
 
-        if(pos == -1)
+        if (pos == -1)
         {
             return fileName;
         }

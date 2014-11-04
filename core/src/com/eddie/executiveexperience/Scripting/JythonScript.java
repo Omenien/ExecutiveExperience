@@ -29,13 +29,13 @@ public class JythonScript
             InputStream is = Gdx.files.internal(filePath).read();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String line = br.readLine();
-            while(line != null)
+            while (line != null)
             {
                 sb.append(line).append("\n");
                 line = br.readLine();
             }
         }
-        catch(IOException e)
+        catch (IOException e)
         {
             e.printStackTrace();
         }

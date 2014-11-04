@@ -29,13 +29,13 @@ public class MusicManager implements Disposable
 
     /**
      * Plays the given music (starts the streaming).
-     * <p/>
+     * <p>
      * If there is already a music being played it is stopped automatically.
      */
     public void play(GameMusic music)
     {
         // check if the music is enabled
-        if(!enabled)
+        if (!enabled)
         {
             return;
         }
@@ -57,7 +57,7 @@ public class MusicManager implements Disposable
      */
     public void stop()
     {
-        if(musicBeingPlayed != null)
+        if (musicBeingPlayed != null)
         {
             Gdx.app.log("MusicManager", "Stopping current music");
             musicBeingPlayed.stop();
@@ -73,14 +73,14 @@ public class MusicManager implements Disposable
 //        Gdx.app.log("MusicManager", "Adjusting music volume to: " + volume);
 
         // check and set the new volume
-        if(volume < 0 || volume > 1f)
+        if (volume < 0 || volume > 1f)
         {
             throw new IllegalArgumentException("The volume must be inside the range: [0,1]");
         }
         this.volume = volume;
 
         // if there is a music being played, change its volume
-        if(musicBeingPlayed != null)
+        if (musicBeingPlayed != null)
         {
             musicBeingPlayed.setVolume(volume);
         }
@@ -94,7 +94,7 @@ public class MusicManager implements Disposable
         this.enabled = enabled;
 
         // if the music is being deactivated, stop any music being played
-        if(!enabled)
+        if (!enabled)
         {
             stop();
         }

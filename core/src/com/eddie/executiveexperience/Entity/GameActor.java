@@ -24,13 +24,13 @@ public abstract class GameActor extends Actor
     @Override
     public void act(float delta)
     {
-        if(getUserData() instanceof EntityUserData)
+        if (getUserData() instanceof EntityUserData)
         {
             EntityUserData entityUserData = (EntityUserData) getUserData();
 
             JythonScript script = entityUserData.getEntityData().getScript();
 
-            if(script != null)
+            if (script != null)
             {
                 script.executeFunction("act", this);
             }

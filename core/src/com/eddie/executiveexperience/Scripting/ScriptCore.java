@@ -1,8 +1,12 @@
 package com.eddie.executiveexperience.Scripting;
 
+import org.python.util.PythonInterpreter;
+
 public class ScriptCore
 {
     protected static ScriptCore instance;
+
+    protected PythonInterpreter pythonInterpreter = new PythonInterpreter();
 
     public ScriptCore()
     {
@@ -10,7 +14,7 @@ public class ScriptCore
 
     public static ScriptCore getInstance()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = new ScriptCore();
         }
@@ -25,5 +29,10 @@ public class ScriptCore
     public Object executeFunction(String script, String functionName, Class returnType, Object... objs)
     {
         return null;
+    }
+
+    public PythonInterpreter getPythonInterpreter()
+    {
+        return pythonInterpreter;
     }
 }

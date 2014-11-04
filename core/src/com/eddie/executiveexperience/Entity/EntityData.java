@@ -35,7 +35,7 @@ public class EntityData
     {
         Animation animation = animations.get(animationName);
 
-        if(animation == null)
+        if (animation == null)
         {
             logger.info("Animation " + animationName + " not found for " + getClass().getSimpleName() + ", returning default.");
 

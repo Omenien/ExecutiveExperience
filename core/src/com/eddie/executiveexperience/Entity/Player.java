@@ -1,18 +1,17 @@
 package com.eddie.executiveexperience.Entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.eddie.executiveexperience.Constants;
+import com.eddie.executiveexperience.*;
 import com.eddie.executiveexperience.Entity.UserData.CollisionFixtureUserData;
 import com.eddie.executiveexperience.Entity.UserData.FootSensorUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
-import com.eddie.executiveexperience.Env;
-import com.eddie.executiveexperience.GameStage;
 
 public class Player extends GameActor
 {
@@ -84,7 +83,7 @@ public class Player extends GameActor
         PolygonShape wallSensorShape = new PolygonShape();
         Vector2[] vertices = new Vector2[8];
         vertices[0] = new Vector2(0, 0);
-        for(int i = 0; i < 7; i++)
+        for (int i = 0; i < 7; i++)
         {
             float angle = (i / 6.0f * 90f - 225f) * MathUtils.degreesToRadians;
             vertices[i + 1] = new Vector2(sensorRadius * MathUtils.cos(angle), sensorRadius * MathUtils.sin(angle));
@@ -97,7 +96,7 @@ public class Player extends GameActor
         wallSensorShape = new PolygonShape();
         vertices = new Vector2[8];
         vertices[0] = new Vector2(0, 0);
-        for(int i = 0; i < 7; i++)
+        for (int i = 0; i < 7; i++)
         {
             float angle = (i / 6.0f * 90f - 45f) * MathUtils.degreesToRadians;
             vertices[i + 1] = new Vector2(sensorRadius * MathUtils.cos(angle), sensorRadius * MathUtils.sin(angle));
@@ -144,7 +143,7 @@ public class Player extends GameActor
     {
         super.act(delta);
 
-        if(playerState == PlayerState.DEADING)
+        if (playerState == PlayerState.DEADING)
         {
             body.setLinearVelocity(new Vector2(0, 0));
 
@@ -157,13 +156,13 @@ public class Player extends GameActor
 
         boolean grounded = numFootContacts > 0 || body.getLinearVelocity().y == 0;
 
-        if(grounded)
+        if (grounded)
         {
             getUserData().getSpriteFixture().setFriction(10.0f);
 
             jumpExtendTime = 0;
 
-            if(playerState == PlayerState.JUMPING && timeSinceJump > 0.2f)
+            if (playerState == PlayerState.JUMPING && timeSinceJump > 0.2f)
             {
                 playerState = PlayerState.STANDING;
             }
@@ -175,30 +174,30 @@ public class Player extends GameActor
 
         handleInput(grounded);
 
-        if(jumpTimeout > 0)
+        if (jumpTimeout > 0)
         {
             jumpTimeout--;
         }
 
-        if(jump)
+        if (jump)
         {
-            if(grounded && jumpTimeout == 0)
+            if (grounded && jumpTimeout == 0)
             {
                 jump();
             }
         }
 
-        if(wallJump)
+        if (wallJump)
         {
-            if(jumpTimeout == 0)
+            if (jumpTimeout == 0)
             {
                 wallJump();
             }
         }
 
-        if(extendJump)
+        if (extendJump)
         {
-            if(jumpExtendTime < MAX_JUMP_EXTEND_TIME && timeSinceJump > JUMP_TIME_BEFORE_EXTENSION)
+            if (jumpExtendTime < MAX_JUMP_EXTEND_TIME && timeSinceJump > JUMP_TIME_BEFORE_EXTENSION)
             {
                 body.setLinearVelocity(body.getLinearVelocity().x, body.getLinearVelocity().y * 1.05f);
 
@@ -206,9 +205,9 @@ public class Player extends GameActor
             }
         }
 
-        if(playerState != PlayerState.JUMPING)
+        if (playerState != PlayerState.JUMPING)
         {
-            if(Math.abs(body.getLinearVelocity().x) > 0.2f)
+            if (Math.abs(body.getLinearVelocity().x) > 0.2f)
             {
                 playerState = PlayerState.WALKING;
             }
@@ -218,11 +217,11 @@ public class Player extends GameActor
             }
         }
 
-        if(body.getLinearVelocity().x > 0)
+        if (body.getLinearVelocity().x > 0)
         {
             playerDirection = Direction.RIGHT;
         }
-        else if(body.getLinearVelocity().x < 0)
+        else if (body.getLinearVelocity().x < 0)
         {
             playerDirection = Direction.LEFT;
         }
@@ -235,9 +234,9 @@ public class Player extends GameActor
     @Override
     public void draw(Batch batch, float parentAlpha)
     {
-        if(playerState == PlayerState.JUMPING)
+        if (playerState == PlayerState.JUMPING)
         {
-            if(playerDirection == Direction.RIGHT)
+            if (playerDirection == Direction.RIGHT)
             {
                 getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("jump_right"));
             }
@@ -246,9 +245,9 @@ public class Player extends GameActor
                 getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("jump_left"));
             }
         }
-        else if(playerState == PlayerState.WALKING && numFootContacts > 0)
+        else if (playerState == PlayerState.WALKING && numFootContacts > 0)
         {
-            if(playerDirection == Direction.RIGHT)
+            if (playerDirection == Direction.RIGHT)
             {
                 getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("walk_right"));
             }
@@ -293,11 +292,11 @@ public class Player extends GameActor
         float xComponent = 0.0f;
         float yComponent = 1f;
 
-        if(leftWallContacts > 0 && rightWallContacts == 0)
+        if (leftWallContacts > 0 && rightWallContacts == 0)
         {
             xComponent = 1.0f;
         }
-        else if(leftWallContacts == 0 && rightWallContacts > 0)
+        else if (leftWallContacts == 0 && rightWallContacts > 0)
         {
             xComponent = -1.0f;
         }
@@ -322,7 +321,7 @@ public class Player extends GameActor
 
     public void handleInput(boolean grounded)
     {
-        if(isDead())
+        if (isDead())
         {
             return;
         }
@@ -330,52 +329,106 @@ public class Player extends GameActor
         Vector2 position = body.getPosition();
         Vector2 velocity = body.getLinearVelocity();
 
-        if(Gdx.input.isKeyPressed(Env.playerMoveLeft))
+        if(XEGame.game.getGameScreen().getGameStage().getController() != null)
         {
-            if(body.getLinearVelocity().x > -MAX_VELOCITY_X)
+            Controller controller = XEGame.game.getGameScreen().getGameStage().getController();
+
+            boolean jumpButtonPressed = false;
+            float leftAxisX = 0.0f;
+
+            if(controller.getName().toLowerCase().contains("xbox"))
             {
-                if(grounded)
+                jumpButtonPressed = controller.getButton(XBoxGamepad.BUTTON_A);
+
+                leftAxisX = controller.getAxis(XBoxGamepad.AXIS_LEFT_X);
+
+                Gdx.app.log("Player Gamepad", "A Pressed: " + jumpButtonPressed + ", Left Axis X: " + leftAxisX);
+            }
+
+            if(jumpButtonPressed)
+            {
+                if (grounded && !jump && !(leftWallContacts > 0 || rightWallContacts > 0))
                 {
-                    body.applyLinearImpulse(-1.5f, 0f, position.x, position.y, true);
+                    jump = true;
                 }
-                else
+                else if (!grounded && body.getLinearVelocity().y > 0)
                 {
-                    body.applyLinearImpulse(-0.25f, 0f, position.x, position.y, true);
+                    extendJump = true;
+                }
+                else if (!grounded && (leftWallContacts > 0 || rightWallContacts > 0))
+                {
+                    wallJump = true;
                 }
             }
-        }
-        else if(Gdx.input.isKeyPressed(Env.playerMoveRight))
-        {
-            if(body.getLinearVelocity().x < MAX_VELOCITY_X)
+
+            if (Math.abs(leftAxisX) > 0.1)
             {
-                if(grounded)
+                if ((leftAxisX < 0 && body.getLinearVelocity().x > -MAX_VELOCITY_X) || (leftAxisX > 0 && body.getLinearVelocity().x < MAX_VELOCITY_X))
                 {
-                    body.applyLinearImpulse(1.5f, 0f, position.x, position.y, true);
+                    if (grounded)
+                    {
+                        body.applyLinearImpulse(leftAxisX * 1.5f, 0f, position.x, position.y, true);
+                    }
+                    else
+                    {
+                        body.applyLinearImpulse(leftAxisX * 0.25f, 0f, position.x, position.y, true);
+                    }
                 }
-                else
-                {
-                    body.applyLinearImpulse(0.25f, 0f, position.x, position.y, true);
-                }
+            }
+            else
+            {
+                body.setLinearVelocity(0.0f, velocity.y);
             }
         }
         else
         {
-            body.setLinearVelocity(0.0f, velocity.y);
-        }
+            if (Gdx.input.isKeyPressed(Env.playerMoveLeft))
+            {
+                if (body.getLinearVelocity().x > -MAX_VELOCITY_X)
+                {
+                    if (grounded)
+                    {
+                        body.applyLinearImpulse(-1.5f, 0f, position.x, position.y, true);
+                    }
+                    else
+                    {
+                        body.applyLinearImpulse(-0.25f, 0f, position.x, position.y, true);
+                    }
+                }
+            }
+            else if (Gdx.input.isKeyPressed(Env.playerMoveRight))
+            {
+                if (body.getLinearVelocity().x < MAX_VELOCITY_X)
+                {
+                    if (grounded)
+                    {
+                        body.applyLinearImpulse(1.5f, 0f, position.x, position.y, true);
+                    }
+                    else
+                    {
+                        body.applyLinearImpulse(0.25f, 0f, position.x, position.y, true);
+                    }
+                }
+            }
+            else
+            {
+                body.setLinearVelocity(0.0f, velocity.y);
+            }
 
-        if(Gdx.input.isKeyPressed(Env.playerJump))
-        {
-            if(grounded && !jump && !(leftWallContacts > 0 || rightWallContacts > 0))
+            if (Gdx.input.isKeyPressed(Env.playerJump))
             {
-                jump = true;
-            }
-            else if(!grounded && body.getLinearVelocity().y > 0)
-            {
-                extendJump = true;
-            }
-            else if(!grounded && (leftWallContacts > 0 || rightWallContacts > 0))
-            {
-                wallJump = true;
+                if (grounded && !jump && !(leftWallContacts > 0 || rightWallContacts > 0))
+                {
+                    jump = true;
+                }
+                else if (!grounded && body.getLinearVelocity().y > 0)
+                {
+                    extendJump = true;
+                }
+                else if (!grounded && (leftWallContacts > 0 || rightWallContacts > 0))
+                {
+                    wallJump = true;
+                }
             }
         }
     }

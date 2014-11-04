@@ -61,7 +61,7 @@ public class Settings
     {
         String string = strings.get(key);
 
-        if(string != null)
+        if (string != null)
         {
             return string;
         }
@@ -88,7 +88,7 @@ public class Settings
     {
         Float f = floats.get(key);
 
-        if(f != null)
+        if (f != null)
         {
             return f;
         }
@@ -115,7 +115,7 @@ public class Settings
     {
         Integer i = ints.get(key);
 
-        if(i != null)
+        if (i != null)
         {
             return i;
         }
@@ -142,7 +142,7 @@ public class Settings
     {
         Boolean b = booleans.get(key);
 
-        if(b != null)
+        if (b != null)
         {
             return b;
         }
@@ -169,7 +169,7 @@ public class Settings
     {
         Vector3 v = vectors.get(key);
 
-        if(v != null)
+        if (v != null)
         {
             return new Vector3(v);
         }
@@ -265,7 +265,7 @@ public class Settings
         {
             FileHandle fileHandle;
 
-            if(tryExternal &&
+            if (tryExternal &&
                     Gdx.app.getType() != Application.ApplicationType.WebGL &&
                     Gdx.files.external(settingsFile).exists())
             {
@@ -285,7 +285,7 @@ public class Settings
             strings.clear();
             Array<Element> stringNodes = root.getChildrenByName("string");
 
-            for(int i = 0; i < stringNodes.size; ++i)
+            for (int i = 0; i < stringNodes.size; ++i)
             {
                 Element stringNode = stringNodes.get(i);
                 String key = stringNode.getAttribute("key");
@@ -298,7 +298,7 @@ public class Settings
             floats.clear();
             Array<Element> floatNodes = root.getChildrenByName("float");
 
-            for(int i = 0; i < floatNodes.size; ++i)
+            for (int i = 0; i < floatNodes.size; ++i)
             {
                 Element floatNode = floatNodes.get(i);
                 String key = floatNode.getAttribute("key");
@@ -311,7 +311,7 @@ public class Settings
             ints.clear();
             Array<Element> intNodes = root.getChildrenByName("int");
 
-            for(int i = 0; i < intNodes.size; ++i)
+            for (int i = 0; i < intNodes.size; ++i)
             {
                 Element intNode = intNodes.get(i);
                 String key = intNode.getAttribute("key");
@@ -324,7 +324,7 @@ public class Settings
             booleans.clear();
             Array<Element> boolNodes = root.getChildrenByName("bool");
 
-            for(int i = 0; i < boolNodes.size; ++i)
+            for (int i = 0; i < boolNodes.size; ++i)
             {
                 Element boolNode = boolNodes.get(i);
                 String key = boolNode.getAttribute("key");
@@ -337,7 +337,7 @@ public class Settings
             vectors.clear();
             Array<Element> vectorNodes = root.getChildrenByName("vector");
 
-            for(int i = 0; i < vectorNodes.size; ++i)
+            for (int i = 0; i < vectorNodes.size; ++i)
             {
                 Element vectorNode = vectorNodes.get(i);
                 String key = vectorNode.getAttribute("key");
@@ -350,7 +350,7 @@ public class Settings
 
             logger.info("Successfully finished loading settings");
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             logger.error("Error loading file: " + settingsFile + " " + e.getMessage());
         }
@@ -361,7 +361,7 @@ public class Settings
      */
     public void saveSettings()
     {
-        if(Gdx.app.getType() != Application.ApplicationType.WebGL)
+        if (Gdx.app.getType() != Application.ApplicationType.WebGL)
         {
             logger.info("Saving Settings file " + settingsFile);
             XmlWriter xml;
@@ -375,7 +375,7 @@ public class Settings
                 xml = xml.element("settings");
 
                 // Create string nodes
-                for(Entry<String, String> entry : strings.entrySet())
+                for (Entry<String, String> entry : strings.entrySet())
                 {
                     xml = xml.element("string");
                     xml.attribute("key", entry.getKey());
@@ -384,7 +384,7 @@ public class Settings
                 }
 
                 // Create float nodes
-                for(Entry<String, Float> entry : floats.entrySet())
+                for (Entry<String, Float> entry : floats.entrySet())
                 {
                     xml = xml.element("float");
                     xml.attribute("key", entry.getKey());
@@ -393,7 +393,7 @@ public class Settings
                 }
 
                 // Create int nodes
-                for(Entry<String, Integer> entry : ints.entrySet())
+                for (Entry<String, Integer> entry : ints.entrySet())
                 {
                     xml = xml.element("int");
                     xml.attribute("key", entry.getKey());
@@ -402,7 +402,7 @@ public class Settings
                 }
 
                 // Create boolean nodes
-                for(Entry<String, Boolean> entry : booleans.entrySet())
+                for (Entry<String, Boolean> entry : booleans.entrySet())
                 {
                     xml = xml.element("bool");
                     xml.attribute("key", entry.getKey());
@@ -411,7 +411,7 @@ public class Settings
                 }
 
                 // Create vector nodes
-                for(Entry<String, Vector3> entry : vectors.entrySet())
+                for (Entry<String, Vector3> entry : vectors.entrySet())
                 {
                     xml = xml.element("vector");
                     xml.attribute("key", entry.getKey());
@@ -428,7 +428,7 @@ public class Settings
 
                 logger.info("Successfully saved");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 logger.error("Error saving file " + settingsFile);
             }

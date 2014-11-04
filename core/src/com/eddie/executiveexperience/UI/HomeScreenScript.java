@@ -33,13 +33,15 @@ public class HomeScreenScript implements IScript
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                if(XEGame.game.gameScreen == null)
+                if (XEGame.game.gameScreen == null)
                 {
                     XEGame.game.gameScreen = new GameScreen();
                 }
 
                 XEGame.game.setScreen(XEGame.game.getGameScreen());
-            };
+            }
+
+            ;
         });
     }
 
