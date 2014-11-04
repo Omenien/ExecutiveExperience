@@ -9,10 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.eddie.executiveexperience.Entity.GameActor;
 import com.eddie.executiveexperience.Entity.Player;
-import com.eddie.executiveexperience.Entity.UserData.DoorUserData;
-import com.eddie.executiveexperience.Entity.UserData.HiddenSpikeUserData;
-import com.eddie.executiveexperience.Entity.UserData.MovingPlatformUserData;
-import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
+import com.eddie.executiveexperience.Entity.UserData.*;
 import com.eddie.executiveexperience.World.Level;
 import com.eddie.executiveexperience.World.MapBodyManager;
 import com.eddie.executiveexperience.World.MapObjectManager;
@@ -40,7 +37,6 @@ public class GameStage extends Stage implements ContactListener
     protected Level curLevel;
     protected float accumulator = 0f;
     protected SpriteBatch batch;
-    public boolean skipDeathScreen;
 
     public GameStage(String levelFile, GameScreen gameScreen)
     {
@@ -85,8 +81,6 @@ public class GameStage extends Stage implements ContactListener
 
         loadNewMap = false;
         newLevel = "";
-
-        skipDeathScreen = false;
     }
 
     public void loadMap()
@@ -139,6 +133,7 @@ public class GameStage extends Stage implements ContactListener
         while(accumulator >= delta)
         {
             WorldUtils.getWorld().step(TIME_STEP, 8, 3);
+
             accumulator -= TIME_STEP;
         }
     }
@@ -326,7 +321,7 @@ public class GameStage extends Stage implements ContactListener
         float playerX = player.getBody().getPosition().x;
         float playerY = player.getBody().getPosition().y;
 
-        return player.isDead() || !(playerX > 0 && playerX < mapWidth && playerY + (player.getUserData().getHeight() / 2) > 0);
+        return player == null || player.isDead() || !(playerX > 0 && playerX < mapWidth && playerY + (player.getUserData().getHeight() / 2) > 0);
     }
 
     public GameScreen getScreen()
@@ -342,10 +337,5 @@ public class GameStage extends Stage implements ContactListener
     public void setPlayer(Player player)
     {
         this.player = player;
-    }
-
-    public void killPlayer()
-    {
-        player.die();
     }
 }

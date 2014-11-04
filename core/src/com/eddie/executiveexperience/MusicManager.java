@@ -114,9 +114,7 @@ public class MusicManager implements Disposable
      */
     public enum GameMusic
     {
-        //GAME_MUSIC("assets/sounds/Newton - Streamline.mp3", 0.7f);
-        //GAME_MUSIC("assets/sounds/Like a Twinkie.wav", 0.7f);
-        GAME_MUSIC("assets/sounds/AidanPanther.ogg", 0.7f);
+        GAME_MUSIC("assets/sounds/30 Rock - North Korean Weather.ogg", 1.0f);
 
         private final String fileName;
         private final float startVolume;

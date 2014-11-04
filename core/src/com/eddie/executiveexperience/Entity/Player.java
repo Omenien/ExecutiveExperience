@@ -295,11 +295,11 @@ public class Player extends GameActor
 
         if(leftWallContacts > 0 && rightWallContacts == 0)
         {
-            xComponent = 1.5f;
+            xComponent = 1.0f;
         }
         else if(leftWallContacts == 0 && rightWallContacts > 0)
         {
-            xComponent = -1.5f;
+            xComponent = -1.0f;
         }
 
         Vector2 jumpingLinearImpulse = new Vector2(xComponent, yComponent);

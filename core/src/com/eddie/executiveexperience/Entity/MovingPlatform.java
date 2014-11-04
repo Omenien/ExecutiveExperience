@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.MovingPlatformUserData;
@@ -36,7 +37,7 @@ public class MovingPlatform extends GameActor
         bodyDef.position.set(new Vector2(x, y));
 
         Body body = gameStage.getWorld().createBody(bodyDef);
-        body.createFixture(shape, Constants.ENTITY_DENSITY);
+        Fixture fixture = body.createFixture(shape, Constants.ENTITY_DENSITY);
         body.resetMassData();
 
         MovingPlatformUserData entityData = new MovingPlatformUserData(gameStage, getClass().getSimpleName(), 1f, 1f);
@@ -89,10 +90,10 @@ public class MovingPlatform extends GameActor
         {
             movingTo = movingTo == 1 ? 0 : 1;
 
-            for(Body passenger : passengers)
-            {
-                passenger.setLinearVelocity(newVelocity);
-            }
+//            for(Body passenger : passengers)
+//            {
+//                passenger.setLinearVelocity(newVelocity);
+//            }
         }
 
         body.setLinearVelocity(newVelocity);
@@ -101,9 +102,10 @@ public class MovingPlatform extends GameActor
         {
             Vector2 passengerVelocity = passenger.getLinearVelocity();
 
-            String output = "Passenger " + passenger.getUserData().getClass().getSimpleName() + ": Start Velocity - " + passengerVelocity.toString();
-
-            passengerVelocity.x += newVelocity.x;
+            if((passengerVelocity.x >= 0 && newVelocity.x > 0 && passengerVelocity.x < newVelocity.x) || (passengerVelocity.x <= 0 &&  newVelocity.x < 0 && passengerVelocity.x > newVelocity.x))
+            {
+                passengerVelocity.x += newVelocity.x;
+            }
 
             if(newVelocity.y > 0)
             {
@@ -111,10 +113,6 @@ public class MovingPlatform extends GameActor
             }
 
             passenger.setLinearVelocity(passengerVelocity);
-
-            output += ", New Velocity - " + passengerVelocity.toString();
-
-            System.out.println(output);
         }
     }
 

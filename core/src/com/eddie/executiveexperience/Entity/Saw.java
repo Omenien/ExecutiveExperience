@@ -65,8 +65,6 @@ public class Saw extends GameActor
         float angle = body.getAngle() + (getUserData().getDegreesPerSecond() * MathUtils.degreesToRadians) * delta;
 
         body.setTransform(body.getPosition().x, body.getPosition().y, angle);
-
-        body.applyTorque(100.0f, true);
     }
 
     @Override

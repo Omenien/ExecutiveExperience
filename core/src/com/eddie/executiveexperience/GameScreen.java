@@ -45,7 +45,7 @@ public class GameScreen extends ScreenAdapter
 
         if(stage.isPlayerDead())
         {
-            if(Gdx.input.isKeyPressed(Input.Keys.ENTER) || stage.skipDeathScreen)
+            if(Gdx.input.isKeyPressed(Input.Keys.ENTER))
             {
                 String curLevel = stage.levelFile;
 
@@ -65,8 +65,6 @@ public class GameScreen extends ScreenAdapter
             stage = new GameStage(newLevel, this);
             stage.loadMap();
         }
-
-        XEGame.game.getMusicManager().setVolume(delta * delta * 1000 > 1 ? 1 : (delta * delta * 1000 < 0 ? 0 : delta * delta * 1000));
     }
 
     public void draw()
@@ -89,24 +87,6 @@ public class GameScreen extends ScreenAdapter
 
         float cameraPosX = playerPos.x + (Constants.PLAYER_WIDTH / 2);
         float cameraPosY = playerPos.y + (Constants.PLAYER_HEIGHT / 2);
-
-        /*if(cameraPosX < (camera.viewportWidth / 2))
-        {
-            cameraPosX = camera.viewportWidth / 2;
-        }
-        else if(cameraPosX > getGameStage().getMapWidth() - (camera.viewportWidth / 2))
-        {
-            cameraPosX = getGameStage().getMapWidth() - (camera.viewportWidth / 2);
-        }
-
-        if(cameraPosY < (camera.viewportHeight / 2))
-        {
-            cameraPosY = camera.viewportHeight / 2;
-        }
-        else if(cameraPosY > getGameStage().getMapHeight() - (camera.viewportHeight / 2))
-        {
-            cameraPosY = getGameStage().getMapHeight() - (camera.viewportHeight / 2);
-        }*/
 
         float minCameraX = camera.zoom * (camera.viewportWidth / 2);
         float maxCameraX = getGameStage().getMapWidth() - minCameraX;
@@ -144,13 +124,6 @@ public class GameScreen extends ScreenAdapter
     @Override
     public void pause()
     {
-    }
-
-    public void reload()
-    {
-        stage.killPlayer();
-
-        stage.skipDeathScreen = true;
     }
 
     public GameStage getGameStage()
