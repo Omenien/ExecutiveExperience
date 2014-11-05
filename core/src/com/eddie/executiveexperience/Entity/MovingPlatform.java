@@ -29,7 +29,7 @@ public class MovingPlatform extends GameActor
         super(gameStage);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(0.5f, 0.5f);
+        shape.setAsBox(1.5f, 0.271428571f);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
@@ -40,7 +40,7 @@ public class MovingPlatform extends GameActor
         Fixture fixture = body.createFixture(shape, Constants.ENTITY_DENSITY);
         body.resetMassData();
 
-        MovingPlatformUserData entityData = new MovingPlatformUserData(gameStage, getClass().getSimpleName(), 1f, 1f);
+        MovingPlatformUserData entityData = new MovingPlatformUserData(gameStage, getClass().getSimpleName(), 3f, 0.542857143f);
 
         body.setUserData(entityData);
 
