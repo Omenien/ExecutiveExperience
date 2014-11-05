@@ -4,7 +4,8 @@ sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = ["src/"]
 
 project.ext.mainClassName = "com.eddie.executiveexperience.desktop.DesktopLauncher"
-project.ext.assetsDir = new File("../core/assets");
+project.ext.assetsDir = new File("../core/assets")
+project.ext.libsDir = new File("../libs/")
 
 task run(dependsOn: classes, type: JavaExec, overwrite: true) {
     main = project.mainClassName
@@ -19,7 +20,7 @@ task dist(type: Jar) {
     from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
     from { configurations.compile.collect { zipTree(it) } }
-    from files(project.assetsDir);
+    from files(project.assetsDir)
 
     manifest {
         attributes 'Main-Class': project.mainClassName

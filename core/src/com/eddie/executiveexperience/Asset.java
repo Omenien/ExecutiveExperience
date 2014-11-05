@@ -10,6 +10,18 @@ public class Asset implements Json.Serializable
     public String path;
     public AssetLoaderParameters parameters;
 
+    public Asset()
+    {
+
+    }
+
+    public Asset(Class<?> type, String path, AssetLoaderParameters parameters)
+    {
+        this.type = type;
+        this.path = path;
+        this.parameters = parameters;
+    }
+
     @Override
     public void write(Json json)
     {
@@ -23,10 +35,10 @@ public class Asset implements Json.Serializable
     {
         String typeString = jsonData.get("type").asString();
 
-        switch(typeString)
+        switch (typeString)
         {
-            case "SpriteAnimationData":
-                typeString = "com.eddie.executiveexperience.Graphics.SpriteAnimationData";
+            case "EntityData":
+                typeString = "com.eddie.executiveexperience.Entity.EntityData";
                 break;
         }
 
@@ -34,7 +46,7 @@ public class Asset implements Json.Serializable
         {
             type = Class.forName(typeString);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             type = null;
         }

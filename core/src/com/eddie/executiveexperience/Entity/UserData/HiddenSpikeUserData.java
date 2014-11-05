@@ -3,8 +3,8 @@ package com.eddie.executiveexperience.Entity.UserData;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.eddie.executiveexperience.Entity.HiddenSpike;
 import com.eddie.executiveexperience.GameStage;
-import net.dermetfan.utils.libgdx.graphics.AnimatedBox2DSprite;
-import net.dermetfan.utils.libgdx.graphics.AnimatedSprite;
+import net.dermetfan.gdx.graphics.g2d.AnimatedBox2DSprite;
+import net.dermetfan.gdx.graphics.g2d.AnimatedSprite;
 
 public class HiddenSpikeUserData extends EntityUserData
 {
@@ -14,12 +14,11 @@ public class HiddenSpikeUserData extends EntityUserData
 
     public HiddenSpikeUserData(GameStage gameStage, float width, float height, Fixture spriteFixture, HiddenSpike.SpikeDirection spikeDirection)
     {
-        super(width, height);
+        super(gameStage, "Spike", width, height);
 
         this.spriteFixture = spriteFixture;
 
-        spriteAnimationData = gameStage.getScreen().getAssets().get("assets/spike/Spike.json");
-        animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("deploy"));
+        animatedSprite = new AnimatedSprite(entityData.getAnimation("normal"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);
         animatedBox2DSprite.stop();

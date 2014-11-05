@@ -1,0 +1,24 @@
+{
+    "usesScript": false,
+    "graphics": {
+        "textureFile": "assets/entities/movingplatform/MovingPlatform.png",
+        "frameDuration": 1,
+        "animations": [
+            {
+                "name": "normal",
+                "mode": "loop",
+                "createReverse": false,
+                "frames": {
+                    "MovingPlatform.png": {
+                        "frame": {
+                            "x": 0,
+                            "y": 0,
+                            "w": 105,
+                            "h": 19
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

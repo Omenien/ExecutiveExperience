@@ -1,0 +1,25 @@
+{
+    "usesScript": true,
+    "scriptFile": "assets/entities/saw/Saw.js",
+    "graphics": {
+        "textureFile": "assets/entities/saw/Saw.png",
+        "frameDuration": 1,
+        "animations": [
+            {
+                "name": "normal",
+                "mode": "loop",
+                "createReverse": false,
+                "frames": {
+                    "Saw.png": {
+                        "frame": {
+                            "x": 0,
+                            "y": 0,
+                            "w": 230,
+                            "h": 230
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -21,6 +21,7 @@ public abstract class Env
     public static Vector2 gravity;
 
     // Key Config
+    public static boolean useController;
     public static int playerMoveLeft;
     public static int playerMoveRight;
     public static int playerJump;
@@ -55,19 +56,20 @@ public abstract class Env
         Vector3 gravity3 = settings.getVector("gravity", Vector3.Zero);
         gravity = new Vector2(gravity3.x, gravity3.y);
 
+        useController = settings.getBoolean("useController", true);
         playerMoveLeft = Input.Keys.valueOf(settings.getString("playerMoveLeft", "A"));
         playerMoveRight = Input.Keys.valueOf(settings.getString("playerMoveRight", "D"));
         playerJump = Input.Keys.valueOf(settings.getString("playerJump", "Space"));
 
-        if(playerMoveLeft == -1)
+        if (playerMoveLeft == -1)
         {
             playerMoveLeft = Input.Keys.A;
         }
-        else if(playerMoveRight == -1)
+        else if (playerMoveRight == -1)
         {
             playerMoveRight = Input.Keys.D;
         }
-        else if(playerJump == -1)
+        else if (playerJump == -1)
         {
             playerJump = Input.Keys.SPACE;
         }
