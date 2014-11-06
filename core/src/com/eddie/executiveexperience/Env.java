@@ -47,8 +47,8 @@ public abstract class Env
 
         settings = new Settings("assets/config/globals.xml");
 
-        virtualWidth = settings.getInt("virtualWidth", 700);
-        virtualHeight = settings.getInt("virtualHeight", 700);
+        virtualWidth = settings.getInt("virtualWidth", 1024);
+        virtualHeight = settings.getInt("virtualHeight", 768);
         aspectRatio = virtualWidth / virtualHeight;
         metersToPixels = settings.getFloat("metersToPixels", 70);
         pixelsToMeters = 1.0f / metersToPixels;
@@ -61,15 +61,15 @@ public abstract class Env
         playerMoveRight = Input.Keys.valueOf(settings.getString("playerMoveRight", "D"));
         playerJump = Input.Keys.valueOf(settings.getString("playerJump", "Space"));
 
-        if (playerMoveLeft == -1)
+        if(playerMoveLeft == -1)
         {
             playerMoveLeft = Input.Keys.A;
         }
-        else if (playerMoveRight == -1)
+        else if(playerMoveRight == -1)
         {
             playerMoveRight = Input.Keys.D;
         }
-        else if (playerJump == -1)
+        else if(playerJump == -1)
         {
             playerJump = Input.Keys.SPACE;
         }

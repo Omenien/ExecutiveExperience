@@ -17,7 +17,7 @@ import java.util.Iterator;
 /**
  * Original implementation created by David Saltares Márquez.
  * Edited by Edward Jones to facilitate the loading of game entities.
- * <p>
+ * <p/>
  * It uses a JSON formatted materials file to assign properties to the static
  * bodies it creates. To assign a material to a shape add a "material" custom
  * property to the shape in question using your editor of choice (Tiled, Gleed,
@@ -58,7 +58,7 @@ public class MapBodyManager
 
         materials.put("default", defaultFixture);
 
-        if (materialsFile != null)
+        if(materialsFile != null)
         {
             loadMaterialsFile(materialsFile);
         }
@@ -72,7 +72,7 @@ public class MapBodyManager
     {
         MapLayer layer = map.getLayers().get(layerName);
 
-        if (layer == null)
+        if(layer == null)
         {
             logger.error("Unable to find object layer \"" + layerName + "\" in map. Bodies will not be loaded.");
             return;
@@ -81,11 +81,11 @@ public class MapBodyManager
         MapObjects objects = layer.getObjects();
         Iterator<MapObject> objectIt = objects.iterator();
 
-        while (objectIt.hasNext())
+        while(objectIt.hasNext())
         {
             MapObject object = objectIt.next();
 
-            if (object instanceof TextureMapObject)
+            if(object instanceof TextureMapObject)
             {
                 continue;
             }
@@ -94,20 +94,20 @@ public class MapBodyManager
             BodyDef bodyDef = new BodyDef();
             bodyDef.type = BodyDef.BodyType.StaticBody;
 
-            if (object instanceof RectangleMapObject)
+            if(object instanceof RectangleMapObject)
             {
                 RectangleMapObject rectangle = (RectangleMapObject) object;
                 shape = getRectangle(rectangle);
             }
-            else if (object instanceof PolygonMapObject)
+            else if(object instanceof PolygonMapObject)
             {
                 shape = getPolygon((PolygonMapObject) object);
             }
-            else if (object instanceof PolylineMapObject)
+            else if(object instanceof PolylineMapObject)
             {
                 shape = getPolyline((PolylineMapObject) object);
             }
-            else if (object instanceof CircleMapObject)
+            else if(object instanceof CircleMapObject)
             {
                 shape = getCircle((CircleMapObject) object);
             }
@@ -122,7 +122,7 @@ public class MapBodyManager
             String userDataType = properties.get("userDataType", "com.eddie.executiveexperience.Entity.UserData.TerrainUserData", String.class);
             FixtureDef fixtureDef = materials.get(material);
 
-            if (fixtureDef == null)
+            if(fixtureDef == null)
             {
                 logger.error("Material " + material + " does not exist, using default material");
                 fixtureDef = materials.get("default");
@@ -136,7 +136,7 @@ public class MapBodyManager
             {
                 body.setUserData(Class.forName(userDataType).newInstance());
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 body.setUserData(new TerrainUserData());
             }
@@ -153,7 +153,7 @@ public class MapBodyManager
      */
     public void destroyPhysics()
     {
-        for (Body body : bodies)
+        for(Body body : bodies)
         {
             world.destroyBody(body);
         }
@@ -179,11 +179,11 @@ public class MapBodyManager
             JsonValue root = reader.parse(materialsFile);
             JsonIterator materialIt = root.iterator();
 
-            while (materialIt.hasNext())
+            while(materialIt.hasNext())
             {
                 JsonValue materialValue = materialIt.next();
 
-                if (!materialValue.has("name"))
+                if(!materialValue.has("name"))
                 {
                     logger.error("material without name");
                     continue;
@@ -200,7 +200,7 @@ public class MapBodyManager
             }
 
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             logger.error("error loading " + materialsFile.name() + " " + e.getMessage());
         }
@@ -235,7 +235,7 @@ public class MapBodyManager
 
         float[] worldVertices = new float[vertices.length];
 
-        for (int i = 0; i < vertices.length; ++i)
+        for(int i = 0; i < vertices.length; ++i)
         {
             worldVertices[i] = vertices[i] / units;
         }
@@ -249,7 +249,7 @@ public class MapBodyManager
         float[] vertices = polylineObject.getPolyline().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
 
-        for (int i = 0; i < vertices.length / 2; ++i)
+        for(int i = 0; i < vertices.length / 2; ++i)
         {
             worldVertices[i] = new Vector2();
             worldVertices[i].x = vertices[i * 2] / units;

@@ -14,7 +14,7 @@ Play-Button
 background
   rotate: false
   xy: 2, 74
-  size: 700, 700
-  orig: 700, 700
+  size: 1024, 768
+  orig: 1024, 768
   offset: 0, 0
   index: -1

@@ -36,11 +36,11 @@ public class BodyUtils
     {
         UserData userData = (UserData) body.getUserData();
 
-        if (userData != null)
+        if(userData != null)
         {
             try
             {
-                switch (userData.getUserDataType())
+                switch(userData.getUserDataType())
                 {
                     case PLAYER:
                     case SAW:
@@ -50,7 +50,7 @@ public class BodyUtils
                         return true;
                 }
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 System.out.println("Error in UserData for " + body.getClass().getSimpleName() + ". UserDataType: " + userData.getUserDataType());
             }
@@ -76,7 +76,7 @@ public class BodyUtils
 
     public static boolean fixtureIsPlayerCollisionFixture(Body body, Fixture fixture)
     {
-        if (((UserData) body.getUserData()).getUserDataType() == UserDataType.PLAYER)
+        if(((UserData) body.getUserData()).getUserDataType() == UserDataType.PLAYER)
         {
             return fixtureIsType(fixture, UserDataType.COLLISION_FIXTURE) || fixtureIsType(fixture, UserDataType.PLAYER_SENSOR_FOOT);
         }

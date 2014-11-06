@@ -53,14 +53,14 @@ public class SawLauncher extends GameActor
     @Override
     public void act(float delta)
     {
-        if (body == null)
+        if(body == null)
         {
             return;
         }
 
         super.act(delta);
 
-        if (spawnedSaw == null || !BodyUtils.bodyInBounds(spawnedSaw.getBody()))
+        if(spawnedSaw == null || !BodyUtils.bodyInBounds(spawnedSaw.getBody()))
         {
             spawnedSaw = new MovingSaw(XEGame.game.getGameScreen().getGameStage(), body.getPosition().x, body.getPosition().y, sawVelocity);
         }

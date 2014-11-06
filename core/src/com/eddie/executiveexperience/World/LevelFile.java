@@ -32,7 +32,7 @@ public class LevelFile implements Json.Serializable
         json.writeValue("physicsLayer", physicsLayer);
         json.writeValue("entityLayer", entityLayer);
 
-        if (invisibleLayers != null && invisibleLayers.length > 0)
+        if(invisibleLayers != null && invisibleLayers.length > 0)
         {
             json.writeValue("invisibleLayers", invisibleLayers);
         }
@@ -51,7 +51,7 @@ public class LevelFile implements Json.Serializable
         {
             invisibleLayers = jsonData.get("invisibleLayers").asStringArray();
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             invisibleLayers = null;
         }

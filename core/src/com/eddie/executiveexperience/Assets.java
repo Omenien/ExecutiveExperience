@@ -12,8 +12,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.*;
 import com.eddie.executiveexperience.Entity.EntityData;
 import com.eddie.executiveexperience.Entity.EntityLoader;
-import com.eddie.executiveexperience.Scripting.JythonScript;
-import com.eddie.executiveexperience.Scripting.JythonScriptLoader;
 
 public class Assets implements Disposable, AssetErrorListener
 {
@@ -30,7 +28,6 @@ public class Assets implements Disposable, AssetErrorListener
 
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         assetManager.setLoader(EntityData.class, new EntityLoader(new InternalFileHandleResolver()));
-        assetManager.setLoader(JythonScript.class, new JythonScriptLoader(new InternalFileHandleResolver()));
 
         loadGroups(assetFile);
     }
@@ -44,9 +41,9 @@ public class Assets implements Disposable, AssetErrorListener
     {
         Array<Asset> assets = groups.get(groupName, null);
 
-        if (assets != null)
+        if(assets != null)
         {
-            for (Asset asset : assets)
+            for(Asset asset : assets)
             {
                 logger.debug("Loading Asset " + asset.path);
 
@@ -63,11 +60,11 @@ public class Assets implements Disposable, AssetErrorListener
     {
         Array<Asset> assets = groups.get(groupName, null);
 
-        if (assets != null)
+        if(assets != null)
         {
-            for (Asset asset : assets)
+            for(Asset asset : assets)
             {
-                if (assetManager.isLoaded(asset.path, asset.type))
+                if(assetManager.isLoaded(asset.path, asset.type))
                 {
                     assetManager.unload(asset.path);
                 }
@@ -131,11 +128,11 @@ public class Assets implements Disposable, AssetErrorListener
 
         JsonValue.JsonIterator groupIterator = root.iterator();
 
-        while (groupIterator.hasNext())
+        while(groupIterator.hasNext())
         {
             JsonValue groupValue = groupIterator.next();
 
-            if (groups.containsKey(groupValue.name))
+            if(groups.containsKey(groupValue.name))
             {
                 logger.error("Already loaded group " + groupValue.name + ".");
                 continue;
@@ -145,7 +142,7 @@ public class Assets implements Disposable, AssetErrorListener
 
             JsonValue.JsonIterator assetIterator = groupValue.iterator();
 
-            while (assetIterator.hasNext())
+            while(assetIterator.hasNext())
             {
                 JsonValue assetValue = assetIterator.next();
 
@@ -161,9 +158,9 @@ public class Assets implements Disposable, AssetErrorListener
     {
         FileHandle dir = Gdx.files.internal(directory);
 
-        if (dir.exists())
+        if(dir.exists())
         {
-            if (groups == null)
+            if(groups == null)
             {
                 groups = new ObjectMap<>();
             }
@@ -172,13 +169,13 @@ public class Assets implements Disposable, AssetErrorListener
 
             FileHandle[] files = dir.list();
 
-            for (FileHandle cur : files)
+            for(FileHandle cur : files)
             {
-                if (recursive && (cur.isDirectory() || cur.extension() == ""))
+                if(recursive && (cur.isDirectory() || cur.extension() == ""))
                 {
                     loadFolder(groupName, cur.path(), assetClass, mask, recursive);
                 }
-                else if (cur.name().contains(mask))
+                else if(cur.name().contains(mask))
                 {
                     Asset asset = new Asset(assetClass, cur.path(), null);
                     assets.add(asset);
@@ -186,7 +183,7 @@ public class Assets implements Disposable, AssetErrorListener
                 }
             }
 
-            if (!groups.containsKey(groupName))
+            if(!groups.containsKey(groupName))
             {
                 groups.put(groupName, assets);
             }

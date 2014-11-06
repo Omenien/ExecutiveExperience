@@ -1,17 +1,14 @@
 package com.eddie.executiveexperience.UI;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.eddie.executiveexperience.XEGame;
 import com.uwsoft.editor.renderer.SceneLoader;
-import com.uwsoft.editor.renderer.resources.ResourceManager;
 
 public class HomeStage extends Stage
 {
-    private ResourceManager assetManager;
-
     public HomeStage()
     {
-        Gdx.input.setInputProcessor(this);
+        XEGame.game.getInputMultiplexer().addProcessor(this);
 
         SceneLoader menuLoader = new SceneLoader();
 
@@ -22,6 +19,5 @@ public class HomeStage extends Stage
         menuLoader.sceneActor.addScript(menuScript);
 
         addActor(menuLoader.sceneActor);
-
     }
 }

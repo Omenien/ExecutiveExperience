@@ -19,7 +19,7 @@ public class Level
 
         FileHandle file = Gdx.files.internal("assets/levels/" + fileName);
 
-        if (file.exists())
+        if(file.exists())
         {
             levelFile = json.fromJson(LevelFile.class, file);
         }

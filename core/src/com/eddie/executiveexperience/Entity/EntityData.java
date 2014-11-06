@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.eddie.executiveexperience.Env;
-import com.eddie.executiveexperience.Scripting.JythonScript;
 
 public class EntityData
 {
@@ -15,7 +14,6 @@ public class EntityData
     protected float frameDuration;
     protected ObjectMap<String, Animation> animations;
     protected Animation defaultAnimation;
-    public JythonScript script;
 
     public EntityData()
     {
@@ -27,15 +25,11 @@ public class EntityData
         texture = null;
     }
 
-    /**
-     * @param animationName name of the desired Graphics
-     * @return Graphics object containing the sequence of frames, null if not found
-     */
     public Animation getAnimation(String animationName)
     {
         Animation animation = animations.get(animationName);
 
-        if (animation == null)
+        if(animation == null)
         {
             logger.info("Animation " + animationName + " not found for " + getClass().getSimpleName() + ", returning default.");
 
@@ -48,10 +42,5 @@ public class EntityData
     public Texture getTexture()
     {
         return texture;
-    }
-
-    public JythonScript getScript()
-    {
-        return script;
     }
 }

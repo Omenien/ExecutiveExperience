@@ -35,7 +35,7 @@ public class Asset implements Json.Serializable
     {
         String typeString = jsonData.get("type").asString();
 
-        switch (typeString)
+        switch(typeString)
         {
             case "EntityData":
                 typeString = "com.eddie.executiveexperience.Entity.EntityData";
@@ -46,7 +46,7 @@ public class Asset implements Json.Serializable
         {
             type = Class.forName(typeString);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             type = null;
         }

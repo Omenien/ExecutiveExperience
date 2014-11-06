@@ -34,7 +34,7 @@ public class MapObjectManager
     {
         MapLayer layer = map.getLayers().get(layerName);
 
-        if (layer == null)
+        if(layer == null)
         {
             logger.error("Unable to find Object layer \"" + layerName + "\" in map. Objects will not be loaded.");
             return;
@@ -43,7 +43,7 @@ public class MapObjectManager
         MapObjects objects = layer.getObjects();
         Iterator<MapObject> objectIt = objects.iterator();
 
-        while (objectIt.hasNext())
+        while(objectIt.hasNext())
         {
             MapObject object = objectIt.next();
 
@@ -62,7 +62,7 @@ public class MapObjectManager
 
                 constructor.newInstance(gameStage, x, y, object);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 logger.error("Error loading object of type " + type + " at (" + x + ", " + y + ").");
 

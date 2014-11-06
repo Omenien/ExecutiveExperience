@@ -55,7 +55,7 @@ public class Saw extends GameActor
     @Override
     public void act(float delta)
     {
-        if (body == null)
+        if(body == null)
         {
             return;
         }

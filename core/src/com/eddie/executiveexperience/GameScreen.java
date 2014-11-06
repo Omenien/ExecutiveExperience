@@ -2,7 +2,6 @@ package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class GameScreen extends ScreenAdapter
+public class GameScreen extends Screen
 {
     protected OrthographicCamera UICamera;
     protected OrthographicCamera camera;
@@ -43,9 +42,9 @@ public class GameScreen extends ScreenAdapter
     {
         stage.act(delta);
 
-        if (stage.isPlayerDead())
+        if(stage.isPlayerDead())
         {
-            if (Gdx.input.isKeyPressed(Input.Keys.ENTER))
+            if(Gdx.input.isKeyPressed(Input.Keys.ENTER))
             {
                 String curLevel = stage.levelFile;
 
@@ -56,7 +55,7 @@ public class GameScreen extends ScreenAdapter
             }
         }
 
-        if (stage.loadNewMap)
+        if(stage.loadNewMap)
         {
             String newLevel = stage.newLevel;
 
@@ -76,7 +75,7 @@ public class GameScreen extends ScreenAdapter
 
         Vector2 playerPos = getGameStage().getPlayer().getBody().getPosition();
 
-        if (stage.isPlayerDead())
+        if(stage.isPlayerDead())
         {
             camera.zoom = 0.5f;
         }
@@ -102,7 +101,7 @@ public class GameScreen extends ScreenAdapter
 
         stage.draw();
 
-        if (stage.isPlayerDead())
+        if(stage.isPlayerDead())
         {
             batch.setProjectionMatrix(UICamera.combined);
 
@@ -112,6 +111,8 @@ public class GameScreen extends ScreenAdapter
 
             batch.end();
         }
+
+//        XEGame.game.getUI().writeln("Player: " + playerPos.toString(), Color.MAGENTA, Gdx.graphics, XEGame.game.getSpriteBatch());
     }
 
     @Override
@@ -139,5 +140,11 @@ public class GameScreen extends ScreenAdapter
     public OrthographicCamera getCamera()
     {
         return camera;
+    }
+
+    @Override
+    public void processInput(InputManager inputManager)
+    {
+
     }
 }

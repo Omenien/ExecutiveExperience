@@ -28,7 +28,7 @@ public class MovingPlatformUserData extends EntityUserData
 
     public void addPassenger(Body passenger)
     {
-        if (!passengers.contains(passenger))
+        if(!passengers.contains(passenger))
         {
             passengers.add(passenger);
         }

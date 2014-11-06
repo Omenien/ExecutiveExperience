@@ -68,7 +68,7 @@ public class MovingPlatform extends GameActor
     @Override
     public void act(float delta)
     {
-        if (body == null)
+        if(body == null)
         {
             return;
         }
@@ -80,7 +80,7 @@ public class MovingPlatform extends GameActor
 
         Vector2 newVelocity = destination;
 
-        if (newVelocity.len() > speed)
+        if(newVelocity.len() > speed)
         {
             newVelocity.nor();
 
@@ -98,16 +98,16 @@ public class MovingPlatform extends GameActor
 
         body.setLinearVelocity(newVelocity);
 
-        for (Body passenger : getUserData().getPassengers())
+        for(Body passenger : getUserData().getPassengers())
         {
             Vector2 passengerVelocity = passenger.getLinearVelocity();
 
-            if ((passengerVelocity.x >= 0 && newVelocity.x > 0 && passengerVelocity.x < newVelocity.x) || (passengerVelocity.x <= 0 && newVelocity.x < 0 && passengerVelocity.x > newVelocity.x))
+            if((passengerVelocity.x >= 0 && newVelocity.x > 0 && passengerVelocity.x < newVelocity.x) || (passengerVelocity.x <= 0 && newVelocity.x < 0 && passengerVelocity.x > newVelocity.x))
             {
                 passengerVelocity.x += newVelocity.x;
             }
 
-            if (newVelocity.y > 0)
+            if(newVelocity.y > 0)
             {
                 passengerVelocity.y += newVelocity.y;
             }

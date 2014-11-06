@@ -5,6 +5,6 @@
 
     ],
     "entityLayer": "Objects",
-    "physicsLayer": "Physics"
-
+    "physicsLayer": "Physics",
+    "backgroundMusic": "assets/sounds/AidanPanther.ogg"
 }

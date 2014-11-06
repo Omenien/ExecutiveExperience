@@ -10,38 +10,27 @@ import com.uwsoft.editor.renderer.script.IScript;
 
 public class HomeScreenScript implements IScript
 {
-    /*
-    * this is the main root menu actor to work with
-    */
-    private CompositeItem menu;
-
     public HomeScreenScript()
     {
-
     }
 
     @Override
     public void init(CompositeItem item)
     {
-        menu = item;
-
         ImageItem playBtn = item.getImageById("playBtn");
 
-        // Adding a Click listener to playButton so we can start game when clicked
         playBtn.addListener(new ClickListener()
         {
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                if (XEGame.game.gameScreen == null)
+                if(XEGame.game.gameScreen == null)
                 {
                     XEGame.game.gameScreen = new GameScreen();
                 }
 
                 XEGame.game.setScreen(XEGame.game.getGameScreen());
-            }
-
-            ;
+            };
         });
     }
 
