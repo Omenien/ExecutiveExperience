@@ -35,7 +35,7 @@ public class GameScreen extends Screen
 
         deathTintSprite = new Sprite(new Texture("assets/graphics/wasted.png"));
 
-        XEGame.game.getMusicManager().play(MusicManager.GameMusic.GAME_MUSIC);
+        Game.instance.getMusicManager().play(MusicManager.GameMusic.GAME_MUSIC);
     }
 
     public void update(float delta)
@@ -112,7 +112,7 @@ public class GameScreen extends Screen
             batch.end();
         }
 
-//        XEGame.game.getUI().writeln("Player: " + playerPos.toString(), Color.MAGENTA, Gdx.graphics, XEGame.game.getSpriteBatch());
+//        XEGame.instance.getUI().writeln("Player: " + playerPos.toString(), Color.MAGENTA, Gdx.graphics, XEGame.instance.getSpriteBatch());
     }
 
     @Override
@@ -134,7 +134,7 @@ public class GameScreen extends Screen
 
     public Assets getAssets()
     {
-        return XEGame.game.getAssetManager();
+        return Game.instance.getAssetManager();
     }
 
     public OrthographicCamera getCamera()
@@ -145,6 +145,11 @@ public class GameScreen extends Screen
     @Override
     public void processInput(InputManager inputManager)
     {
+        if(inputManager.isKeyTyped(Input.Keys.F))
+        {
+            Game.instance.toggleFullscreen();
+        }
 
+        getGameStage().getPlayer().processInput(inputManager);
     }
 }

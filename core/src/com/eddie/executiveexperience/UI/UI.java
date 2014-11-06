@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eddie.executiveexperience.Env;
-import com.eddie.executiveexperience.XEGame;
+import com.eddie.executiveexperience.Game;
 
 import java.util.ArrayList;
 
@@ -52,8 +52,8 @@ public class UI
         if(text.size() > 0)
         {
             Color shade = new Color(0, 0, 0, 0.75f);
-            XEGame.game.getShapeRenderer().setColor(shade);
-            XEGame.game.getShapeRenderer().rect(fontHeight / 2, Env.virtualHeight - (1 + text.size()) * fontHeight - fontHeight / 2, Env.virtualWidth - fontHeight, (1 + text.size()) * fontHeight);
+            Game.instance.getShapeRenderer().setColor(shade);
+            Game.instance.getShapeRenderer().rect(fontHeight / 2, Env.virtualHeight - (1 + text.size()) * fontHeight - fontHeight / 2, Env.virtualWidth - fontHeight, (1 + text.size()) * fontHeight);
         }
     }
 

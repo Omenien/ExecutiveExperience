@@ -13,6 +13,7 @@ import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameStage;
+import com.eddie.executiveexperience.InputManager;
 
 public class Player extends GameActor
 {
@@ -330,9 +331,9 @@ public class Player extends GameActor
         Vector2 position = body.getPosition();
         Vector2 velocity = body.getLinearVelocity();
 
-        /*if(XEGame.game.getGameScreen().getGameStage().getController() != null)
+        /*if(XEGame.instance.getGameScreen().getGameStage().getController() != null)
         {
-            Controller controller = XEGame.game.getGameScreen().getGameStage().getController();
+            Controller controller = XEGame.instance.getGameScreen().getGameStage().getController();
 
             boolean jumpButtonPressed = false;
             float leftAxisX = 0.0f;
@@ -415,22 +416,6 @@ public class Player extends GameActor
             {
                 body.setLinearVelocity(0.0f, velocity.y);
             }
-
-            if(Gdx.input.isKeyPressed(Env.playerJump))
-            {
-                if(grounded && !jump && !(leftWallContacts > 0 || rightWallContacts > 0))
-                {
-                    jump = true;
-                }
-                else if(!grounded && body.getLinearVelocity().y > 0)
-                {
-                    extendJump = true;
-                }
-                else if(!grounded && (leftWallContacts > 0 || rightWallContacts > 0))
-                {
-                    wallJump = true;
-                }
-            }
 //        }
     }
 
@@ -477,6 +462,30 @@ public class Player extends GameActor
     public Body getBody()
     {
         return body;
+    }
+
+    public void processInput(InputManager inputManager)
+    {
+        if(isDead())
+        {
+            return;
+        }
+
+        if(inputManager.isKeyTyped(Env.playerJumpKey) || inputManager.isButtonPressed(Env.playerJumpButton, true))
+        {
+            if(numFootContacts > 0 && !jump && !(leftWallContacts > 0 || rightWallContacts > 0))
+            {
+                jump = true;
+            }
+            else if(numFootContacts == 0 && body.getLinearVelocity().y > 0)
+            {
+                extendJump = true;
+            }
+            else if(numFootContacts == 0 && (leftWallContacts > 0 || rightWallContacts > 0))
+            {
+                wallJump = true;
+            }
+        }
     }
 
     protected enum PlayerState

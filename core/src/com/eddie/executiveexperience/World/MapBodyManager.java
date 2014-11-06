@@ -16,7 +16,7 @@ import java.util.Iterator;
 
 /**
  * Original implementation created by David Saltares Márquez.
- * Edited by Edward Jones to facilitate the loading of game entities.
+ * Edited by Edward Jones to facilitate the loading of instance entities.
  * <p/>
  * It uses a JSON formatted materials file to assign properties to the static
  * bodies it creates. To assign a material to a shape add a "material" custom

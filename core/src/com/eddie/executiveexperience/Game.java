@@ -1,6 +1,5 @@
 package com.eddie.executiveexperience;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,9 +9,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.eddie.executiveexperience.UI.HomeScreen;
 import com.eddie.executiveexperience.UI.UI;
 
-public class XEGame extends Game
+public class Game extends com.badlogic.gdx.Game
 {
-    public static XEGame game;
+    public static Game instance;
 
     public GameScreen gameScreen;
     public HomeScreen homeScreen;
@@ -26,11 +25,12 @@ public class XEGame extends Game
 
     protected InputMultiplexer inputMultiplexer;
     protected InputManager inputManager;
-    private Object UI;
 
-    public XEGame()
+    protected boolean isFullscreen;
+
+    public Game()
     {
-        game = this;
+        instance = this;
     }
 
     @Override
@@ -57,6 +57,7 @@ public class XEGame extends Game
         camera.setToOrtho(false);
 
         Gdx.graphics.setDisplayMode((int) Env.virtualWidth, (int) Env.virtualHeight, false);
+        isFullscreen = false;
 
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(camera.combined);
@@ -70,9 +71,9 @@ public class XEGame extends Game
 
         if(Env.debug)
         {
-            XEGame.game.getUI().writeText("Debug mode enabled");
+            Game.instance.getUI().writeText("Debug mode enabled");
 
-            XEGame.game.getUI().writeText("Hold on to your socks");
+            Game.instance.getUI().writeText("Hold on to your socks");
         }
     }
 
@@ -140,6 +141,13 @@ public class XEGame extends Game
     public SpriteBatch getSpriteBatch()
     {
         return spriteBatch;
+    }
+
+    public void toggleFullscreen()
+    {
+        isFullscreen = !isFullscreen;
+
+        Gdx.graphics.setDisplayMode((int) Env.virtualWidth, (int) Env.virtualHeight, isFullscreen);
     }
 }
 

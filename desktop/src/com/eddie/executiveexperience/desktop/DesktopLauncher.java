@@ -3,7 +3,7 @@ package com.eddie.executiveexperience.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.eddie.executiveexperience.Env;
-import com.eddie.executiveexperience.XEGame;
+import com.eddie.executiveexperience.Game;
 
 public class DesktopLauncher
 {
@@ -11,7 +11,7 @@ public class DesktopLauncher
 
     public static void main(String[] arg)
     {
-        XEGame game = new XEGame();
+        Game game = new Game();
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 1024;

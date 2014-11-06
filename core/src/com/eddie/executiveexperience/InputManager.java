@@ -8,8 +8,14 @@ import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.HashMap;
+
 public class InputManager implements InputProcessor, ControllerListener
 {
+    public HashMap<Integer, Boolean> keysTyped = new HashMap<>();
+    public HashMap<Integer, Boolean> keysDown = new HashMap<>();
+    public HashMap<Integer, Boolean> buttonsPressed = new HashMap<>();
+
     protected Controller controller;
     protected boolean hasController;
 
@@ -28,6 +34,32 @@ public class InputManager implements InputProcessor, ControllerListener
                 Gdx.app.log("InputManager", "Using " + controller.getName());
             }
         }
+    }
+
+    public boolean isButtonPressed(int buttonCode, boolean makeFalse)
+    {
+        if(controller != null)
+        {
+            if(buttonsPressed.get(buttonCode) != null)
+            {
+                if(buttonsPressed.get(buttonCode) == true)
+                {
+                    if(makeFalse)
+                    {
+                        buttonsPressed.remove(buttonCode);
+                        buttonsPressed.put(buttonCode, false);
+                    }
+                }
+            }
+            else
+            {
+                buttonsPressed.put(buttonCode, controller.getButton(buttonCode));
+            }
+
+            return buttonsPressed.get(buttonCode);
+        }
+
+        return false;
     }
 
     @Override
@@ -50,14 +82,70 @@ public class InputManager implements InputProcessor, ControllerListener
     }
 
     @Override
+    public boolean keyDown(int keycode)
+    {
+        keysTyped.remove(keycode);
+        keysTyped.put(keycode, true);
+
+        keysDown.remove(keycode);
+        keysDown.put(keycode, true);
+        return true;
+    }
+
+    @Override
+    public boolean keyUp(int keycode)
+    {
+        keysDown.remove(keycode);
+
+        return true;
+    }
+
+    @Override
+    public boolean keyTyped(char character)
+    {
+        return true;
+    }
+
+    public boolean isKeyTyped(int keycode)
+    {
+        if(keysTyped.containsKey(keycode))
+        {
+            keysTyped.remove(keycode);
+
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isKeyDown(int keycode)
+    {
+        if(keysDown.containsKey(keycode))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public boolean buttonDown(Controller controller, int buttonCode)
     {
+        if(controller.equals(this.controller))
+        {
+            buttonsPressed.put(buttonCode, true);
+        }
+
         return false;
     }
 
     @Override
     public boolean buttonUp(Controller controller, int buttonCode)
     {
+        if(controller.equals(this.controller))
+        {
+            buttonsPressed.put(buttonCode, false);
+        }
+
         return false;
     }
 
@@ -86,19 +174,7 @@ public class InputManager implements InputProcessor, ControllerListener
     }
 
     @Override
-    public boolean keyDown(int keycode)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character)
+    public boolean accelerometerMoved(Controller controller, int accelerometerCode, Vector3 value)
     {
         return false;
     }
@@ -129,12 +205,6 @@ public class InputManager implements InputProcessor, ControllerListener
 
     @Override
     public boolean scrolled(int amount)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean accelerometerMoved(Controller controller, int accelerometerCode, Vector3 value)
     {
         return false;
     }

@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Logger;
 public abstract class Env
 {
     // Game Instance
-    public static XEGame game;
+    public static Game game;
 
     // Application config
     public static float virtualWidth;
@@ -24,7 +24,8 @@ public abstract class Env
     public static boolean useController;
     public static int playerMoveLeft;
     public static int playerMoveRight;
-    public static int playerJump;
+    public static int playerJumpKey;
+    public static int playerJumpButton;
 
     // Debug
     public static int debugLevel;
@@ -41,7 +42,7 @@ public abstract class Env
 
     private static Settings settings;
 
-    public static void init(XEGame game)
+    public static void init(Game game)
     {
         Env.game = game;
 
@@ -59,7 +60,8 @@ public abstract class Env
         useController = settings.getBoolean("useController", true);
         playerMoveLeft = Input.Keys.valueOf(settings.getString("playerMoveLeft", "A"));
         playerMoveRight = Input.Keys.valueOf(settings.getString("playerMoveRight", "D"));
-        playerJump = Input.Keys.valueOf(settings.getString("playerJump", "Space"));
+        playerJumpKey = Input.Keys.valueOf(settings.getString("playerJumpKey", "Space"));
+        playerJumpButton = settings.getInt("playerJumpButton", XBoxGamepad.BUTTON_A);
 
         if(playerMoveLeft == -1)
         {
@@ -69,9 +71,9 @@ public abstract class Env
         {
             playerMoveRight = Input.Keys.D;
         }
-        else if(playerJump == -1)
+        else if(playerJumpKey == -1)
         {
-            playerJump = Input.Keys.SPACE;
+            playerJumpKey = Input.Keys.SPACE;
         }
 
         debugLevel = settings.getInt("debugLevel", Logger.INFO);
