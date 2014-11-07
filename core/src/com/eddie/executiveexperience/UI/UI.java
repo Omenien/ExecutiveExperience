@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eddie.executiveexperience.Env;
@@ -23,6 +24,9 @@ public class UI
     public int lineDisplay = 10;
 
     public ArrayList<TextLine> text = new ArrayList<>();
+
+    protected boolean usingConsole;
+    protected String consoleInput;
 
     public UI()
     {
@@ -86,7 +90,7 @@ public class UI
         }
     }
 
-    public void writeln(String s, Color c, Graphics g, SpriteBatch batch)
+    public void writeln(String s, Color c, Graphics g, Batch batch)
     {
         String wrappedStr = wrap(s, 100);
         String[] lines = wrappedStr.split("\n");
@@ -104,6 +108,29 @@ public class UI
 
             lineCount++;
         }
+    }
+
+    public void writeln(String s, Color c)
+    {
+        String wrappedStr = wrap(s, 100);
+        String[] lines = wrappedStr.split("\n");
+
+        Game.instance.getSpriteBatch().begin();
+
+        for(int i = 0; i < lines.length; i++)
+        {
+            int stringX = leftMargin;
+            int stringY = topMargin + fontHeight * (lineCount - 1);
+
+            font.setColor(Color.BLACK);
+            font.draw(Game.instance.getSpriteBatch(), lines[i], stringX + 2, stringY + 2);
+            font.setColor(c);
+            font.draw(Game.instance.getSpriteBatch(), lines[i], stringX, stringY);
+
+            lineCount++;
+        }
+
+        Game.instance.getSpriteBatch().end();
     }
 
     public void drawString(String s, Color c, int x, int y, SpriteBatch batch)
@@ -131,6 +158,11 @@ public class UI
         }
         int place = Math.max(Math.max(in.lastIndexOf(" ", len), in.lastIndexOf("\t", len)), in.lastIndexOf("-", len));
         return in.substring(0, place).trim() + "\n" + wrap(in.substring(place), len);
+    }
+
+    public boolean isUsingConsole()
+    {
+        return usingConsole;
     }
 
     public class TextLine

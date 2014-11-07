@@ -31,8 +31,6 @@ public class GameScreen extends Screen
         camera = new OrthographicCamera(Env.virtualWidth * Env.pixelsToMeters, Env.virtualHeight * Env.pixelsToMeters);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
 
-        Gdx.input.setInputProcessor(stage);
-
         deathTintSprite = new Sprite(new Texture("assets/graphics/wasted.png"));
 
         Game.instance.getMusicManager().play(MusicManager.GameMusic.GAME_MUSIC);
@@ -44,7 +42,7 @@ public class GameScreen extends Screen
 
         if(stage.isPlayerDead())
         {
-            if(Gdx.input.isKeyPressed(Input.Keys.ENTER))
+            if(Game.instance.inputManager.isKeyTyped(Input.Keys.ENTER))
             {
                 String curLevel = stage.levelFile;
 

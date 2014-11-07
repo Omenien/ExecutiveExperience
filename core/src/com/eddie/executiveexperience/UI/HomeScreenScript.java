@@ -30,7 +30,9 @@ public class HomeScreenScript implements IScript
                 }
 
                 Game.instance.setScreen(Game.instance.getGameScreen());
-            };
+            }
+
+            ;
         });
     }
 

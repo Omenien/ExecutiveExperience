@@ -176,16 +176,23 @@ public class GameStage extends Stage implements ContactListener
 
         if((BodyUtils.fixtureIsPlayerCollisionFixture(a, fixtureA) && BodyUtils.fixtureIsDeadly(fixtureB) || BodyUtils.fixtureIsDeadly(fixtureA) && BodyUtils.fixtureIsPlayerCollisionFixture(b, fixtureB)))
         {
-            if(BodyUtils.bodyIsSpike(a))
+            if(!Game.instance.isCheating())
             {
-                ((HiddenSpikeUserData) a.getUserData()).deploy();
-            }
-            else if(BodyUtils.bodyIsSpike(b))
-            {
-                ((HiddenSpikeUserData) b.getUserData()).deploy();
-            }
+                if(BodyUtils.bodyIsSpike(a))
+                {
+                    ((HiddenSpikeUserData) a.getUserData()).deploy();
+                }
+                else if(BodyUtils.bodyIsSpike(b))
+                {
+                    ((HiddenSpikeUserData) b.getUserData()).deploy();
+                }
 
-            player.die();
+                player.die();
+            }
+            else
+            {
+                Game.instance.getUI().writeText("GRATZ ON YOUR HAX BRO");
+            }
         }
 
         if((BodyUtils.fixtureIsJumpSensor(fixtureA) && BodyUtils.bodyIsMovingPlatform(b)))

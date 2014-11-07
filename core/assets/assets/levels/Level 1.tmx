@@ -58,10 +58,10 @@
    <properties>
     <property name="finalPosX" value="25"/>
     <property name="finalPosY" value="6"/>
-    <property name="speed" value="1"/>
+    <property name="speed" value="5"/>
    </properties>
   </object>
-  <object name="SawLauncher" type="SawLauncher" gid="6" x="980" y="280">
+  <object name="SawLauncher" type="SawLauncher" gid="6" x="1610" y="35">
    <properties>
     <property name="sawVelocityX" value="0"/>
     <property name="sawVelocityY" value="-5"/>

@@ -18,7 +18,7 @@ import com.eddie.executiveexperience.InputManager;
 public class Player extends GameActor
 {
     protected static final float MAX_VELOCITY_X = 11f;
-    private static final float MAX_JUMP_EXTEND_TIME = 0.225f;
+    private static final float MAX_JUMP_EXTEND_TIME = 0.3f;
     private static final float JUMP_TIME_BEFORE_EXTENSION = 0.05f;
 
     protected PlayerState playerState;
@@ -80,6 +80,7 @@ public class Player extends GameActor
 
         Fixture lowerCollisionFixture = body.createFixture(lowerCollisionCircle, 0);
         lowerCollisionFixture.setUserData(new FootSensorUserData());
+        lowerCollisionFixture.setFriction(1.0f  );
 
         float sensorRadius = Constants.PLAYER_WIDTH * 0.7f;
         PolygonShape wallSensorShape = new PolygonShape();
@@ -268,6 +269,10 @@ public class Player extends GameActor
 
     public void jump()
     {
+        jump = false;
+        wallJump = false;
+        extendJump = false;
+
         float angle = MathUtils.radiansToDegrees * body.getAngle();
 
         float jumpingImpulseMagnitude = getUserData().getJumpingImpulseMagnitude();
@@ -289,18 +294,22 @@ public class Player extends GameActor
 
     private void wallJump()
     {
+        jump = false;
+        wallJump = false;
+        extendJump = false;
+
         float jumpingImpulseMagnitude = getUserData().getJumpingImpulseMagnitude();
 
-        float xComponent = 0.0f;
+        float xComponent = 0.8f;
         float yComponent = 1f;
 
         if(leftWallContacts > 0 && rightWallContacts == 0)
         {
-            xComponent = 1.0f;
+            xComponent *= 1.0f;
         }
         else if(leftWallContacts == 0 && rightWallContacts > 0)
         {
-            xComponent = -1.0f;
+            xComponent *= -1.0f;
         }
 
         Vector2 jumpingLinearImpulse = new Vector2(xComponent, yComponent);
@@ -384,39 +393,38 @@ public class Player extends GameActor
         }
         else
         {*/
-            if(Gdx.input.isKeyPressed(Env.playerMoveLeft))
+        if(Gdx.input.isKeyPressed(Env.playerMoveLeft))
+        {
+            if(body.getLinearVelocity().x > -MAX_VELOCITY_X)
             {
-                if(body.getLinearVelocity().x > -MAX_VELOCITY_X)
+                if(grounded)
                 {
-                    if(grounded)
-                    {
-                        body.applyLinearImpulse(-1.5f, 0f, position.x, position.y, true);
-                    }
-                    else
-                    {
-                        body.applyLinearImpulse(-0.25f, 0f, position.x, position.y, true);
-                    }
+                    body.applyLinearImpulse(-1.5f, 0f, position.x, position.y, true);
+                }
+                else
+                {
+                    body.applyLinearImpulse(-0.25f, 0f, position.x, position.y, true);
                 }
             }
-            else if(Gdx.input.isKeyPressed(Env.playerMoveRight))
+        }
+        else if(Gdx.input.isKeyPressed(Env.playerMoveRight))
+        {
+            if(body.getLinearVelocity().x < MAX_VELOCITY_X)
             {
-                if(body.getLinearVelocity().x < MAX_VELOCITY_X)
+                if(grounded)
                 {
-                    if(grounded)
-                    {
-                        body.applyLinearImpulse(1.5f, 0f, position.x, position.y, true);
-                    }
-                    else
-                    {
-                        body.applyLinearImpulse(0.25f, 0f, position.x, position.y, true);
-                    }
+                    body.applyLinearImpulse(1.5f, 0f, position.x, position.y, true);
+                }
+                else
+                {
+                    body.applyLinearImpulse(0.25f, 0f, position.x, position.y, true);
                 }
             }
-            else
-            {
-                body.setLinearVelocity(0.0f, velocity.y);
-            }
-//        }
+        }
+        else
+        {
+            body.setLinearVelocity(0.0f, velocity.y);
+        }
     }
 
     public void incrementFootContacts()
@@ -471,7 +479,7 @@ public class Player extends GameActor
             return;
         }
 
-        if(inputManager.isKeyTyped(Env.playerJumpKey) || inputManager.isButtonPressed(Env.playerJumpButton, true))
+        if(inputManager.isKeyDown(Env.playerJumpKey) || inputManager.isButtonPressed(Env.playerJumpButton, false))
         {
             if(numFootContacts > 0 && !jump && !(leftWallContacts > 0 || rightWallContacts > 0))
             {

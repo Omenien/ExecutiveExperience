@@ -12,15 +12,19 @@ import java.util.HashMap;
 
 public class InputManager implements InputProcessor, ControllerListener
 {
-    public HashMap<Integer, Boolean> keysTyped = new HashMap<>();
-    public HashMap<Integer, Boolean> keysDown = new HashMap<>();
-    public HashMap<Integer, Boolean> buttonsPressed = new HashMap<>();
+    public HashMap<Integer, Boolean> keysTyped;
+    public HashMap<Integer, Boolean> keysDown;
+    public HashMap<Integer, Boolean> buttonsPressed;
 
     protected Controller controller;
     protected boolean hasController;
 
     public InputManager()
     {
+        keysTyped = new HashMap<>();
+        keysDown = new HashMap<>();
+        buttonsPressed = new HashMap<>();
+
         hasController = false;
 
         if(Env.useController)
@@ -32,6 +36,10 @@ public class InputManager implements InputProcessor, ControllerListener
                 hasController = true;
 
                 Gdx.app.log("InputManager", "Using " + controller.getName());
+            }
+            else
+            {
+                Gdx.app.log("InputManager", "No controllers found.");
             }
         }
     }
@@ -84,11 +92,19 @@ public class InputManager implements InputProcessor, ControllerListener
     @Override
     public boolean keyDown(int keycode)
     {
-        keysTyped.remove(keycode);
-        keysTyped.put(keycode, true);
+        if(!Game.instance.getUI().isUsingConsole())
+        {
+            keysTyped.remove(keycode);
+            keysTyped.put(keycode, true);
 
-        keysDown.remove(keycode);
-        keysDown.put(keycode, true);
+            keysDown.remove(keycode);
+            keysDown.put(keycode, true);
+        }
+        else
+        {
+           // Game.instance.getUI().textInput(Keys.));
+        }
+
         return true;
     }
 
@@ -130,6 +146,8 @@ public class InputManager implements InputProcessor, ControllerListener
     @Override
     public boolean buttonDown(Controller controller, int buttonCode)
     {
+        Gdx.app.log("InputManager", controller.getName() + " button pressed " + buttonCode);
+
         if(controller.equals(this.controller))
         {
             buttonsPressed.put(buttonCode, true);
@@ -141,6 +159,8 @@ public class InputManager implements InputProcessor, ControllerListener
     @Override
     public boolean buttonUp(Controller controller, int buttonCode)
     {
+        Gdx.app.log("InputManager", controller.getName() + " button released " + buttonCode);
+
         if(controller.equals(this.controller))
         {
             buttonsPressed.put(buttonCode, false);

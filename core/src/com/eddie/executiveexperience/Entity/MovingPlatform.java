@@ -62,6 +62,7 @@ public class MovingPlatform extends GameActor
     @Override
     public void draw(Batch batch, float parentAlpha)
     {
+
         getUserData().getAnimatedBox2DSprite().draw(batch, body);
     }
 
@@ -80,7 +81,7 @@ public class MovingPlatform extends GameActor
 
         Vector2 newVelocity = destination;
 
-        if(newVelocity.len() > speed)
+        if(newVelocity.len() > speed / 60f)
         {
             newVelocity.nor();
 
@@ -90,15 +91,15 @@ public class MovingPlatform extends GameActor
         {
             movingTo = movingTo == 1 ? 0 : 1;
 
-//            for(Body passenger : passengers)
-//            {
-//                passenger.setLinearVelocity(newVelocity);
-//            }
+            for(Body passenger : passengers)
+            {
+                passenger.setLinearVelocity(newVelocity);
+            }
         }
 
         body.setLinearVelocity(newVelocity);
 
-        for(Body passenger : getUserData().getPassengers())
+        /*for(Body passenger : getUserData().getPassengers())
         {
             Vector2 passengerVelocity = passenger.getLinearVelocity();
 
@@ -113,7 +114,7 @@ public class MovingPlatform extends GameActor
             }
 
             passenger.setLinearVelocity(passengerVelocity);
-        }
+        }*/
     }
 
     @Override

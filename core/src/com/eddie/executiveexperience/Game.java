@@ -1,6 +1,7 @@
 package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -27,6 +28,7 @@ public class Game extends com.badlogic.gdx.Game
     protected InputManager inputManager;
 
     protected boolean isFullscreen;
+    protected boolean cheatMode;
 
     public Game()
     {
@@ -72,9 +74,10 @@ public class Game extends com.badlogic.gdx.Game
         if(Env.debug)
         {
             Game.instance.getUI().writeText("Debug mode enabled");
-
-            Game.instance.getUI().writeText("Hold on to your socks");
+            Game.instance.getUI().writeText("Press F1 to turn on aimbot.");
         }
+
+        cheatMode = false;
     }
 
     @Override
@@ -105,6 +108,14 @@ public class Game extends com.badlogic.gdx.Game
 
     private void processInput()
     {
+        if(inputManager.isKeyTyped(Input.Keys.F1))
+        {
+            Game.instance.getUI().writeText("WALL HACK TURNED ON");
+            Game.instance.getUI().writeText("HOLD ON TO YOUR SOCKS");
+
+            cheatMode = true;
+        }
+
         ((Screen) getScreen()).processInput(inputManager);
     }
 
@@ -148,6 +159,11 @@ public class Game extends com.badlogic.gdx.Game
         isFullscreen = !isFullscreen;
 
         Gdx.graphics.setDisplayMode((int) Env.virtualWidth, (int) Env.virtualHeight, isFullscreen);
+    }
+
+    public boolean isCheating()
+    {
+        return cheatMode;
     }
 }
 

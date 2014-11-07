@@ -1,45 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="20" height="30" tilewidth="35" tileheight="35">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="22" tilewidth="35" tileheight="35">
  <tileset firstgid="1" name="objects" tilewidth="35" tileheight="35" spacing="5">
   <image source="../graphics/objects.png" width="256" height="64"/>
+  <tile id="3">
+   <properties>
+    <property name="finalPosX" value="29"/>
+    <property name="finalPosY" value="3"/>
+    <property name="speed" value="5"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="7" name="tiles" tilewidth="35" tileheight="35" spacing="2">
   <image source="../graphics/tiles.png" width="1024" height="512"/>
+  <tile id="190">
+   <properties>
+    <property name="finalPosX" value=""/>
+    <property name="finalPosY" value=""/>
+    <property name="speed" value="5"/>
+   </properties>
+  </tile>
  </tileset>
- <layer name="Background" width="20" height="30">
+ <layer name="Background" width="30" height="22">
   <data encoding="base64" compression="zlib">
-   eJzjY2Bg4BvFo3gUj+JRPIpH8SgexVTDACMGINE=
+   eJztw0ENAAAMA6Hz76u+5mFvSFg1VVV9Pmtp+/Q=
   </data>
  </layer>
- <layer name="Primary" width="20" height="30">
+ <layer name="Primary" width="30" height="22">
   <data encoding="base64" compression="zlib">
-   eJxjYMAOTuIQJxfQy7zB4m5qu280/GhjHrlgNPwoA6PhRxkYDT/KwGAPP3qZNwpoCwAXZRxF
+   eJwzZGRgMARiHyCmJzActXfU3lF7R+0dtXdQ2hvICMEBdLZ3FIwCWgBxRtw4mIZpHJZ/sWFa5umBshcAzFwORQ==
   </data>
  </layer>
- <objectgroup name="Physics" width="20" height="30">
-  <object x="-35" y="-35" width="35" height="1085"/>
-  <object x="0" y="-35" width="700" height="35"/>
-  <object x="700" y="-35" width="35" height="1085"/>
-  <object x="420" y="770" width="35" height="105"/>
-  <object x="210" y="700" width="35" height="105"/>
-  <object x="420" y="630" width="35" height="105"/>
-  <object x="210" y="560" width="35" height="105"/>
-  <object x="420" y="490" width="35" height="105"/>
-  <object x="210" y="420" width="35" height="105"/>
-  <object x="420" y="350" width="35" height="105"/>
-  <object x="210" y="280" width="35" height="105"/>
-  <object x="420" y="210" width="35" height="105"/>
-  <object x="210" y="140" width="35" height="105"/>
-  <object x="420" y="70" width="35" height="105"/>
-  <object x="210" y="0" width="35" height="105"/>
+ <objectgroup name="Physics">
+  <object x="0" y="665" width="280" height="105"/>
+  <object x="0" y="0" width="105" height="490"/>
  </objectgroup>
- <objectgroup name="Objects" width="20" height="30">
-  <object name="Player" type="Player" gid="352" x="315" y="35"/>
-  <object name="Saw" type="Saw" gid="353" x="70" y="1015"/>
-  <object name="Saw" type="Saw" gid="353" x="175" y="1015"/>
-  <object name="Saw" type="Saw" gid="353" x="280" y="1015"/>
-  <object name="Saw" type="Saw" gid="353" x="385" y="1015"/>
-  <object name="Saw" type="Saw" gid="353" x="490" y="1015"/>
-  <object name="Saw" type="Saw" gid="353" x="595" y="1015"/>
+ <objectgroup name="Objects">
+  <object name="MovingPlatform" type="MovingPlatform" gid="4" x="350" y="700">
+   <properties>
+    <property name="finalPosX" value="30"/>
+    <property name="finalPosY" value="2"/>
+    <property name="speed" value="5"/>
+   </properties>
+  </object>
+  <object name="Player" type="Player" gid="1" x="0" y="665"/>
  </objectgroup>
 </map>
