@@ -42,7 +42,6 @@ public class BodyUtils
             {
                 switch(userData.getUserDataType())
                 {
-                    case PLAYER:
                     case SAW:
                         return body.getPosition().x + userData.getWidth() / 2 > 0 && body.getPosition().y + userData.getHeight() / 2 > 0;
 

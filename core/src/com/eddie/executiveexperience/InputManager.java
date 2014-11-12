@@ -1,6 +1,7 @@
 package com.eddie.executiveexperience;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
@@ -87,22 +88,34 @@ public class InputManager implements InputProcessor, ControllerListener
     public void disconnected(Controller controller)
     {
         Gdx.app.log("InputManager", "Controller disconnected");
+        controller = null;
+        hasController = false;
     }
 
     @Override
     public boolean keyDown(int keycode)
     {
-        if(!Game.instance.getUI().isUsingConsole())
+        if(!Game.instance.getUI().getConsole().isUsingConsole())
         {
-            keysTyped.remove(keycode);
-            keysTyped.put(keycode, true);
+            if(!(keycode == Input.Keys.GRAVE))
+            {
+                keysTyped.remove(keycode);
+                keysTyped.put(keycode, true);
 
-            keysDown.remove(keycode);
-            keysDown.put(keycode, true);
+                keysDown.remove(keycode);
+                keysDown.put(keycode, true);
+            }
+            else
+            {
+                Game.instance.getUI().getConsole().enableConsole();
+            }
         }
         else
         {
-           // Game.instance.getUI().textInput(Keys.));
+            if(!(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT))
+            {
+                Game.instance.getUI().getConsole().inputConsole(keycode);
+            }
         }
 
         return true;
@@ -169,6 +182,11 @@ public class InputManager implements InputProcessor, ControllerListener
         return false;
     }
 
+    public Controller getController()
+    {
+        return controller;
+    }
+
     @Override
     public boolean axisMoved(Controller controller, int axisCode, float value)
     {
@@ -227,5 +245,10 @@ public class InputManager implements InputProcessor, ControllerListener
     public boolean scrolled(int amount)
     {
         return false;
+    }
+
+    public boolean hasController()
+    {
+        return hasController && controller != null;
     }
 }

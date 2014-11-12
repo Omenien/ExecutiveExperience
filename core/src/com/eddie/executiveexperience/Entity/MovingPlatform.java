@@ -11,8 +11,6 @@ import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.MovingPlatformUserData;
 import com.eddie.executiveexperience.GameStage;
 
-import java.util.Vector;
-
 public class MovingPlatform extends GameActor
 {
     protected Vector2 startPos;
@@ -21,8 +19,6 @@ public class MovingPlatform extends GameActor
     protected float speed;
 
     protected int movingTo;
-
-    protected Vector<Body> passengers;
 
     public MovingPlatform(GameStage gameStage, float x, float y, MapObject mapObject)
     {
@@ -38,6 +34,7 @@ public class MovingPlatform extends GameActor
 
         Body body = gameStage.getWorld().createBody(bodyDef);
         Fixture fixture = body.createFixture(shape, Constants.ENTITY_DENSITY);
+        fixture.setFriction(5.0f);
         body.resetMassData();
 
         MovingPlatformUserData entityData = new MovingPlatformUserData(gameStage, getClass().getSimpleName(), 3f, 0.542857143f);
@@ -47,8 +44,6 @@ public class MovingPlatform extends GameActor
         shape.dispose();
 
         setBody(body);
-
-        passengers = new Vector<>();
 
         movingTo = 1;
 
@@ -62,7 +57,6 @@ public class MovingPlatform extends GameActor
     @Override
     public void draw(Batch batch, float parentAlpha)
     {
-
         getUserData().getAnimatedBox2DSprite().draw(batch, body);
     }
 
@@ -90,31 +84,9 @@ public class MovingPlatform extends GameActor
         else
         {
             movingTo = movingTo == 1 ? 0 : 1;
-
-            for(Body passenger : passengers)
-            {
-                passenger.setLinearVelocity(newVelocity);
-            }
         }
 
         body.setLinearVelocity(newVelocity);
-
-        /*for(Body passenger : getUserData().getPassengers())
-        {
-            Vector2 passengerVelocity = passenger.getLinearVelocity();
-
-            if((passengerVelocity.x >= 0 && newVelocity.x > 0 && passengerVelocity.x < newVelocity.x) || (passengerVelocity.x <= 0 && newVelocity.x < 0 && passengerVelocity.x > newVelocity.x))
-            {
-                passengerVelocity.x += newVelocity.x;
-            }
-
-            if(newVelocity.y > 0)
-            {
-                passengerVelocity.y += newVelocity.y;
-            }
-
-            passenger.setLinearVelocity(passengerVelocity);
-        }*/
     }
 
     @Override

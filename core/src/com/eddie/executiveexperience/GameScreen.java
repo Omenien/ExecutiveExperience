@@ -1,8 +1,7 @@
 package com.eddie.executiveexperience;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -66,10 +65,9 @@ public class GameScreen extends Screen
 
     public void draw()
     {
-        GL20 gl = Gdx.gl20;
+        batch.setProjectionMatrix(UICamera.combined);
 
-        gl.glClearColor(0, 0, 0, 1);
-        gl.glClear(gl.GL_COLOR_BUFFER_BIT);
+        batch.begin();
 
         Vector2 playerPos = getGameStage().getPlayer().getBody().getPosition();
 
@@ -101,16 +99,16 @@ public class GameScreen extends Screen
 
         if(stage.isPlayerDead())
         {
-            batch.setProjectionMatrix(UICamera.combined);
-
-            batch.begin();
-
             deathTintSprite.draw(batch);
 
-            batch.end();
         }
 
-//        XEGame.instance.getUI().writeln("Player: " + playerPos.toString(), Color.MAGENTA, Gdx.graphics, XEGame.instance.getSpriteBatch());
+        if(Env.debug)
+        {
+            Game.instance.getUI().writeln("Player: " + playerPos.toString() + ", Friction: " + getGameStage().getPlayer().getFriction(), Color.WHITE);
+        }
+
+        batch.end();
     }
 
     @Override

@@ -6,14 +6,11 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.eddie.executiveexperience.Constants;
+import com.eddie.executiveexperience.*;
 import com.eddie.executiveexperience.Entity.UserData.CollisionFixtureUserData;
 import com.eddie.executiveexperience.Entity.UserData.FootSensorUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
-import com.eddie.executiveexperience.Env;
-import com.eddie.executiveexperience.GameStage;
-import com.eddie.executiveexperience.InputManager;
 
 public class Player extends GameActor
 {
@@ -37,6 +34,11 @@ public class Player extends GameActor
     protected int numFootContacts;
     protected int leftWallContacts;
     protected int rightWallContacts;
+
+    protected Fixture lowerCollisionFixture;
+
+    protected boolean forcingWalk;
+    protected boolean grounded;
 
     public Player(GameStage gameStage, float x, float y, MapObject mapObject)
     {
@@ -78,9 +80,9 @@ public class Player extends GameActor
         Fixture upperCollisionFixture = body.createFixture(upperCollisionCircle, 0);
         upperCollisionFixture.setUserData(new CollisionFixtureUserData());
 
-        Fixture lowerCollisionFixture = body.createFixture(lowerCollisionCircle, 0);
+        lowerCollisionFixture = body.createFixture(lowerCollisionCircle, 0);
         lowerCollisionFixture.setUserData(new FootSensorUserData());
-        lowerCollisionFixture.setFriction(1.0f  );
+        lowerCollisionFixture.setFriction(1.0f);
 
         float sensorRadius = Constants.PLAYER_WIDTH * 0.7f;
         PolygonShape wallSensorShape = new PolygonShape();
@@ -132,6 +134,9 @@ public class Player extends GameActor
         wallJump = false;
         extendJump = false;
 
+        forcingWalk = false;
+        grounded = false;
+
         jumpTimeout = 0;
         timeSinceJump = 0;
         jumpExtendTime = 0;
@@ -157,12 +162,10 @@ public class Player extends GameActor
 
         timeSinceJump += delta;
 
-        boolean grounded = numFootContacts > 0 || body.getLinearVelocity().y == 0;
+        grounded = numFootContacts > 0 || body.getLinearVelocity().y == 0;
 
         if(grounded)
         {
-            getUserData().getSpriteFixture().setFriction(10.0f);
-
             jumpExtendTime = 0;
 
             if(playerState == PlayerState.JUMPING && timeSinceJump > 0.2f)
@@ -170,12 +173,15 @@ public class Player extends GameActor
                 playerState = PlayerState.STANDING;
             }
         }
+
+        if(forcingWalk)
+        {
+            lowerCollisionFixture.setFriction(0.0f);
+        }
         else
         {
-            getUserData().getSpriteFixture().setFriction(0.0f);
+            lowerCollisionFixture.setFriction(1.0f);
         }
-
-        handleInput(grounded);
 
         if(jumpTimeout > 0)
         {
@@ -210,7 +216,7 @@ public class Player extends GameActor
 
         if(playerState != PlayerState.JUMPING)
         {
-            if(Math.abs(body.getLinearVelocity().x) > 0.2f)
+            if(Math.abs(body.getLinearVelocity().x) > 0.2f && forcingWalk)
             {
                 playerState = PlayerState.WALKING;
             }
@@ -330,103 +336,6 @@ public class Player extends GameActor
         return (PlayerUserData) userData;
     }
 
-    public void handleInput(boolean grounded)
-    {
-        if(isDead())
-        {
-            return;
-        }
-
-        Vector2 position = body.getPosition();
-        Vector2 velocity = body.getLinearVelocity();
-
-        /*if(XEGame.instance.getGameScreen().getGameStage().getController() != null)
-        {
-            Controller controller = XEGame.instance.getGameScreen().getGameStage().getController();
-
-            boolean jumpButtonPressed = false;
-            float leftAxisX = 0.0f;
-
-            if(controller.getName().toLowerCase().contains("xbox"))
-            {
-                jumpButtonPressed = controller.getButton(XBoxGamepad.BUTTON_A);
-
-                leftAxisX = controller.getAxis(XBoxGamepad.AXIS_LEFT_X);
-
-                Gdx.app.log("Player Gamepad", "A Pressed: " + jumpButtonPressed + ", Left Axis X: " + leftAxisX);
-            }
-
-            if(jumpButtonPressed)
-            {
-                if(grounded && !jump && !(leftWallContacts > 0 || rightWallContacts > 0))
-                {
-                    jump = true;
-                }
-                else if(!grounded && body.getLinearVelocity().y > 0)
-                {
-                    extendJump = true;
-                }
-                else if(!grounded && (leftWallContacts > 0 || rightWallContacts > 0))
-                {
-                    wallJump = true;
-                }
-            }
-
-            if(Math.abs(leftAxisX) > 0.1)
-            {
-                if((leftAxisX < 0 && body.getLinearVelocity().x > -MAX_VELOCITY_X) || (leftAxisX > 0 && body.getLinearVelocity().x < MAX_VELOCITY_X))
-                {
-                    if(grounded)
-                    {
-                        body.applyLinearImpulse(leftAxisX * 1.5f, 0f, position.x, position.y, true);
-                    }
-                    else
-                    {
-                        body.applyLinearImpulse(leftAxisX * 0.25f, 0f, position.x, position.y, true);
-                    }
-                }
-            }
-            else
-            {
-                body.setLinearVelocity(0.0f, velocity.y);
-            }
-        }
-        else
-        {*/
-        if(Gdx.input.isKeyPressed(Env.playerMoveLeft))
-        {
-            if(body.getLinearVelocity().x > -MAX_VELOCITY_X)
-            {
-                if(grounded)
-                {
-                    body.applyLinearImpulse(-1.5f, 0f, position.x, position.y, true);
-                }
-                else
-                {
-                    body.applyLinearImpulse(-0.25f, 0f, position.x, position.y, true);
-                }
-            }
-        }
-        else if(Gdx.input.isKeyPressed(Env.playerMoveRight))
-        {
-            if(body.getLinearVelocity().x < MAX_VELOCITY_X)
-            {
-                if(grounded)
-                {
-                    body.applyLinearImpulse(1.5f, 0f, position.x, position.y, true);
-                }
-                else
-                {
-                    body.applyLinearImpulse(0.25f, 0f, position.x, position.y, true);
-                }
-            }
-        }
-        else
-        {
-            body.setLinearVelocity(0.0f, velocity.y);
-        }
-    }
-
     public void incrementFootContacts()
     {
         numFootContacts++;
@@ -474,9 +383,50 @@ public class Player extends GameActor
 
     public void processInput(InputManager inputManager)
     {
-        if(isDead())
+        if(playerState == PlayerState.DEADING)
         {
             return;
+        }
+
+        Vector2 position = body.getPosition();
+        Vector2 velocity = body.getLinearVelocity();
+
+        forcingWalk = true;
+
+        int playerMoveLeftPressed = inputManager.isKeyDown(Env.playerMoveLeft) ? 1 : 0;
+        int playerMoveRightPressed = inputManager.isKeyDown(Env.playerMoveRight) ? 1 : 0;
+
+        float joystickX = inputManager.hasController() ? inputManager.getController().getAxis(XBoxGamepad.AXIS_LEFT_X) : 0.0f;
+
+        float impulseX = (playerMoveLeftPressed * -1.5f) + (playerMoveRightPressed * 1.5f) + (joystickX * 1.5f);
+        impulseX = impulseX > 1.5f ? 1.5f : impulseX < -1.5f ? -1.5f : impulseX;
+
+        Gdx.app.log("Player", "Joystick X: " + joystickX + ", Impulse X: " + impulseX);
+
+        if(!grounded)
+        {
+            impulseX /= 5;
+        }
+
+        if(impulseX < -0.1f)
+        {
+            if(body.getLinearVelocity().x > -MAX_VELOCITY_X)
+            {
+                body.applyLinearImpulse(impulseX, 0.1f, position.x, position.y, true);
+            }
+        }
+        else if(impulseX > 0.1f)
+        {
+            if(body.getLinearVelocity().x < MAX_VELOCITY_X)
+            {
+                body.applyLinearImpulse(impulseX, 0.1f, position.x, position.y, true);
+            }
+        }
+        else
+        {
+            body.setLinearVelocity(velocity.x * 0.9f, velocity.y);
+
+            forcingWalk = false;
         }
 
         if(inputManager.isKeyDown(Env.playerJumpKey) || inputManager.isButtonPressed(Env.playerJumpButton, false))
@@ -494,6 +444,11 @@ public class Player extends GameActor
                 wallJump = true;
             }
         }
+    }
+
+    public float getFriction()
+    {
+        return lowerCollisionFixture.getFriction();
     }
 
     protected enum PlayerState

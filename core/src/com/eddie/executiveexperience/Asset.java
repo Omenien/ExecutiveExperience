@@ -12,7 +12,6 @@ public class Asset implements Json.Serializable
 
     public Asset()
     {
-
     }
 
     public Asset(Class<?> type, String path, AssetLoaderParameters parameters)

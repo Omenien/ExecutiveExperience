@@ -11,7 +11,6 @@ import com.eddie.executiveexperience.Entity.GameActor;
 import com.eddie.executiveexperience.Entity.Player;
 import com.eddie.executiveexperience.Entity.UserData.DoorUserData;
 import com.eddie.executiveexperience.Entity.UserData.HiddenSpikeUserData;
-import com.eddie.executiveexperience.Entity.UserData.MovingPlatformUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
 import com.eddie.executiveexperience.World.Level;
 import com.eddie.executiveexperience.World.MapBodyManager;
@@ -147,7 +146,7 @@ public class GameStage extends Stage implements ContactListener
         super.draw();
 
         mapRenderer.setView(gameScreen.getCamera());
-        mapRenderer.render(new int[]{0});
+        mapRenderer.render(new int[] { 0 });
 
         box2DDebugRenderer.render(WorldUtils.getWorld(), gameScreen.getCamera().combined);
 
@@ -193,15 +192,6 @@ public class GameStage extends Stage implements ContactListener
             {
                 Game.instance.getUI().writeText("GRATZ ON YOUR HAX BRO");
             }
-        }
-
-        if((BodyUtils.fixtureIsJumpSensor(fixtureA) && BodyUtils.bodyIsMovingPlatform(b)))
-        {
-            ((MovingPlatformUserData) b.getUserData()).addPassenger(a);
-        }
-        else if(BodyUtils.bodyIsMovingPlatform(a) && BodyUtils.fixtureIsJumpSensor(fixtureB))
-        {
-            ((MovingPlatformUserData) a.getUserData()).addPassenger(b);
         }
 
         if((BodyUtils.fixtureIsPlayerCollisionFixture(a, fixtureA) && BodyUtils.bodyIsDoor(b)))
@@ -262,15 +252,6 @@ public class GameStage extends Stage implements ContactListener
         if((BodyUtils.fixtureIsJumpSensor(fixtureA) && BodyUtils.bodyIsTerrain(b)) || (BodyUtils.bodyIsTerrain(a) && BodyUtils.fixtureIsJumpSensor(fixtureB)))
         {
             player.decrementFootContacts();
-        }
-
-        if((BodyUtils.fixtureIsJumpSensor(fixtureA) && BodyUtils.bodyIsMovingPlatform(b)))
-        {
-            ((MovingPlatformUserData) b.getUserData()).removePassenger(a);
-        }
-        else if(BodyUtils.bodyIsMovingPlatform(a) && BodyUtils.fixtureIsJumpSensor(fixtureB))
-        {
-            ((MovingPlatformUserData) a.getUserData()).removePassenger(b);
         }
 
         if(BodyUtils.fixtureIsWallSensor(fixtureA) && BodyUtils.bodyIsTerrain(b))

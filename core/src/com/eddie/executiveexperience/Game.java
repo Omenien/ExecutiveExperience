@@ -90,19 +90,16 @@ public class Game extends com.badlogic.gdx.Game
 
         super.render();
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         ui.renderShadowBox();
-
+        shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
-        shapeRenderer.end();
-
         spriteBatch.begin();
-        ui.render(Gdx.graphics, Gdx.app, spriteBatch);
+        ui.render(spriteBatch);
         spriteBatch.end();
     }
 
