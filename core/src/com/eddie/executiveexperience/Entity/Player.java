@@ -1,6 +1,5 @@
 package com.eddie.executiveexperience.Entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.MathUtils;
@@ -400,8 +399,6 @@ public class Player extends GameActor
 
         float impulseX = (playerMoveLeftPressed * -1.5f) + (playerMoveRightPressed * 1.5f) + (joystickX * 1.5f);
         impulseX = impulseX > 1.5f ? 1.5f : impulseX < -1.5f ? -1.5f : impulseX;
-
-        Gdx.app.log("Player", "Joystick X: " + joystickX + ", Impulse X: " + impulseX);
 
         if(!grounded)
         {
