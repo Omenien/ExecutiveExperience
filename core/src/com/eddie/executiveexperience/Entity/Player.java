@@ -408,14 +408,14 @@ public class Player extends GameActor
             impulseX /= 5;
         }
 
-        if(impulseX < -0.1f)
+        if(impulseX < -0f)
         {
             if(body.getLinearVelocity().x > -MAX_VELOCITY_X)
             {
                 body.applyLinearImpulse(impulseX, 0.1f, position.x, position.y, true);
             }
         }
-        else if(impulseX > 0.1f)
+        else if(impulseX > 0f)
         {
             if(body.getLinearVelocity().x < MAX_VELOCITY_X)
             {
