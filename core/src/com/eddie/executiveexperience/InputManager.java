@@ -33,6 +33,7 @@ public class InputManager implements InputProcessor, ControllerListener
             if(Controllers.getControllers().size > 0)
             {
                 controller = Controllers.getControllers().first();
+                controller.addListener(this);
 
                 hasController = true;
 
@@ -77,6 +78,7 @@ public class InputManager implements InputProcessor, ControllerListener
         if(this.controller == null)
         {
             this.controller = controller;
+            this.controller.addListener(this);
 
             hasController = true;
 
@@ -88,8 +90,12 @@ public class InputManager implements InputProcessor, ControllerListener
     public void disconnected(Controller controller)
     {
         Gdx.app.log("InputManager", "Controller disconnected");
-        controller = null;
-        hasController = false;
+
+        if(this.controller.equals(controller))
+        {
+            this.controller = null;
+            hasController = false;
+        }
     }
 
     @Override
@@ -190,6 +196,8 @@ public class InputManager implements InputProcessor, ControllerListener
     @Override
     public boolean axisMoved(Controller controller, int axisCode, float value)
     {
+        Gdx.app.log("InputManager", "Controller Axis " + axisCode + " at " + value);
+
         return false;
     }
 

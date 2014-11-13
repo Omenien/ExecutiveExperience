@@ -2,9 +2,11 @@ package com.eddie.executiveexperience.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.eddie.executiveexperience.Entity.Saw;
 import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.Game;
+import com.eddie.executiveexperience.GameScreen;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -12,11 +14,13 @@ import java.util.regex.Pattern;
 
 public class Console
 {
-    protected static final String regexPattern = "\\w+|\"[\\w\\s]*\"";
+    protected static final String regexPattern = "\"([^\"]+)\"|\\s*([^\"\\s]+)";
     protected boolean usingConsole;
     protected String consoleInput;
     protected Pattern pattern;
     protected Matcher matcher;
+    protected int ticksCursor;
+    protected boolean showingCursor;
 
     public Console()
     {
@@ -24,6 +28,9 @@ public class Console
         consoleInput = "";
 
         pattern = Pattern.compile(regexPattern);
+
+        ticksCursor = 0;
+        showingCursor = false;
     }
 
     private static String removeLastChar(String str)
@@ -46,10 +53,17 @@ public class Console
 
         try
         {
-            switch(matches.get(0).toLowerCase())
+            String command = matches.get(0).toLowerCase();
+            command = command.trim();
+            command = command.replace("\"", "");
+
+            switch(command)
             {
                 case "spawn":
-                    switch(matches.get(1).toLowerCase())
+                    String entity = matches.get(1).toLowerCase();
+                    entity = entity.replace("\"", "");
+
+                    switch(entity)
                     {
                         case "saw":
                             float x = Float.parseFloat(matches.get(2));
@@ -70,6 +84,36 @@ public class Console
                         default:
                             returnVal = "Error: Invalid Entity type specified: " + matches.get(1) + " in " + consoleInput;
                             break;
+                    }
+                    break;
+
+                case "level":
+                    String level = "assets/" + matches.get(1).replace("\"", "");
+                    level = level.trim();
+
+                    if(Game.instance.getScreen() instanceof GameScreen)
+                    {
+                        FileHandle file = Gdx.files.internal(level);
+
+                        if(file.exists() && file.extension().toLowerCase().contains("json"))
+                        {
+                            Game.instance.getGameScreen().getGameStage().loadNewMap = true;
+                            Game.instance.getGameScreen().getGameStage().newLevel = level;
+
+                            returnVal = "Attempting to load " + level;
+                        }
+                        else if(!file.exists())
+                        {
+                            returnVal = "Error: Level file does not exist";
+                        }
+                        else if(!file.extension().toLowerCase().contains("json"))
+                        {
+                            returnVal = "Error: Level is not a JSON file. Not even going to attempt to load this crap.";
+                        }
+                        else
+                        {
+                            returnVal = "Error: Something went wrong, I don't know what it was. I'm not very good at my job.";
+                        }
                     }
                     break;
 
@@ -96,7 +140,7 @@ public class Console
         {
             case Input.Keys.ENTER:
                 String returnVal = processConsoleInput();
-                if(returnVal.substring(0, 5).equals("Error"))
+                if(returnVal.length() >= 5 && returnVal.substring(0, 5).equals("Error"))
                 {
                     Game.instance.getUI().writeText(returnVal, UI.TextType.ERROR);
                 }
@@ -106,6 +150,7 @@ public class Console
                 }
                 usingConsole = false;
                 consoleInput = "";
+                ticksCursor = 0;
                 break;
 
             case Input.Keys.ESCAPE:
@@ -227,7 +272,7 @@ public class Console
                     break;
 
                 case Input.Keys.APOSTROPHE:
-                    key = "'";
+                    key = "\"";
                     break;
 
                 case Input.Keys.COMMA:
@@ -249,10 +294,34 @@ public class Console
                 case Input.Keys.GRAVE:
                     key = "~";
                     break;
+
+                default:
+                    Gdx.app.log("Console", "Unhandled keypress " + key);
+                    break;
             }
         }
 
         return key;
+    }
+
+    public void incrementCursorTicks()
+    {
+        if(usingConsole)
+        {
+            if(ticksCursor > 20)
+            {
+                ticksCursor = 0;
+
+                showingCursor = !showingCursor;
+            }
+
+            ticksCursor++;
+        }
+    }
+
+    public boolean isShowingCursor()
+    {
+        return showingCursor;
     }
 
     public boolean isUsingConsole()

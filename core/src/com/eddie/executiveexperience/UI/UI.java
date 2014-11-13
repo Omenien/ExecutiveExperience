@@ -93,6 +93,8 @@ public class UI
             loadFont();
         }
 
+        console.incrementCursorTicks();
+
         // Remove old lines
         for(int i = 0; i < text.size(); i++)
         {
@@ -122,7 +124,7 @@ public class UI
                 case CONSOLE:
                     c = Color.GREEN;
 
-                    tl.text = "Input: " + console.consoleInput;
+                    tl.text = "Input: " + console.consoleInput + (console.isShowingCursor() ? "|" : "");
                     break;
 
                 case ERROR:
