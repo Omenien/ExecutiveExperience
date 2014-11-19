@@ -1,4 +1,4 @@
-package com.eddie.executiveexperience;
+package com.eddie.executiveexperience.Utils;
 
 public class Constants
 {

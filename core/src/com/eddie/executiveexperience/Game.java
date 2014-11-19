@@ -9,10 +9,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.eddie.executiveexperience.UI.HomeScreen;
 import com.eddie.executiveexperience.UI.UI;
+import com.eddie.executiveexperience.Utils.*;
 
 public class Game extends com.badlogic.gdx.Game
 {
-    public static Game instance;
+    protected static Game instance;
 
     public GameScreen gameScreen;
     public HomeScreen homeScreen;
@@ -40,8 +41,6 @@ public class Game extends com.badlogic.gdx.Game
     {
         assets = new Assets("assets/config/assets.json");
         assets.loadGroup("base");
-//        assets.loadFolder("entities", "assets/entities/", EntityData.class, ".json", true);
-//        assets.loadFolder("maps", "assets/levels/", TiledMap.class, ".tmx", false);
         assets.finishLoading();
 
         inputManager = new InputManager();
@@ -52,6 +51,7 @@ public class Game extends com.badlogic.gdx.Game
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         musicManager = new MusicManager();
+        getMusicManager().setEnabled(!Env.musicMuted);
 
         homeScreen = new HomeScreen();
 
@@ -71,10 +71,14 @@ public class Game extends com.badlogic.gdx.Game
 
         setScreen(homeScreen);
 
+        Game.instance.getUI().writeText("Press F for fullscreen.");
+        Game.instance.getUI().writeText("Press M to mute the music.");
+        Game.instance.getUI().writeText("Press the Any Key to skip a level.");
+
         if(Env.debug)
         {
             Game.instance.getUI().writeText("Debug mode enabled");
-            Game.instance.getUI().writeText("Press F1 to turn on aimbot.");
+            Game.instance.getUI().writeText("Press F1 to enable aimbot.");
         }
 
         cheatMode = false;
@@ -90,16 +94,19 @@ public class Game extends com.badlogic.gdx.Game
 
         super.render();
 
+        spriteBatch.begin();
+
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        ui.renderShadowBox();
+
+        ui.render(spriteBatch);
+
         shapeRenderer.end();
+
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
-        spriteBatch.begin();
-        ui.render(spriteBatch);
         spriteBatch.end();
     }
 
@@ -107,10 +114,28 @@ public class Game extends com.badlogic.gdx.Game
     {
         if(inputManager.isKeyTyped(Input.Keys.F1))
         {
-            Game.instance.getUI().writeText("WALL HACK TURNED ON");
-            Game.instance.getUI().writeText("HOLD ON TO YOUR SOCKS");
+            instance.getUI().writeText("WALL HACK TURNED ON");
+            instance.getUI().writeText("HOLD ON TO YOUR SOCKS");
 
             cheatMode = true;
+        }
+
+        if(inputManager.isKeyTyped(Input.Keys.M))
+        {
+            Env.musicMuted = !Env.musicMuted;
+
+            Env.getSettings().setBoolean("musicMuted", Env.musicMuted);
+
+            getMusicManager().setEnabled(!Env.musicMuted);
+
+            if(Env.musicMuted)
+            {
+                instance.getUI().writeText("Music muted.");
+            }
+            else
+            {
+                instance.getUI().writeText("Music unmuted.");
+            }
         }
 
         ((Screen) getScreen()).processInput(inputManager);
@@ -151,6 +176,11 @@ public class Game extends com.badlogic.gdx.Game
         return spriteBatch;
     }
 
+    public static Game getInstance()
+    {
+        return instance;
+    }
+
     public void toggleFullscreen()
     {
         isFullscreen = !isFullscreen;
@@ -167,5 +197,7 @@ public class Game extends com.badlogic.gdx.Game
 /*
  * Credits:
  * Thomas Snyder, Jonathan Bees, Isaac Merritt - Bug Testing
+ * Sioncore
+ * LibGDX-Utils
  * Blue Strike Warrior - Graphics
  */

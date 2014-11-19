@@ -1,4 +1,4 @@
-package com.eddie.executiveexperience;
+package com.eddie.executiveexperience.Utils;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;

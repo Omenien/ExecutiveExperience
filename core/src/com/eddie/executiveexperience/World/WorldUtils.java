@@ -1,7 +1,7 @@
 package com.eddie.executiveexperience.World;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.eddie.executiveexperience.Env;
+import com.eddie.executiveexperience.Utils.Env;
 
 import java.util.Random;
 

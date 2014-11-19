@@ -1,16 +1,19 @@
 package com.eddie.executiveexperience.Entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.eddie.executiveexperience.*;
 import com.eddie.executiveexperience.Entity.UserData.CollisionFixtureUserData;
 import com.eddie.executiveexperience.Entity.UserData.FootSensorUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
+import com.eddie.executiveexperience.GameStage;
+import com.eddie.executiveexperience.Utils.Constants;
+import com.eddie.executiveexperience.Utils.Env;
+import com.eddie.executiveexperience.Utils.InputManager;
+import com.eddie.executiveexperience.Utils.XBoxGamepad;
 
 public class Player extends GameActor
 {

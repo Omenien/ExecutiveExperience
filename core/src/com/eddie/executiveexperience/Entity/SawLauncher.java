@@ -6,11 +6,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.eddie.executiveexperience.BodyUtils;
-import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.SawLauncherUserData;
 import com.eddie.executiveexperience.Game;
 import com.eddie.executiveexperience.GameStage;
+import com.eddie.executiveexperience.Utils.BodyUtils;
+import com.eddie.executiveexperience.Utils.Constants;
 
 public class SawLauncher extends GameActor
 {
@@ -62,7 +62,7 @@ public class SawLauncher extends GameActor
 
         if(spawnedSaw == null || !BodyUtils.bodyInBounds(spawnedSaw.getBody()))
         {
-            spawnedSaw = new MovingSaw(Game.instance.getGameScreen().getGameStage(), body.getPosition().x, body.getPosition().y, sawVelocity);
+            spawnedSaw = new MovingSaw(Game.getInstance().getGameScreen().getGameStage(), body.getPosition().x, body.getPosition().y, sawVelocity);
         }
     }
 

@@ -8,10 +8,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.DeadlyFixtureUserData;
 import com.eddie.executiveexperience.Entity.UserData.SawUserData;
 import com.eddie.executiveexperience.GameStage;
+import com.eddie.executiveexperience.Utils.Constants;
 
 public class Saw extends GameActor
 {

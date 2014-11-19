@@ -1,11 +1,13 @@
-package com.eddie.executiveexperience;
+package com.eddie.executiveexperience.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.AssetLoader;
+import com.badlogic.gdx.assets.loaders.MusicLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -28,6 +30,7 @@ public class Assets implements Disposable, AssetErrorListener
 
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         assetManager.setLoader(EntityData.class, new EntityLoader(new InternalFileHandleResolver()));
+        assetManager.setLoader(Music.class, new MusicLoader(new InternalFileHandleResolver()));
 
         loadGroups(assetFile);
     }

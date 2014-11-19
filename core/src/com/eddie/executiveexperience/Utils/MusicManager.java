@@ -1,4 +1,4 @@
-package com.eddie.executiveexperience;
+package com.eddie.executiveexperience.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;

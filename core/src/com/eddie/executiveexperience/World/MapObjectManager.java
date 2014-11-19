@@ -6,8 +6,8 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Logger;
-import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameStage;
+import com.eddie.executiveexperience.Utils.Env;
 
 import java.lang.reflect.Constructor;
 import java.util.Iterator;

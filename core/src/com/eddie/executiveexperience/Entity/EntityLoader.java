@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Logger;
-import com.eddie.executiveexperience.Env;
+import com.eddie.executiveexperience.Utils.Env;
 
 public class EntityLoader extends AsynchronousAssetLoader<EntityData, EntityLoader.EntityParameter>
 {

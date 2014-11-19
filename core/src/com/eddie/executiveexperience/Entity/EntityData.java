@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.eddie.executiveexperience.Env;
+import com.eddie.executiveexperience.Utils.Env;
 
 public class EntityData
 {

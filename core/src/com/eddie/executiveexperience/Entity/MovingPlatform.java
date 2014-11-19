@@ -7,9 +7,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.MovingPlatformUserData;
 import com.eddie.executiveexperience.GameStage;
+import com.eddie.executiveexperience.Utils.Constants;
 
 public class MovingPlatform extends GameActor
 {

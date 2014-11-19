@@ -1,4 +1,4 @@
-package com.eddie.executiveexperience;
+package com.eddie.executiveexperience.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,6 +8,7 @@ import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
+import com.eddie.executiveexperience.Game;
 
 import java.util.HashMap;
 
@@ -101,7 +102,7 @@ public class InputManager implements InputProcessor, ControllerListener
     @Override
     public boolean keyDown(int keycode)
     {
-        if(!Game.instance.getUI().getConsole().isUsingConsole())
+        if(!Game.getInstance().getUI().getConsole().isUsingConsole())
         {
             if(!(keycode == Input.Keys.GRAVE))
             {
@@ -113,14 +114,14 @@ public class InputManager implements InputProcessor, ControllerListener
             }
             else
             {
-                Game.instance.getUI().getConsole().enableConsole();
+                Game.getInstance().getUI().getConsole().enableConsole();
             }
         }
         else
         {
             if(!(keycode == Input.Keys.SHIFT_LEFT || keycode == Input.Keys.SHIFT_RIGHT))
             {
-                Game.instance.getUI().getConsole().inputConsole(keycode);
+                Game.getInstance().getUI().getConsole().inputConsole(keycode);
             }
         }
 

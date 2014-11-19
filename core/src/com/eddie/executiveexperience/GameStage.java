@@ -12,6 +12,8 @@ import com.eddie.executiveexperience.Entity.Player;
 import com.eddie.executiveexperience.Entity.UserData.DoorUserData;
 import com.eddie.executiveexperience.Entity.UserData.HiddenSpikeUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
+import com.eddie.executiveexperience.Utils.BodyUtils;
+import com.eddie.executiveexperience.Utils.Env;
 import com.eddie.executiveexperience.World.Level;
 import com.eddie.executiveexperience.World.MapBodyManager;
 import com.eddie.executiveexperience.World.MapObjectManager;

@@ -8,8 +8,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.eddie.executiveexperience.Entity.UserData.DoorUserData;
-import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameStage;
+import com.eddie.executiveexperience.Utils.Env;
 
 public class Door extends GameActor
 {

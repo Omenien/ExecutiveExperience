@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.eddie.executiveexperience.Entity.Saw;
-import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.Game;
 import com.eddie.executiveexperience.GameScreen;
+import com.eddie.executiveexperience.Utils.Env;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -71,9 +71,9 @@ public class Console
 
                             returnVal = "Spawned saw at (" + x + ", " + y + ").";
 
-                            if(Game.instance.getGameScreen().getGameStage() != null)
+                            if(Game.getInstance().getGameScreen().getGameStage() != null)
                             {
-                                new Saw(Game.instance.getGameScreen().getGameStage(), x, y);
+                                new Saw(Game.getInstance().getGameScreen().getGameStage(), x, y);
                             }
                             else
                             {
@@ -91,14 +91,14 @@ public class Console
                     String level = "assets/" + matches.get(1).replace("\"", "");
                     level = level.trim();
 
-                    if(Game.instance.getScreen() instanceof GameScreen)
+                    if(Game.getInstance().getScreen() instanceof GameScreen)
                     {
                         FileHandle file = Gdx.files.internal(level);
 
                         if(file.exists() && file.extension().toLowerCase().contains("json"))
                         {
-                            Game.instance.getGameScreen().getGameStage().loadNewMap = true;
-                            Game.instance.getGameScreen().getGameStage().newLevel = level;
+                            Game.getInstance().getGameScreen().getGameStage().loadNewMap = true;
+                            Game.getInstance().getGameScreen().getGameStage().newLevel = level;
 
                             returnVal = "Attempting to load " + level;
                         }
@@ -142,7 +142,7 @@ public class Console
                 String returnVal = processConsoleInput();
                 if(returnVal.length() >= 5 && returnVal.substring(0, 5).equals("Error"))
                 {
-                    Game.instance.getUI().writeText(returnVal, UI.TextType.ERROR);
+                    Game.getInstance().getUI().writeText(returnVal, UI.TextType.ERROR);
                 }
                 else
                 {

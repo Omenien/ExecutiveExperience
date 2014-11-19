@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.eddie.executiveexperience.Utils.*;
 
 public class GameScreen extends Screen
 {
@@ -105,7 +106,7 @@ public class GameScreen extends Screen
 
         if(Env.debug)
         {
-            Game.instance.getUI().writeln("Player: " + playerPos.toString() + ", Friction: " + getGameStage().getPlayer().getFriction(), Color.WHITE);
+            Game.instance.getUI().writeln("Player: " + playerPos.toString() + ", Friction: " + getGameStage().getPlayer().getFriction(), Color.WHITE, batch);
         }
 
         batch.end();

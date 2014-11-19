@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.eddie.executiveexperience.Env;
-import com.eddie.executiveexperience.InputManager;
-import com.eddie.executiveexperience.Screen;
+import com.eddie.executiveexperience.Utils.Env;
+import com.eddie.executiveexperience.Utils.InputManager;
+import com.eddie.executiveexperience.Utils.Screen;
 
 public class HomeScreen extends Screen
 {

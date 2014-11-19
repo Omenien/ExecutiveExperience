@@ -1,9 +1,10 @@
-package com.eddie.executiveexperience;
+package com.eddie.executiveexperience.Utils;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Logger;
+import com.eddie.executiveexperience.Game;
 
 public abstract class Env
 {
@@ -39,6 +40,8 @@ public abstract class Env
     public static boolean drawStage;
     public static boolean drawGrid;
     public static boolean drawFPS;
+
+    public static boolean musicMuted;
 
     private static Settings settings;
 
@@ -87,5 +90,12 @@ public abstract class Env
         drawStage = settings.getBoolean("drawStage", false);
         drawGrid = settings.getBoolean("drawGrid", true);
         drawFPS = settings.getBoolean("drawFPS", true);
+
+        musicMuted = settings.getBoolean("musicMuted", false);
+    }
+
+    public static Settings getSettings()
+    {
+        return settings;
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
     <int key="debugLevel" value="3"/>
-    <int key="virtualWidth" value="1024"/>
-    <int key="virtualHeight" value="768"/>
+    <int key="virtualWidth" value="1280"/>
+    <int key="virtualHeight" value="720"/>
     <float key="metersToPixels" value="35.0"/>
     <vector key="gravity" x="0.0" y="-9.8" z="0.0"/>
 

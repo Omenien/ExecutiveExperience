@@ -24,12 +24,12 @@ public class HomeScreenScript implements IScript
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                if(Game.instance.gameScreen == null)
+                if(Game.getInstance().gameScreen == null)
                 {
-                    Game.instance.gameScreen = new GameScreen();
+                    Game.getInstance().gameScreen = new GameScreen();
                 }
 
-                Game.instance.setScreen(Game.instance.getGameScreen());
+                Game.getInstance().setScreen(Game.getInstance().getGameScreen());
             }
 
             ;

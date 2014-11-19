@@ -8,7 +8,7 @@ public class HomeStage extends Stage
 {
     public HomeStage()
     {
-        Game.instance.getInputMultiplexer().addProcessor(this);
+        Game.getInstance().getInputMultiplexer().addProcessor(this);
 
         SceneLoader menuLoader = new SceneLoader();
 

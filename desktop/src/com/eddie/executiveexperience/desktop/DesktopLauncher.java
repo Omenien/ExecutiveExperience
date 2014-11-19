@@ -2,8 +2,8 @@ package com.eddie.executiveexperience.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.Game;
+import com.eddie.executiveexperience.Utils.Env;
 
 public class DesktopLauncher
 {

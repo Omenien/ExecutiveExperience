@@ -1,7 +1,7 @@
 package com.eddie.executiveexperience.Entity.UserData;
 
-import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.GameStage;
+import com.eddie.executiveexperience.Utils.Constants;
 import net.dermetfan.gdx.graphics.g2d.AnimatedBox2DSprite;
 import net.dermetfan.gdx.graphics.g2d.AnimatedSprite;
 
