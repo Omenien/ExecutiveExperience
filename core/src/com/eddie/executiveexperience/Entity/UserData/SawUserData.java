@@ -1,9 +1,9 @@
 package com.eddie.executiveexperience.Entity.UserData;
 
-import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.GameStage;
-import net.dermetfan.utils.libgdx.graphics.AnimatedBox2DSprite;
-import net.dermetfan.utils.libgdx.graphics.AnimatedSprite;
+import com.eddie.executiveexperience.Utils.Constants;
+import net.dermetfan.gdx.graphics.g2d.AnimatedBox2DSprite;
+import net.dermetfan.gdx.graphics.g2d.AnimatedSprite;
 
 public class SawUserData extends EntityUserData
 {
@@ -11,10 +11,9 @@ public class SawUserData extends EntityUserData
 
     public SawUserData(GameStage gameStage, float width, float height)
     {
-        super(width, height);
+        super(gameStage, "Saw", width, height);
 
-        spriteAnimationData = gameStage.getScreen().getAssets().get("assets/saw/Saw.json");
-        animatedSprite = new AnimatedSprite(spriteAnimationData.getAnimation("normal"));
+        animatedSprite = new AnimatedSprite(entityData.getAnimation("normal"));
         animatedBox2DSprite = new AnimatedBox2DSprite(animatedSprite);
         animatedBox2DSprite.setAutoUpdate(true);
         animatedBox2DSprite.setOrigin(animatedBox2DSprite.getWidth() / 2, animatedBox2DSprite.getHeight() / 2);

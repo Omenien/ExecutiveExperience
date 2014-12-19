@@ -1,24 +1,24 @@
 package com.eddie.executiveexperience.Entity;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.CollisionFixtureUserData;
 import com.eddie.executiveexperience.Entity.UserData.FootSensorUserData;
 import com.eddie.executiveexperience.Entity.UserData.PlayerUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
-import com.eddie.executiveexperience.Env;
 import com.eddie.executiveexperience.GameStage;
-import com.eddie.executiveexperience.Scripting.ScriptedGameActor;
+import com.eddie.executiveexperience.Utils.Constants;
+import com.eddie.executiveexperience.Utils.Env;
+import com.eddie.executiveexperience.Utils.InputManager;
+import com.eddie.executiveexperience.Utils.XBoxGamepad;
 
-public class Player extends ScriptedGameActor
+public class Player extends GameActor
 {
     protected static final float MAX_VELOCITY_X = 11f;
-    private static final float MAX_JUMP_EXTEND_TIME = 0.225f;
+    private static final float MAX_JUMP_EXTEND_TIME = 0.3f;
     private static final float JUMP_TIME_BEFORE_EXTENSION = 0.05f;
 
     protected PlayerState playerState;
@@ -37,6 +37,11 @@ public class Player extends ScriptedGameActor
     protected int numFootContacts;
     protected int leftWallContacts;
     protected int rightWallContacts;
+
+    protected Fixture lowerCollisionFixture;
+
+    protected boolean forcingWalk;
+    protected boolean grounded;
 
     public Player(GameStage gameStage, float x, float y, MapObject mapObject)
     {
@@ -78,8 +83,9 @@ public class Player extends ScriptedGameActor
         Fixture upperCollisionFixture = body.createFixture(upperCollisionCircle, 0);
         upperCollisionFixture.setUserData(new CollisionFixtureUserData());
 
-        Fixture lowerCollisionFixture = body.createFixture(lowerCollisionCircle, 0);
+        lowerCollisionFixture = body.createFixture(lowerCollisionCircle, 0);
         lowerCollisionFixture.setUserData(new FootSensorUserData());
+        lowerCollisionFixture.setFriction(1.0f);
 
         float sensorRadius = Constants.PLAYER_WIDTH * 0.7f;
         PolygonShape wallSensorShape = new PolygonShape();
@@ -131,6 +137,9 @@ public class Player extends ScriptedGameActor
         wallJump = false;
         extendJump = false;
 
+        forcingWalk = false;
+        grounded = false;
+
         jumpTimeout = 0;
         timeSinceJump = 0;
         jumpExtendTime = 0;
@@ -156,12 +165,10 @@ public class Player extends ScriptedGameActor
 
         timeSinceJump += delta;
 
-        boolean grounded = numFootContacts > 0 || body.getLinearVelocity().y == 0;
+        grounded = numFootContacts > 0 || body.getLinearVelocity().y == 0;
 
         if(grounded)
         {
-            getUserData().getSpriteFixture().setFriction(10.0f);
-
             jumpExtendTime = 0;
 
             if(playerState == PlayerState.JUMPING && timeSinceJump > 0.2f)
@@ -169,22 +176,14 @@ public class Player extends ScriptedGameActor
                 playerState = PlayerState.STANDING;
             }
         }
+
+        if(forcingWalk)
+        {
+            lowerCollisionFixture.setFriction(0.0f);
+        }
         else
         {
-            getUserData().getSpriteFixture().setFriction(0.0f);
-        }
-
-        handleInput(grounded);
-
-        Vector2 velocity = body.getLinearVelocity();
-
-        if(velocity.x < -MAX_VELOCITY_X)
-        {
-            body.setLinearVelocity(-MAX_VELOCITY_X, velocity.y);
-        }
-        else if(velocity.x > MAX_VELOCITY_X)
-        {
-            body.setLinearVelocity(MAX_VELOCITY_X, velocity.y);
+            lowerCollisionFixture.setFriction(1.0f);
         }
 
         if(jumpTimeout > 0)
@@ -220,7 +219,7 @@ public class Player extends ScriptedGameActor
 
         if(playerState != PlayerState.JUMPING)
         {
-            if(Math.abs(body.getLinearVelocity().x) > 0.2f)
+            if(Math.abs(body.getLinearVelocity().x) > 0.2f && forcingWalk)
             {
                 playerState = PlayerState.WALKING;
             }
@@ -251,27 +250,27 @@ public class Player extends ScriptedGameActor
         {
             if(playerDirection == Direction.RIGHT)
             {
-                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getSpriteAnimationData().getAnimation("jump_right"));
+                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("jump_right"));
             }
             else
             {
-                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getSpriteAnimationData().getAnimation("jump_left"));
+                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("jump_left"));
             }
         }
-        else if(playerState == PlayerState.WALKING)
+        else if(playerState == PlayerState.WALKING && numFootContacts > 0)
         {
             if(playerDirection == Direction.RIGHT)
             {
-                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getSpriteAnimationData().getAnimation("walk_right"));
+                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("walk_right"));
             }
             else
             {
-                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getSpriteAnimationData().getAnimation("walk_left"));
+                getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("walk_left"));
             }
         }
         else
         {
-            getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getSpriteAnimationData().getAnimation("stand"));
+            getUserData().getAnimatedBox2DSprite().setAnimation(getUserData().getEntityData().getAnimation("stand"));
         }
 
         getUserData().getAnimatedBox2DSprite().draw(batch, getUserData().getSpriteFixture());
@@ -279,6 +278,10 @@ public class Player extends ScriptedGameActor
 
     public void jump()
     {
+        jump = false;
+        wallJump = false;
+        extendJump = false;
+
         float angle = MathUtils.radiansToDegrees * body.getAngle();
 
         float jumpingImpulseMagnitude = getUserData().getJumpingImpulseMagnitude();
@@ -300,19 +303,22 @@ public class Player extends ScriptedGameActor
 
     private void wallJump()
     {
+        jump = false;
+        wallJump = false;
+        extendJump = false;
+
         float jumpingImpulseMagnitude = getUserData().getJumpingImpulseMagnitude();
 
-        float xComponent = 0.0f;
+        float xComponent = 0.8f;
         float yComponent = 1f;
 
         if(leftWallContacts > 0 && rightWallContacts == 0)
         {
-            // TODO: Actual math for wall jump angle
-            xComponent = 1.5f;
+            xComponent *= 1.0f;
         }
         else if(leftWallContacts == 0 && rightWallContacts > 0)
         {
-            xComponent = -1.5f;
+            xComponent *= -1.0f;
         }
 
         Vector2 jumpingLinearImpulse = new Vector2(xComponent, yComponent);
@@ -331,67 +337,6 @@ public class Player extends ScriptedGameActor
     public PlayerUserData getUserData()
     {
         return (PlayerUserData) userData;
-    }
-
-    public void handleInput(boolean grounded)
-    {
-        if(isDead())
-        {
-            return;
-        }
-
-        Vector2 position = body.getPosition();
-        Vector2 velocity = body.getLinearVelocity();
-
-        if(Gdx.input.isKeyPressed(Env.playerMoveLeft))
-        {
-            if(grounded)
-            {
-                body.applyLinearImpulse(-1.5f, 0f, position.x, position.y, true);
-            }
-            else
-            {
-                body.applyLinearImpulse(-0.25f, 0f, position.x, position.y, true);
-            }
-        }
-        else if(Gdx.input.isKeyPressed(Env.playerMoveRight))
-        {
-            if(grounded)
-            {
-                body.applyLinearImpulse(1.5f, 0f, position.x, position.y, true);
-            }
-            else
-            {
-                body.applyLinearImpulse(0.25f, 0f, position.x, position.y, true);
-            }
-        }
-        else
-        {
-            if(Math.abs(velocity.x) > 0.2f)
-            {
-                body.setLinearVelocity(velocity.x * 0.8f, velocity.y);
-            }
-            else
-            {
-                body.setLinearVelocity(0.0f, velocity.y);
-            }
-        }
-
-        if(Gdx.input.isKeyPressed(Env.playerJump))
-        {
-            if(grounded && !jump && !(leftWallContacts > 0 || rightWallContacts > 0))
-            {
-                jump = true;
-            }
-            else if(!grounded && body.getLinearVelocity().y > 0)
-            {
-                extendJump = true;
-            }
-            else if(!grounded && (leftWallContacts > 0 || rightWallContacts > 0))
-            {
-                wallJump = true;
-            }
-        }
     }
 
     public void incrementFootContacts()
@@ -437,6 +382,74 @@ public class Player extends ScriptedGameActor
     public Body getBody()
     {
         return body;
+    }
+
+    public void processInput(InputManager inputManager)
+    {
+        if(playerState == PlayerState.DEADING)
+        {
+            return;
+        }
+
+        Vector2 position = body.getPosition();
+        Vector2 velocity = body.getLinearVelocity();
+
+        forcingWalk = true;
+
+        int playerMoveLeftPressed = inputManager.isKeyDown(Env.playerMoveLeft) ? 1 : 0;
+        int playerMoveRightPressed = inputManager.isKeyDown(Env.playerMoveRight) ? 1 : 0;
+
+        float joystickX = inputManager.hasController() ? inputManager.getController().getAxis(XBoxGamepad.AXIS_LEFT_X) : 0.0f;
+
+        float impulseX = (playerMoveLeftPressed * -1.5f) + (playerMoveRightPressed * 1.5f) + (joystickX * 1.5f);
+        impulseX = impulseX > 1.5f ? 1.5f : impulseX < -1.5f ? -1.5f : impulseX;
+
+        if(!grounded)
+        {
+            impulseX /= 5;
+        }
+
+        if(impulseX < -0f)
+        {
+            if(body.getLinearVelocity().x > -MAX_VELOCITY_X)
+            {
+                body.applyLinearImpulse(impulseX, 0.1f, position.x, position.y, true);
+            }
+        }
+        else if(impulseX > 0f)
+        {
+            if(body.getLinearVelocity().x < MAX_VELOCITY_X)
+            {
+                body.applyLinearImpulse(impulseX, 0.1f, position.x, position.y, true);
+            }
+        }
+        else
+        {
+            body.setLinearVelocity(velocity.x * 0.9f, velocity.y);
+
+            forcingWalk = false;
+        }
+
+        if(inputManager.isKeyDown(Env.playerJumpKey) || inputManager.isButtonPressed(Env.playerJumpButton, false))
+        {
+            if(numFootContacts > 0 && !jump && !(leftWallContacts > 0 || rightWallContacts > 0))
+            {
+                jump = true;
+            }
+            else if(numFootContacts == 0 && body.getLinearVelocity().y > 0)
+            {
+                extendJump = true;
+            }
+            else if(numFootContacts == 0 && (leftWallContacts > 0 || rightWallContacts > 0))
+            {
+                wallJump = true;
+            }
+        }
+    }
+
+    public float getFriction()
+    {
+        return lowerCollisionFixture.getFriction();
     }
 
     protected enum PlayerState

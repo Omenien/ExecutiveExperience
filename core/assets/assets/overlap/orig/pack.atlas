@@ -1,0 +1,20 @@
+
+pack.png
+size: 702,774
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Play-Button
+  rotate: false
+  xy: 2, 2
+  size: 85, 70
+  orig: 85, 70
+  offset: 0, 0
+  index: -1
+background
+  rotate: false
+  xy: 2, 74
+  size: 1024, 768
+  orig: 1024, 768
+  offset: 0, 0
+  index: -1

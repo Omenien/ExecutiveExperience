@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
     <int key="debugLevel" value="3"/>
-    <int key="virtualWidth" value="700"/>
-    <int key="virtualHeight" value="700"/>
+    <int key="virtualWidth" value="1280"/>
+    <int key="virtualHeight" value="720"/>
     <float key="metersToPixels" value="35.0"/>
     <vector key="gravity" x="0.0" y="-9.8" z="0.0"/>
 
@@ -10,10 +10,10 @@
     <string key="playerMoveRight" value="D"/>
     <string key="playerJump" value="Space"/>
 
-    <bool key="drawBodies" value="true"/>
+    <bool key="drawBodies" value="false"/>
     <bool key="drawJoints" value="false"/>
     <bool key="drawABBs" value="false"/>
-    <bool key="drawInactiveBodies" value="true"/>
+    <bool key="drawInactiveBodies" value="false"/>
     <bool key="drawVelocities" value="false"/>
     <bool key="drawContacts" value="false"/>
     <bool key="drawStage" value="false"/>

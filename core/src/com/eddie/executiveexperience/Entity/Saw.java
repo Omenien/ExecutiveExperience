@@ -8,13 +8,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.eddie.executiveexperience.Constants;
 import com.eddie.executiveexperience.Entity.UserData.DeadlyFixtureUserData;
 import com.eddie.executiveexperience.Entity.UserData.SawUserData;
 import com.eddie.executiveexperience.GameStage;
-import com.eddie.executiveexperience.Scripting.ScriptedGameActor;
+import com.eddie.executiveexperience.Utils.Constants;
 
-public class Saw extends ScriptedGameActor
+public class Saw extends GameActor
 {
     public Saw(GameStage gameStage, float x, float y, MapObject mapObject)
     {
@@ -42,6 +41,11 @@ public class Saw extends ScriptedGameActor
         setBody(body);
     }
 
+    public Saw(GameStage gameStage, float x, float y)
+    {
+        this(gameStage, x, y, new MapObject());
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha)
     {
@@ -61,9 +65,6 @@ public class Saw extends ScriptedGameActor
         float angle = body.getAngle() + (getUserData().getDegreesPerSecond() * MathUtils.degreesToRadians) * delta;
 
         body.setTransform(body.getPosition().x, body.getPosition().y, angle);
-
-//        body.applyAngularImpulse(100.0f, true);
-        body.applyTorque(100.0f, true);
     }
 
     @Override

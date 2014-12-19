@@ -7,15 +7,19 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.eddie.executiveexperience.Entity.GameActor;
 import com.eddie.executiveexperience.Entity.Player;
 import com.eddie.executiveexperience.Entity.UserData.DoorUserData;
 import com.eddie.executiveexperience.Entity.UserData.HiddenSpikeUserData;
 import com.eddie.executiveexperience.Entity.UserData.WallSensorUserData;
-import com.eddie.executiveexperience.Screens.GameScreen;
-import com.eddie.executiveexperience.World.*;
+import com.eddie.executiveexperience.Utils.BodyUtils;
+import com.eddie.executiveexperience.Utils.Env;
+import com.eddie.executiveexperience.World.Level;
+import com.eddie.executiveexperience.World.MapBodyManager;
+import com.eddie.executiveexperience.World.MapObjectManager;
+import com.eddie.executiveexperience.World.WorldUtils;
 
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class GameStage extends Stage implements ContactListener
 {
@@ -37,7 +41,6 @@ public class GameStage extends Stage implements ContactListener
     protected Level curLevel;
     protected float accumulator = 0f;
     protected SpriteBatch batch;
-    protected ScannerRunnable scannerRunnable;
 
     public GameStage(String levelFile, GameScreen gameScreen)
     {
@@ -73,7 +76,7 @@ public class GameStage extends Stage implements ContactListener
 
         try
         {
-            curLevel = new Level("assets/" + levelFile);
+            curLevel = new Level(levelFile);
         }
         catch(FileNotFoundException e)
         {
@@ -82,10 +85,6 @@ public class GameStage extends Stage implements ContactListener
 
         loadNewMap = false;
         newLevel = "";
-
-        scannerRunnable = new ScannerRunnable();
-
-        new Thread(scannerRunnable).start();
     }
 
     public void loadMap()
@@ -138,12 +137,8 @@ public class GameStage extends Stage implements ContactListener
         while(accumulator >= delta)
         {
             WorldUtils.getWorld().step(TIME_STEP, 8, 3);
-            accumulator -= TIME_STEP;
-        }
 
-        if(scannerRunnable.hasInput())
-        {
-            System.out.println(scannerRunnable.getInput());
+            accumulator -= TIME_STEP;
         }
     }
 
@@ -153,7 +148,7 @@ public class GameStage extends Stage implements ContactListener
         super.draw();
 
         mapRenderer.setView(gameScreen.getCamera());
-        mapRenderer.render(new int[]{0});
+        mapRenderer.render(new int[] { 0 });
 
         box2DDebugRenderer.render(WorldUtils.getWorld(), gameScreen.getCamera().combined);
 
@@ -182,16 +177,23 @@ public class GameStage extends Stage implements ContactListener
 
         if((BodyUtils.fixtureIsPlayerCollisionFixture(a, fixtureA) && BodyUtils.fixtureIsDeadly(fixtureB) || BodyUtils.fixtureIsDeadly(fixtureA) && BodyUtils.fixtureIsPlayerCollisionFixture(b, fixtureB)))
         {
-            if(BodyUtils.bodyIsSpike(a))
+            if(!Game.instance.isCheating())
             {
-                ((HiddenSpikeUserData) a.getUserData()).deploy();
-            }
-            else if(BodyUtils.bodyIsSpike(b))
-            {
-                ((HiddenSpikeUserData) b.getUserData()).deploy();
-            }
+                if(BodyUtils.bodyIsSpike(a))
+                {
+                    ((HiddenSpikeUserData) a.getUserData()).deploy();
+                }
+                else if(BodyUtils.bodyIsSpike(b))
+                {
+                    ((HiddenSpikeUserData) b.getUserData()).deploy();
+                }
 
-            player.die();
+                player.die();
+            }
+            else
+            {
+                Game.instance.getUI().writeText("GRATZ ON YOUR HAX BRO");
+            }
         }
 
         if((BodyUtils.fixtureIsPlayerCollisionFixture(a, fixtureA) && BodyUtils.bodyIsDoor(b)))
@@ -312,7 +314,7 @@ public class GameStage extends Stage implements ContactListener
         float playerX = player.getBody().getPosition().x;
         float playerY = player.getBody().getPosition().y;
 
-        return player.isDead() || !(playerX > 0 && playerX < mapWidth && playerY + (player.getUserData().getHeight() / 2) > 0);
+        return player == null || player.isDead() || !(playerX > 0 && playerX < mapWidth && playerY + (player.getUserData().getHeight() / 2) > 0);
     }
 
     public GameScreen getScreen()
@@ -328,42 +330,5 @@ public class GameStage extends Stage implements ContactListener
     public void setPlayer(Player player)
     {
         this.player = player;
-    }
-
-    // This needs to be replaced with something more sensible
-    // Seriously, it's pretty awful.
-    // TODO: Learn to program
-    public class ScannerRunnable implements Runnable
-    {
-        Scanner scanner;
-
-        String input = "";
-
-        public ScannerRunnable()
-        {
-            scanner = new Scanner(System.in);
-        }
-
-        public void run()
-        {
-            if(input == "")
-            {
-                input = scanner.nextLine();
-            }
-        }
-
-        public String getInput()
-        {
-            String inputTemp = input;
-
-            input = "";
-
-            return inputTemp;
-        }
-
-        public boolean hasInput()
-        {
-            return input != "";
-        }
     }
 }
